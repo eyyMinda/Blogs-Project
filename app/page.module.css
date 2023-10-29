@@ -79,6 +79,12 @@
   position: relative;
   padding: 4rem 0;
 }
+.center h1 {
+  font-size: 3rem;
+  line-height: 3rem;
+  margin-left: 0.5rem;
+  margin-bottom: 0.4rem;
+}
 
 .center::before {
   background: var(--secondary-glow);
@@ -97,7 +103,7 @@
 
 .center::before,
 .center::after {
-  content: '';
+  content: "";
   left: 50%;
   position: absolute;
   filter: blur(45px);
