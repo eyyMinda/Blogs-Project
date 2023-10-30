@@ -115,39 +115,31 @@
   .content {
     padding: 4rem;
   }
-
   .grid {
     grid-template-columns: 1fr;
     margin-bottom: 120px;
     max-width: 320px;
     text-align: center;
   }
-
   .card {
     padding: 1rem 2.5rem;
   }
-
   .card h2 {
     margin-bottom: 0.5rem;
   }
-
   .center {
-    padding: 8rem 0 6rem;
+    padding: 6rem 0;
   }
-
   .center::before {
     transform: none;
     height: 300px;
   }
-
   .description {
     font-size: 0.8rem;
   }
-
   .description a {
     padding: 1rem;
   }
-
   .description p,
   .description div {
     display: flex;
@@ -155,7 +147,6 @@
     position: fixed;
     width: 100%;
   }
-
   .description p {
     align-items: center;
     inset: 0 0 auto;
@@ -171,7 +162,6 @@
     background-clip: padding-box;
     backdrop-filter: blur(24px);
   }
-
   .description div {
     align-items: flex-end;
     pointer-events: none;

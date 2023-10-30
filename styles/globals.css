@@ -157,6 +157,12 @@ main {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 6rem;
+  padding: 4rem 0.5rem;
   min-height: calc(100vh - 6rem);
+}
+
+@media (min-width: 701px) {
+  main {
+    padding: 6rem;
+  }
 }

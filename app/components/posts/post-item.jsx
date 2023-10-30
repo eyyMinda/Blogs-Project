@@ -3,25 +3,32 @@ import Link from "next/link";
 import Image from "next/image";
 
 export default function PostItem({ post }) {
-  const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
+  const { title, image, date, excerpt, slug } = post;
+  const formattedDate = new Date(date).toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
     year: "numeric",
   });
 
-  const linkPath = `/posts/${post.slug}`;
-  const imagePath = `/images${linkPath}/${post.image}`;
+  const linkPath = `/posts/${slug}`;
+  const imagePath = `/images${linkPath}/${image}`;
 
   return (
     <li className={css.post}>
       <Link href={linkPath}>
         <div className={css.image}>
-          <Image src={imagePath} width={300} height={200} alt={post.title} />
+          <Image
+            src={imagePath}
+            width={300}
+            height={200}
+            alt={title}
+            layout="responsive"
+          />
         </div>
         <div className={css.content}>
-          <h3>{post.title}</h3>
+          <h3>{title}</h3>
           <time>{formattedDate}</time>
-          <p>{post.excerpt}</p>
+          <p>{excerpt}</p>
         </div>
       </Link>
     </li>
