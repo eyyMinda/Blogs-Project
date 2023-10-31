@@ -1,7 +1,5 @@
-import React from 'react'
+import PostContent from "@/app/components/posts/post-detail/post-content";
 
 export default function Post({ params }) {
-  return (
-    <h1>Post</h1>
-  )
+  return <PostContent />;
 }
