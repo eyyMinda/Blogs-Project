@@ -17,13 +17,7 @@ export default function PostItem({ post }) {
     <li className={css.post}>
       <Link href={linkPath}>
         <div className={css.image}>
-          <Image
-            src={imagePath}
-            width={300}
-            height={200}
-            alt={title}
-            layout="responsive"
-          />
+          <Image src={imagePath} width={300} height={200} alt={title} />
         </div>
         <div className={css.content}>
           <h3>{title}</h3>
