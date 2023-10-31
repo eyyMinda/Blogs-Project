@@ -1,11 +1,12 @@
-import { DUMMY_POSTS } from "@/DUMMY_DATA";
 import AllPosts from "../components/posts/all-posts";
+import { getAllPosts } from "../_lib/posts-util";
 
-export default function Posts() {
-  return (
-    <div>
-      <h1>All Posts</h1>
-      <AllPosts posts={DUMMY_POSTS} />
-    </div>
-  )
+async function fetchAllPosts() { // Prerendering
+  return getAllPosts(); // function that reads files from a dir
+}
+
+export default async function Posts() {
+  const posts = await fetchAllPosts();
+
+  return <AllPosts posts={posts} />
 }
