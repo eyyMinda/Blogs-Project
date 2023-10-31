@@ -1,8 +1,7 @@
-import { Inter } from 'next/font/google'
+import { GeistSans } from 'geist/font';
 import '@/styles/globals.css';
 import MainNavigation from './components/layout/main-navigation';
 
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Next.js Blog',
@@ -11,8 +10,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className={GeistSans.className}>
+      <body>
         <MainNavigation />
 
         <main>{children}</main>
