@@ -10,7 +10,7 @@ export const customMDComponents = {
         src={img.src}
         width={640}
         height={300}
-        alt={data.title}
+        alt={img.alt}
         layout="responsive"
       />
     );
@@ -20,7 +20,7 @@ export const customMDComponents = {
   },
   code(code) {
     const { className, children } = code;
-    const language = className.split("-")[1];
+    const language = className ? className.split("-")[1] : 'js';
     return (
       <SyntaxHighlighter style={zTouch} language={language}>
         {children}
