@@ -9,9 +9,10 @@ export default function PostItem({ post }) {
     month: "long",
     year: "numeric",
   });
-
   const linkPath = `/posts/${slug}`;
-  const imagePath = `/images${linkPath}/${image}`;
+  const imagePath = image
+    ? `/images${linkPath}/${image}`
+    : "/images/default-blog.jpg";
 
   return (
     <li className={css.post}>
