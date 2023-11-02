@@ -17,12 +17,12 @@ const getFolderPath = (dir = 'posts') => path.join(process.cwd(), dir);
 
 const getFileData = filePath => JSON.parse(fs.readFileSync(filePath, 'utf-8')); //.JSON
 
-const getPostData = fileName => {  //.MD
-  const filePath = getFilePath('posts', fileName);
+export const getPostData = postIdentifier => {  //.MD
+  const postSlug = postIdentifier.replace(/\.md$/, ''); //replace extention with nothing
+  const filePath = getFilePath('posts', postSlug + '.md');
   const fileContent = fs.readFileSync(filePath, 'utf-8');
   const { data, content } = matter(fileContent);
 
-  const postSlug = fileName.replace(/\.md$/, ''); //replace extention with nothing
   const postData = {
     ...data,
     slug: postSlug,
@@ -43,9 +43,4 @@ export function getAllPosts() {
 export function getFeaturedPosts() {
   const allPosts = getAllPosts();
   return allPosts.filter(post => post.isFeatured);
-}
-
-export function getSpecificPost(slug) {
-  const allPosts = getAllPosts();
-  return allPosts.find(post => post.slug === slug);
 }
