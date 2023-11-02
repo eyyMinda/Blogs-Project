@@ -44,3 +44,8 @@ export function getFeaturedPosts() {
   const allPosts = getAllPosts();
   return allPosts.filter(post => post.isFeatured);
 }
+
+export function getSpecificPost(slug) {
+  const allPosts = getAllPosts();
+  return allPosts.find(post => post.slug === slug);
+}
