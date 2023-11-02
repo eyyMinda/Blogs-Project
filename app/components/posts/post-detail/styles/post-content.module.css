@@ -9,8 +9,14 @@
   border-radius: 6px;
   padding: var(--size-4);
 }
+.content > h1 {
+  border-bottom: 2px solid var(--color-grey-600);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
 .content p {
-  color: var(--color-grey-800);
+  color: var(--color-grey-200);
+  margin-bottom: 1rem;
 }
 .content .image {
   margin: var(--size-4) auto;
