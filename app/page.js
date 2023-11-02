@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { getFeaturedPosts } from './_lib/posts-util';
-import Hero from './components/home/hero';
-import FeaturedPosts from './components/home/featured-posts';
+import Hero from '#components/home/hero';
+import FeaturedPosts from '#components/home/featured-posts';
 
 async function fetchPosts() { // Prerendering (StaticProps, ServerSideProps)
   // const postsResponse = await fetch("http://localhost:3000/posts", {

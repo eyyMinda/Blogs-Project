@@ -1,6 +1,6 @@
 import { GeistSans } from 'geist/font';
 import '@/styles/globals.css';
-import MainNavigation from './components/layout/main-navigation';
+import MainNavigation from '#components/layout/main-navigation';
 
 
 export const metadata = {

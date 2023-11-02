@@ -1,4 +1,4 @@
-import AllPosts from "../components/posts/all-posts";
+import AllPosts from "#components/posts/all-posts";
 import { getAllPosts } from "../_lib/posts-util";
 
 async function fetchAllPosts() { // Prerendering

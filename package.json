@@ -8,6 +8,10 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "imports": {
+    "#components": "./app/components/*",
+    "#*": "./app/*"
+  },
   "dependencies": {
     "geist": "^1.0.0",
     "gray-matter": "^4.0.3",
