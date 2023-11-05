@@ -40,7 +40,7 @@ export default function ProfileForm() {
   async function onSubmit(values: z.infer<typeof contactFormSchema>) {
     // ✅ This will be type-safe and validated.
 
-    const res = await fetch("http://localhost:3000/api/contact", {
+    const res = await fetch("/api/contact", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
