@@ -1,8 +1,8 @@
-import { type ClassValue, clsx } from "clsx";
+import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+function cn(...args: ClassValue[]) {
+  return twMerge(clsx(args));
 }
 
 export const sleep = (delay: number) =>
