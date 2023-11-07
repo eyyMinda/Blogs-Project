@@ -102,11 +102,3 @@ export class isValid {
     return [false, "OK"];
   }
 }
-
-export const validatorsMap: Record<string, ValidationFunction> = {
-  fullname: isValid.fullname,
-  username: isValid.username,
-  email: isValid.email,
-  password: isValid.password,
-  text: isValid.text,
-};
