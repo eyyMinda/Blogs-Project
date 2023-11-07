@@ -5,15 +5,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { contactFormSchema } from "@/lib/formSchema";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
 
@@ -61,9 +53,7 @@ export default function ProfileForm() {
                 <FormControl>
                   <Input placeholder="John" {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
+                <FormDescription>This is your public display name.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
