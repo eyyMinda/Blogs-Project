@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { getFeaturedPosts } from "../lib/posts-util";
+import { getFeaturedPosts } from "@/lib/posts-util";
 import FeaturedPosts from "@/components/home/featured-posts";
 
 async function fetchPosts() {
