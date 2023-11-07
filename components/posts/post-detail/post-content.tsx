@@ -2,9 +2,9 @@ import css from "./styles/post-content.module.css";
 import PostHeader from "./posts-header";
 import ReactMarkdown from "react-markdown";
 import { customMDComponents } from "@/lib/markdown-components";
-import { PostContent } from "@/app/_types/PostType";
+import { PostDataObject } from "@/app/_types/PostType";
 
-const PostContent: React.FC<PostContent> = ({ postData }) => {
+const PostContent: React.FC<PostDataObject> = ({ postData }) => {
   const { image, slug, title, content } = postData;
   const imagePath = image
     ? `/images/posts/${slug}/${image}`

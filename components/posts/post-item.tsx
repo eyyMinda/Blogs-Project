@@ -1,9 +1,9 @@
 import css from "./styles/post-item.module.css";
 import Link from "next/link";
 import Image from "next/image";
-import { PostItem } from "@/app/_types/PostType";
+import { PostObject } from "@/app/_types/PostType";
 
-const PostItem: React.FC<PostItem> = ({ post }) => {
+const PostItem: React.FC<PostObject> = ({ post }) => {
   const { title, image, date, excerpt, slug } = post;
   const formattedDate = new Date(date).toLocaleDateString("en-US", {
     day: "numeric",
