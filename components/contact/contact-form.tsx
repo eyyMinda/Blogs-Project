@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
-import { revalidatePath } from "next/cache";
 
 function SubmitButton({ isLoading }: { isLoading: boolean }) {
   return (
@@ -42,13 +41,10 @@ export default function ProfileForm() {
 
     const res = await fetch("/api/contact", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify({ ...values }),
     });
-    console.log("RES: ", await res.json());
     console.log("values: ", values);
+    console.log("RES: ", await res.json());
     form.reset();
   }
 

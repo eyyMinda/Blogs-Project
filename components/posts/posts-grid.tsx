@@ -1,6 +1,6 @@
 import css from "./styles/posts-grid.module.css";
 import PostItem from "./post-item";
-import { Posts } from "@/lib/interfaces";
+import { Posts } from "@/app/_types/PostType";
 
 const PostsGrid: React.FC<Posts> = ({ posts }) => {
   return (

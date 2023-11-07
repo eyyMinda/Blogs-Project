@@ -2,7 +2,7 @@ import css from "./styles/post-content.module.css";
 import PostHeader from "./posts-header";
 import ReactMarkdown from "react-markdown";
 import { customMDComponents } from "@/lib/markdown-components";
-import { PostContent } from "@/lib/interfaces";
+import { PostContent } from "@/app/_types/PostType";
 
 const PostContent: React.FC<PostContent> = ({ postData }) => {
   const { image, slug, title, content } = postData;

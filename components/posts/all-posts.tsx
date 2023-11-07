@@ -1,4 +1,4 @@
-import { Posts } from "@/lib/interfaces";
+import { Posts } from "@/app/_types/PostType";
 import PostsGrid from "./posts-grid";
 import css from "./styles/all-posts.module.css";
 

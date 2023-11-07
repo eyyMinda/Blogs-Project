@@ -1,6 +1,6 @@
 import css from "./styles/featured-posts.module.css";
 import PostsGrid from "../posts/posts-grid";
-import { Posts } from "@/lib/interfaces";
+import { Posts } from "@/app/_types/PostType";
 
 const FeaturedPosts: React.FC<Posts> = ({ posts }) => {
   return (

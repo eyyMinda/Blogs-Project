@@ -1,7 +1,7 @@
 import css from "./styles/post-item.module.css";
 import Link from "next/link";
 import Image from "next/image";
-import { PostItem } from "@/lib/interfaces";
+import { PostItem } from "@/app/_types/PostType";
 
 const PostItem: React.FC<PostItem> = ({ post }) => {
   const { title, image, date, excerpt, slug } = post;
