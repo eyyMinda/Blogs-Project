@@ -19,6 +19,7 @@
     "geist": "^1.0.0",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.292.0",
+    "mongodb": "^6.2.0",
     "next": "14.0.1",
     "next-themes": "^0.2.1",
     "react": "^18",
