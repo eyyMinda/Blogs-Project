@@ -28,16 +28,16 @@ export class isValid {
   }
 
   static username(str: string): [boolean, string] {
-    if (str === undefined || str.trim() === "") return [true, "Username cannot be blank"];
-    if (typeof str !== "string") return [true, "Username must be a string"];
+    if (str === undefined || str.trim() === "") return [true, "User name cannot be blank"];
+    if (typeof str !== "string") return [true, "User name must be a string"];
 
     str = str.trim().replace(/\s+/g, " ");
     const maxSize: number = 24;
     const minSize: number = 4;
-    if (str.length > maxSize) return [true, `Username is too long, cannot exceed ${maxSize} characters`];
-    if (str.length < minSize) return [true, `Username is too short, has to be at least ${minSize} symbols`];
+    if (str.length > maxSize) return [true, `User name is too long, cannot exceed ${maxSize} characters`];
+    if (str.length < minSize) return [true, `User name is too short, has to be at least ${minSize} symbols`];
 
-    if (str[0].toUpperCase() !== str[0]) return [true, `First letter of a username must be upper cased`];
+    if (str[0].toUpperCase() !== str[0]) return [true, `First letter of a user name must be upper cased`];
 
     const allowedSymbols: string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const invalidSymbol: string | undefined = str.split("").find(s => !allowedSymbols.includes(s));

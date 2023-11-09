@@ -21,10 +21,10 @@ export default function ProfileForm() {
   const form = useForm<z.infer<typeof contactFormSchema>>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
-      name: "",
+      username: "",
       email: "",
-      message: "",
-    },
+      message: ""
+    }
   });
   const isLoading = form.formState.isSubmitting;
 
@@ -33,7 +33,7 @@ export default function ProfileForm() {
 
     const res = await fetch("/api/contact", {
       method: "POST",
-      body: JSON.stringify({ ...values }),
+      body: JSON.stringify({ ...values })
     });
     console.log("values: ", values);
     console.log("RES: ", await res.json());
@@ -46,10 +46,10 @@ export default function ProfileForm() {
         <div className="flex gap-4">
           <FormField
             control={form.control}
-            name="name"
+            name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>User Name</FormLabel>
                 <FormControl>
                   <Input placeholder="John" {...field} />
                 </FormControl>

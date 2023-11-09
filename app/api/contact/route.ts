@@ -1,19 +1,20 @@
 import { ContactInfo } from "@/app/_types/ContactType";
 import { validateMultipleInputs } from "@/lib/utils";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   return Response.json({ message: "hi there" });
 }
 
-export async function POST(req: Request, res: Response) {
-  const { name, email, message }: ContactInfo = await req.json();
+export async function POST(req: NextRequest) {
+  const data: ContactInfo = await req.json();
 
   // Validation
-  const validators = ["name", "email", "text"];
-  const errors = validateMultipleInputs([name, email, message], validators);
-  if (errors.length > 0) return Response.json({ message: errors });
+  const errors = validateMultipleInputs(Object.values(data), Object.keys(data));
+  if (errors.length > 0) return NextResponse.json({ err: true, message: errors }, { status: 422 });
 
-  console.log("SERVER: ", name, email, message);
+  const newMessage = data;
+  console.log("SERVER: ", newMessage);
 
-  return Response.json({ name, email, message });
+  return NextResponse.json({ err: false, message: "Successfully sent a message!" }, { status: 200 });
 }
