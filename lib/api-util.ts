@@ -28,7 +28,7 @@ export const isMongoClient = (obj: any): obj is MongoClient => typeof obj?.db ==
 
 // ----------------------------------------------------------------
 
-export const postToMongo = async (client: MongoClient, collection: string, body: object) => {
+export const postToMongo = async (client: MongoClient, collection: string, body: object): Promise<void> => {
   const db = await client.db("blogs_nextjs");
   await db.collection(collection).insertOne(body);
 };
@@ -40,7 +40,7 @@ export const postToMongo = async (client: MongoClient, collection: string, body:
  * @param {Object} sort - object | (Optional)
  * @returns {Array<Object>} Documents | array of objects
  */
-export const getFromMongo = async (client: MongoClient, collection: string, query: object = {}, sort = {}) => {
+export const getFromMongo = async (client: MongoClient, collection: string, query: object = {}, sort = {}): Promise<object[]> => {
   const db = client.db("blogs_nextjs");
   const coll = await db.collection(collection);
   const comments = await coll.find(query).sort(sort).limit(10).toArray();

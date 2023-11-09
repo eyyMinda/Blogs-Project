@@ -1,7 +1,7 @@
 import { ContactInfo } from "@/app/_types/ContactType";
 import { validateMultipleInputs } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
-import { connectToMongo, isMongoClient, postToMongo } from "@/lib/api-util";
+import { connectToMongo, getFromMongo, isMongoClient, postToMongo } from "@/lib/api-util";
 
 const getClient = async () => {
   try {
@@ -12,8 +12,18 @@ const getClient = async () => {
   }
 };
 
-export async function GET() {
-  return Response.json({ message: "hi there" });
+export async function GET(req: NextRequest) {
+  const client = await getClient();
+  if (!isMongoClient(client)) return client;
+
+  let comments;
+  try {
+    comments = await getFromMongo(client, "messages");
+  } catch (error) {
+    return NextResponse.json({ err: true, message: "Failed to post a message." }, { status: 500 });
+  }
+
+  return NextResponse.json({ error: false, message: "All Messages", comments }, { status: 201 });
 }
 
 export async function POST(req: NextRequest) {
