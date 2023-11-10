@@ -45,8 +45,9 @@
     --color-primary-700: #3d0264;
     --color-success-100: #a2f0bc;
     --color-success-500: #12bd4b;
-    --color-error-100: #f1acc9;
-    --color-error-500: #a10c4a;
+    --color-error-100: #f1acac;
+    --color-error-500: #e11d48;
+    --color-pending-500: #177cbe;
     --size-1: 0.25rem;
     --size-2: 0.5rem;
     --size-3: 0.75rem;
