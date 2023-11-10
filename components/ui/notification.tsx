@@ -9,7 +9,8 @@ function Notification({ title, message, status }: NotificationData) {
   return (
     <div className={divCss} onClick={() => notifCtx.setNotification(null)}>
       <h2>{title}</h2>
-      {message && Array.isArray(message) ? (
+
+      {Array.isArray(message) ? (
         <ul>
           {message.map((m, i) => (
             <li key={i}>
