@@ -37,8 +37,6 @@ export class isValid {
     if (str.length > maxSize) return [true, `User name is too long, cannot exceed ${maxSize} characters`];
     if (str.length < minSize) return [true, `User name is too short, has to be at least ${minSize} symbols`];
 
-    if (str[0].toUpperCase() !== str[0]) return [true, `First letter of a user name must be upper cased`];
-
     const allowedSymbols: string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const invalidSymbol: string | undefined = str.split("").find(s => !allowedSymbols.includes(s));
     if (invalidSymbol) return [true, `Symbol is not allowed "${invalidSymbol}"`];
