@@ -1,12 +1,13 @@
-import ReactDOM from "react-dom";
-
 import css from "./notification.module.css";
+import { useContext } from "react";
+import NotificationContext from "@/lib/context/notification-context";
 
-function Notification({ title, message, status }: { title: string; message: string[] | string; status: string }) {
+function Notification({ title, message, status }: NotificationData) {
+  const notifCtx = useContext(NotificationContext);
   const divCss = `${css.notification} ${css[status]}`;
 
   return (
-    <div className={divCss}>
+    <div className={divCss} onClick={() => notifCtx.setNotification(null)}>
       <h2>{title}</h2>
       {message && Array.isArray(message) ? (
         <ul>

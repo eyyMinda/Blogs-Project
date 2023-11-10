@@ -1,3 +1,4 @@
+"use client";
 import { createContext, useEffect, useState } from "react";
 
 const NotificationContext = createContext<NotificationContextType>({
