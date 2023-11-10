@@ -1,16 +1,15 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { contactFormSchema } from "@/lib/formSchema";
-import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "../ui/textarea";
-import { useContext, useState } from "react";
-import Notification from "../ui/notification";
+import { useForm } from "react-hook-form";
+import { useContext } from "react";
 import NotificationContext from "@/lib/context/notification-context";
+import { contactFormSchema } from "@/lib/formSchema";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 function SubmitButton({ isLoading }: { isLoading: boolean }) {
   return (
