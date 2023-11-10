@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
+import { useState } from "react";
 
 function SubmitButton({ isLoading }: { isLoading: boolean }) {
   return (
@@ -18,6 +19,7 @@ function SubmitButton({ isLoading }: { isLoading: boolean }) {
 }
 
 export default function ProfileForm() {
+  const [srvMsg, setSrvMsg] = useState(null || []);
   const form = useForm<z.infer<typeof contactFormSchema>>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
@@ -35,9 +37,11 @@ export default function ProfileForm() {
       method: "POST",
       body: JSON.stringify({ ...values })
     });
-    console.log("values: ", values);
-    console.log("RES: ", await res.json());
-    form.reset();
+    const { err, msg } = await res.json();
+
+    setSrvMsg(err ? msg : null);
+    !err && form.reset();
+    return;
   }
 
   return (
@@ -88,6 +92,18 @@ export default function ProfileForm() {
         <div className="text-right">
           <SubmitButton isLoading={isLoading} />
         </div>
+
+        {srvMsg && Array.isArray(srvMsg) ? (
+          <ul>
+            {srvMsg.map((m: string, i: number) => (
+              <li key={i}>
+                <p>{m}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>{srvMsg}</p>
+        )}
       </form>
     </Form>
   );

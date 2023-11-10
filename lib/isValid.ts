@@ -37,7 +37,7 @@ export class isValid {
     if (str.length > maxSize) return [true, `User name is too long, cannot exceed ${maxSize} characters`];
     if (str.length < minSize) return [true, `User name is too short, has to be at least ${minSize} symbols`];
 
-    const allowedSymbols: string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const allowedSymbols: string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     const invalidSymbol: string | undefined = str.split("").find(s => !allowedSymbols.includes(s));
     if (invalidSymbol) return [true, `Symbol is not allowed "${invalidSymbol}"`];
 
