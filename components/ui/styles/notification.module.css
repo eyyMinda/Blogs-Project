@@ -4,7 +4,6 @@
   left: 0;
   height: 5rem;
   width: 100%;
-  background-color: #1b1b1b;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -21,11 +20,11 @@
   margin-block: 0.2rem;
 }
 .pending {
-  background-color: #177cbe;
+  background-color: var(--color-pending-500);
 }
 .success {
-  background-color: #10be58;
+  background-color: var(--color-success-500);
 }
 .error {
-  background-color: #c0351c;
+  background-color: var(--color-error-500);
 }

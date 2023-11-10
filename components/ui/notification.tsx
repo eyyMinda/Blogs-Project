@@ -1,4 +1,4 @@
-import css from "./notification.module.css";
+import css from "./styles/notification.module.css";
 import { useContext } from "react";
 import NotificationContext from "@/lib/context/notification-context";
 
