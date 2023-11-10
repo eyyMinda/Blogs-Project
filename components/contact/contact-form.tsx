@@ -8,7 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import Notification from "../ui/notification";
+import NotificationContext from "@/lib/context/notification-context";
 
 function SubmitButton({ isLoading }: { isLoading: boolean }) {
   return (
@@ -19,7 +21,7 @@ function SubmitButton({ isLoading }: { isLoading: boolean }) {
 }
 
 export default function ProfileForm() {
-  const [srvMsg, setSrvMsg] = useState(null || []);
+  const notifCtx = useContext(NotificationContext);
   const form = useForm<z.infer<typeof contactFormSchema>>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
@@ -32,6 +34,11 @@ export default function ProfileForm() {
 
   async function onSubmit(values: z.infer<typeof contactFormSchema>) {
     // ✅ This will be type-safe and validated.
+    notifCtx.setNotification({
+      title: "Signing up...",
+      message: "Registering for newsletter...",
+      status: "pending"
+    });
 
     const res = await fetch("/api/contact", {
       method: "POST",
@@ -39,7 +46,19 @@ export default function ProfileForm() {
     });
     const { err, msg } = await res.json();
 
-    setSrvMsg(err ? msg : null);
+    notifCtx.setNotification(
+      err
+        ? {
+            title: "Failed!",
+            message: msg || "Something went wrong!",
+            status: "error"
+          }
+        : {
+            title: "Success!",
+            message: msg || "Successfully registered for our newsletter!",
+            status: "success"
+          }
+    );
     !err && form.reset();
     return;
   }
@@ -92,18 +111,6 @@ export default function ProfileForm() {
         <div className="text-right">
           <SubmitButton isLoading={isLoading} />
         </div>
-
-        {srvMsg && Array.isArray(srvMsg) ? (
-          <ul>
-            {srvMsg.map((m: string, i: number) => (
-              <li key={i}>
-                <p>{m}</p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>{srvMsg}</p>
-        )}
       </form>
     </Form>
   );
