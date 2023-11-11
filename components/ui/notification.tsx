@@ -1,12 +1,16 @@
 import css from "./styles/notification.module.css";
 import { useContext } from "react";
 import NotificationContext from "@/lib/context/notification-context";
+import ReactDOM from "react-dom";
 
 function Notification({ title, message, status }: NotificationData) {
   const notifCtx = useContext(NotificationContext);
   const divCss = `${css.notification} ${css[status]}`;
 
-  return (
+  const targetElement = document.getElementById("notifications") ?? document.body;
+  const target: Element | DocumentFragment = targetElement;
+
+  return ReactDOM.createPortal(
     <div className={divCss} onClick={() => notifCtx.setNotification(null)}>
       <h2>{title}</h2>
 
@@ -21,7 +25,8 @@ function Notification({ title, message, status }: NotificationData) {
       ) : (
         <p>{message}</p>
       )}
-    </div>
+    </div>,
+    target
   );
 }
 
