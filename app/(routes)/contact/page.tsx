@@ -7,5 +7,10 @@ export const metadata: Metadata = {
 };
 
 export default function Contact() {
-  return <ContactForm />;
+  return (
+    <div>
+      <h2 className="text-4xl mb-8 underline underline-offset-8">Contact    </h2>
+      <ContactForm />
+    </div>
+  );
 }
