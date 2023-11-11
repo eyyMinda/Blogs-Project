@@ -6,7 +6,7 @@
 
 .latest h2 {
   font-size: var(--size-8);
-  color: var(--color-grey-800);
+  color: var(--color-primary-400);
   text-align: center;
 }
 
