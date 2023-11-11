@@ -18,3 +18,9 @@ export const validateMultipleInputs = (inputs: string[], validators: string[]) =
     })
     .filter(Boolean) as string[];
 };
+
+export const kebabToCapitalized = (input: string): string =>
+  input
+    .split("-")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");

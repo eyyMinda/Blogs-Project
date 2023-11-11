@@ -7,9 +7,7 @@ import { NotificationProvider } from "@/lib/context/notification-context";
 
 export const metadata: Metadata = {
   title: "NextJS Blogs",
-  description: `This is a simple blog project built with Next.js 13 using App Router.
-    It allows you to create and manage blog posts stored as Markdown files (.md) within the posts folder.
-    These posts are dynamically loaded and displayed on your blog website.`
+  description: `This is a simple blog project built with Next.js 13 using App Router. It allows you to create and manage blog posts stored as Markdown files (.md) within the posts folder. These posts are dynamically loaded and displayed on your blog website.`
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
