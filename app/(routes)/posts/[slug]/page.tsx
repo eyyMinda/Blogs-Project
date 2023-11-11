@@ -12,7 +12,11 @@ let image: string;
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: kebabToCapitalized(params.slug),
-    description: excerpt
+    description: excerpt,
+    metadataBase: new URL("https://markdown-blogs.vercel.app/"),
+    openGraph: {
+      images: image
+    }
   };
 }
 
