@@ -2,14 +2,11 @@ import fs from "fs";
 import path from "path";
 
 import matter from "gray-matter";
-import { Post, PostData } from "../app/_types/PostType";
+import { PostData } from "../app/_types/PostType";
 
 //========================= Helpers =========================
 
-const getFilePath = (
-  dirOrFilename = "getting-started-with-nextjs.md",
-  filename = ""
-) => {
+const getFilePath = (dirOrFilename = "getting-started-with-nextjs.md", filename = "") => {
   if (filename === "") {
     filename = dirOrFilename;
     dirOrFilename = "posts";
@@ -19,8 +16,7 @@ const getFilePath = (
 
 const getFolderPath = (dir = "posts") => path.join(process.cwd(), dir);
 
-const getFileData = (filePath: string) =>
-  JSON.parse(fs.readFileSync(filePath, "utf-8")); //.JSON
+const getFileData = (filePath: string) => JSON.parse(fs.readFileSync(filePath, "utf-8")); //.JSON
 
 export const getPostData = (postIdentifier: string) => {
   //.MD
@@ -36,7 +32,7 @@ export const getPostData = (postIdentifier: string) => {
     excerpt,
     isFeatured,
     slug: postSlug,
-    content,
+    content
   };
 
   return postData;
@@ -44,15 +40,13 @@ export const getPostData = (postIdentifier: string) => {
 
 //========================= Read Data =========================
 
-export function getAllPosts() {
+export const getAllPosts = () => {
   const postsPath = getFolderPath();
   const postsFiles = fs.readdirSync(postsPath);
-  const allPosts = postsFiles
-    .map(file => getPostData(file))
-    .sort((a, b) => (a.date > b.date ? 1 : -1));
+  const allPosts = postsFiles.map(file => getPostData(file)).sort((a, b) => (a.date > b.date ? 1 : -1));
   return allPosts;
-}
-export function getFeaturedPosts() {
+};
+export const getFeaturedPosts = () => {
   const allPosts = getAllPosts();
   return allPosts.filter(post => post.isFeatured);
-}
+};
