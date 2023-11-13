@@ -8,18 +8,16 @@ const PostItem: React.FC<PostObject> = ({ post }) => {
   const formattedDate = new Date(date).toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
-    year: "numeric",
+    year: "numeric"
   });
   const linkPath = `/posts/${slug}`;
-  const imagePath = image
-    ? `/images${linkPath}/${image}`
-    : "/images/default-blog.jpg";
+  const imagePath = image ? `/images${linkPath}/${image}` : "/images/default-blog.jpg";
 
   return (
     <li className={css.post}>
       <Link href={linkPath}>
         <div className={css.image}>
-          <Image src={imagePath} width={300} height={200} alt={title} />
+          <Image src={imagePath} width={300} height={200} alt={title} priority />
         </div>
         <div className={css.content}>
           <h3>{title}</h3>
