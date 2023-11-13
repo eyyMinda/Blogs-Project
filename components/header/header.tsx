@@ -1,13 +1,14 @@
 import Link from "next/link";
 import Logo from "./logo";
 import { ModeToggle } from "../ui/theme-toggle";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from "../ui/navigation-menu";
+import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "../ui/navigation-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+
+const navItems = [
+  { path: "/", name: "Home" },
+  { path: "/posts", name: "Posts" },
+  { path: "/contact", name: "Contact" }
+];
 
 export default function Header() {
   return (
@@ -19,25 +20,21 @@ export default function Header() {
           <NavigationMenuItem>
             <ModeToggle />
           </NavigationMenuItem>
+
+          {navItems.map(({ path, name }, index) => (
+            <NavigationMenuItem key={index}>
+              <Link href={path} legacyBehavior passHref>
+                <NavigationMenuLink className={navigationMenuTriggerStyle}>{name}</NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+          ))}
+
           <NavigationMenuItem>
-            <Link href="/" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle}>
-                Home
-              </NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <Link href="/posts" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle}>
-                Blog
-              </NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <Link href="/contact" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle}>
-                Contact
-              </NavigationMenuLink>
+            <Link href={"/Login"} legacyBehavior passHref>
+              <Avatar>
+                <AvatarImage src="/images/account/default-pic.png" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
             </Link>
           </NavigationMenuItem>
         </NavigationMenuList>
