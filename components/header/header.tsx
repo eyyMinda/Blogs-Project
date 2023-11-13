@@ -40,7 +40,7 @@ export default function Header() {
             <Link href={"/login"} legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle}>
                 <Avatar>
-                  <AvatarImage src="/images/account/default-pic.png" />
+                  <AvatarImage src="/images/account/default-pic.png" alt="Profile" />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
               </NavigationMenuLink>
