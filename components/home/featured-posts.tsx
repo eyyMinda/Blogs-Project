@@ -5,7 +5,7 @@ import { Posts } from "@/app/_types/PostType";
 const FeaturedPosts: React.FC<Posts> = ({ posts }) => {
   return (
     <section className={css.latest}>
-      <h2>Featured Posts</h2>
+      <h1>Featured Posts</h1>
 
       <PostsGrid posts={posts} />
     </section>

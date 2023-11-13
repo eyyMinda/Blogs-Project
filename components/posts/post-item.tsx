@@ -20,7 +20,7 @@ const PostItem: React.FC<PostObject> = ({ post }) => {
           <Image src={imagePath} width={300} height={200} alt={title} priority />
         </div>
         <div className={css.content}>
-          <h3>{title}</h3>
+          <h2>{title}</h2>
           <time>{formattedDate}</time>
           <p>{excerpt}</p>
         </div>

@@ -5,9 +5,11 @@
 }
 
 .posts h1 {
-  font-size: var(--size-8);
-  color: var(--color-primary-500);
+  color: var(--color-primary-300);
+  text-shadow: #5e204bb3 0.2rem 0.2rem;
   text-align: center;
+  font-weight: 700;
+  font-size: var(--size-8);
 }
 
 @media (min-width: 768px) {

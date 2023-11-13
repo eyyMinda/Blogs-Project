@@ -20,7 +20,7 @@
 .content {
   padding: var(--size-4);
 }
-.content h3 {
+.content h2 {
   margin: var(--size-2) 0;
   font-size: var(--size-6);
 }
