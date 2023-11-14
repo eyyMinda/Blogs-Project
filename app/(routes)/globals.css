@@ -16,6 +16,7 @@
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
+    --markdown-p-color: var(--color-gray-700);
     --accent: 240 4.8% 95.9%;
     --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
@@ -25,16 +26,16 @@
     --ring: 346.8 77.2% 49.8%;
     --radius: 0.5rem;
 
-    --color-grey-50: hsl(265, 55%, 96%);
-    --color-grey-100: hsl(265, 19%, 88%);
-    --color-grey-200: hsl(265, 7%, 70%);
-    --color-grey-300: hsl(265, 6%, 66%);
-    --color-grey-400: hsl(265, 4%, 57%);
-    --color-grey-500: hsl(265, 3%, 53%);
-    --color-grey-600: hsl(265, 4%, 42%);
-    --color-grey-700: hsl(265, 4%, 31%);
-    --color-grey-800: hsl(276, 5%, 20%);
-    --color-grey-900: hsl(280, 5%, 13%);
+    --color-gray-50: hsl(265, 55%, 96%);
+    --color-gray-100: hsl(265, 19%, 88%);
+    --color-gray-200: hsl(265, 7%, 70%);
+    --color-gray-300: hsl(265, 6%, 66%);
+    --color-gray-400: hsl(265, 4%, 57%);
+    --color-gray-500: hsl(265, 3%, 53%);
+    --color-gray-600: hsl(265, 4%, 42%);
+    --color-gray-700: hsl(265, 4%, 31%);
+    --color-gray-800: hsl(276, 5%, 20%);
+    --color-gray-900: hsl(280, 5%, 13%);
     --color-primary-50: #c8b3ce;
     --color-primary-100: #a07aaa;
     --color-primary-200: #884c97;
@@ -74,6 +75,7 @@
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 15%;
     --muted-foreground: 240 5% 64.9%;
+    --markdown-p-color: var(--color-gray-200);
     --accent: 12 6.5% 15.1%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
@@ -95,20 +97,24 @@
 
 @layer components {
   .three-d-title {
-    @apply text-title text-center font-bold text-4xl md:text-5xl;
-    text-shadow: #5e204bb3 0.2rem 0.2rem;
+    @apply text-gray-800 text-center font-bold text-4xl md:text-5xl;
+    text-shadow: var(--color-gray-300) 0.2rem 0.2rem 0.2rem;
+  }
+  .dark .three-d-title {
+    @apply text-title;
+    text-shadow: #5e204bb3 0.2rem 0.2rem 0.2rem;
   }
   .markdown-content > * {
     margin-bottom: 1rem;
   }
   .markdown-content > h1 {
-    border-bottom: 2px solid var(--color-grey-600);
+    border-bottom: 2px solid var(--color-gray-600);
     font-size: 1.5rem;
     padding-bottom: 0.5rem;
     margin-block: 1.5rem;
   }
   .markdown-content p {
-    color: var(--color-grey-200);
+    color: var(--markdown-p-color);
   }
   .markdown-content > :is(ul, ol) {
     list-style-type: unset;

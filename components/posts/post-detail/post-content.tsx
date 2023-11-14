@@ -9,7 +9,7 @@ const PostContent: React.FC<PostDataObject> = ({ postData }) => {
   const imagePath = image ? `/images/posts/${slug}/${image}` : "/images/default-blog.jpg";
 
   return (
-    <Card className="my-12">
+    <Card className="border-2 my-12">
       <CardHeader>
         <PostHeader title={title} image={imagePath} />
       </CardHeader>
