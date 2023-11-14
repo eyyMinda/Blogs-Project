@@ -1,20 +1,22 @@
-import css from "./styles/post-content.module.css";
 import PostHeader from "./posts-header";
 import ReactMarkdown from "react-markdown";
 import { customMDComponents } from "@/lib/markdown-components";
 import { PostDataObject } from "@/app/_types/PostType";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 const PostContent: React.FC<PostDataObject> = ({ postData }) => {
   const { image, slug, title, content } = postData;
-  const imagePath = image
-    ? `/images/posts/${slug}/${image}`
-    : "/images/default-blog.jpg";
+  const imagePath = image ? `/images/posts/${slug}/${image}` : "/images/default-blog.jpg";
 
   return (
-    <article className={css.content}>
-      <PostHeader title={title} image={imagePath} />
-      <ReactMarkdown components={customMDComponents}>{content}</ReactMarkdown>
-    </article>
+    <Card className="my-12">
+      <CardHeader>
+        <PostHeader title={title} image={imagePath} />
+      </CardHeader>
+      <CardContent className="markdown-content text-xl md:px-8 max-w-5xl">
+        <ReactMarkdown components={customMDComponents}>{content}</ReactMarkdown>
+      </CardContent>
+    </Card>
   );
 };
 export default PostContent;

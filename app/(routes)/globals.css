@@ -95,7 +95,23 @@
 
 @layer components {
   .three-d-title {
-    @apply text-title text-center font-bold text-4xl md:text-6xl;
+    @apply text-title text-center font-bold text-4xl md:text-5xl;
     text-shadow: #5e204bb3 0.2rem 0.2rem;
+  }
+  .markdown-content > * {
+    margin-bottom: 1rem;
+  }
+  .markdown-content > h1 {
+    border-bottom: 2px solid var(--color-grey-600);
+    font-size: 1.5rem;
+    padding-bottom: 0.5rem;
+    margin-block: 1.5rem;
+  }
+  .markdown-content p {
+    color: var(--color-grey-200);
+  }
+  .markdown-content > :is(ul, ol) {
+    list-style-type: unset;
+    margin-left: 1.5rem;
   }
 }
