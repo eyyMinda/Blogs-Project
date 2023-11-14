@@ -92,3 +92,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .three-d-title {
+    @apply text-title text-center font-bold text-4xl md:text-6xl;
+    text-shadow: #5e204bb3 0.2rem 0.2rem;
+  }
+}
