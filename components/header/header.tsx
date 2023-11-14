@@ -5,8 +5,8 @@ import Link from "next/link";
 import Logo from "./logo";
 import BurgerMenu from "./burger";
 import { ModeToggle } from "../ui/theme-toggle";
+import { AvatarMenu } from "./avatar-menu";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "../ui/navigation-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const navItems = [
   { path: "/", name: "Home" },
@@ -37,14 +37,7 @@ export default function Header() {
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <Link href={"/login"} legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle}>
-                <Avatar>
-                  <AvatarImage src="/images/account/default-pic.png" alt="Profile" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-              </NavigationMenuLink>
-            </Link>
+            <AvatarMenu navStyle={navigationMenuTriggerStyle} />
           </NavigationMenuItem>
 
           {/* <NavigationMenuItem>
