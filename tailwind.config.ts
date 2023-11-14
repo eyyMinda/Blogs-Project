@@ -15,7 +15,11 @@ module.exports = {
         sans: ["var(--font-geist-sans)"],
         mono: ["var(--font-geist-mono)"]
       },
+      gridTemplateColumns: {
+        auto: "repeat(auto-fill, minmax(20rem, 1fr))"
+      },
       colors: {
+        title: "var(--color-primary-300)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
