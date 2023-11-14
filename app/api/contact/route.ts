@@ -1,7 +1,7 @@
 import { ContactInfo } from "@/app/_types/ContactType";
 import { validateMultipleInputs } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
-import { connectToMongo, getFromMongo, isMongoClient, postToMongo } from "@/lib/api-util";
+import { connectToMongo, getFromMongo, isMongoClient, postToMongo } from "@/lib/mongo-db/mongo";
 
 const getClient = async () => {
   try {
