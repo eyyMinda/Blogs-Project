@@ -13,12 +13,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body className={GeistSans.className} suppressHydrationWarning={true}>
+      <body className={`${GeistSans.className} overflow-x-hidden`} suppressHydrationWarning={true}>
         <NotificationProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <Header />
 
-            <main className="flex min-h-screen flex-col items-center justify-between p-6 sm:px-16">{children}</main>
+            <main className="flex min-h-full flex-col items-center justify-between p-6 sm:px-16">{children}</main>
             <div id="notifications" className="w-full h-full pointer-events-none overflow-hidden"></div>
           </ThemeProvider>
         </NotificationProvider>
