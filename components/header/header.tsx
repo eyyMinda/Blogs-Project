@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import Logo from "./logo";
 import BurgerMenu from "./burger";
-import { ModeToggle } from "../ui/theme-toggle";
 import { AvatarMenu } from "./avatar-menu";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "../ui/navigation-menu";
 
@@ -32,12 +31,8 @@ export default function Header() {
             </NavigationMenuItem>
           ))}
 
-          <NavigationMenuItem>
-            <ModeToggle />
-          </NavigationMenuItem>
-
-          <NavigationMenuItem>
-            <AvatarMenu navStyle={navigationMenuTriggerStyle} />
+          <NavigationMenuItem className="pl-4">
+            <AvatarMenu />
           </NavigationMenuItem>
 
           {/* <NavigationMenuItem>

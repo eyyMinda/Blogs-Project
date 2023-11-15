@@ -1,39 +1,37 @@
+import { AvatarIcon } from "./avatar-icon";
 import Link from "next/link";
-import { NavigationMenuContent, NavigationMenuLink, NavigationMenuTrigger } from "../ui/navigation-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
+import { ModeToggle } from "../ui/theme-toggle";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-export function AvatarMenu({ navStyle }: { navStyle: string }) {
+export function AvatarMenu() {
   return (
-    <div className="flex">
-      <NavigationMenuTrigger className={navStyle}>
-        <Link href={"/profile"} legacyBehavior passHref>
-          <NavigationMenuLink>
-            <Avatar>
-              <AvatarImage src="/images/account/default-pic.png" alt="Profile" width={50} height={50} />
-              <AvatarFallback>P</AvatarFallback>
-            </Avatar>
-          </NavigationMenuLink>
-        </Link>
-      </NavigationMenuTrigger>
+    <Popover>
+      <PopoverTrigger>
+        <AvatarIcon />
+      </PopoverTrigger>
+      <PopoverContent className="p-0 mt-2 mr-4">
+        <header className="flex items-end gap-4 px-4 py-6 border-b-2">
+          <AvatarIcon />
+          <div className="text-sm">
+            <h2>Common Name</h2>
+            <Button variant="link" className="p-0 m-0 h-auto">
+              <Link href={"/profile"}>View your profile</Link>
+            </Button>
+          </div>
+        </header>
 
-      <NavigationMenuContent className="">
-        <ul className="grid gap-3 p-6 w-[200px] lg:w-[370px] grid-cols-1 place-items-center">
-          <li className="row-span-3">
-            <Link href={"/profile"} legacyBehavior passHref>
-              <NavigationMenuLink className={navStyle}>Profile</NavigationMenuLink>
-            </Link>
-          </li>
-          <li className="row-span-3">
-            <Link href={"/login"} legacyBehavior passHref>
-              <NavigationMenuLink className={navStyle}>Login</NavigationMenuLink>
-            </Link>
-          </li>
-          <li className="row-span-3">
-            <Button>Logout</Button>
-          </li>
-        </ul>
-      </NavigationMenuContent>
-    </div>
+        <div className="flex flex-col gap-1 py-6">
+          <ModeToggle className="bg-transparent border-none" />
+          <Button variant="outline" size="lg" className="w-full bg-transparent border-none">
+            <Link href={"/profile"}>Profile</Link>
+          </Button>
+          <Button variant="outline" size="lg" className="w-full bg-transparent border-none">
+            <Link href={"/login"}>Login</Link>
+          </Button>
+          <Button className="w-full bg-transparent border-none mt-4">Logout</Button>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 }
