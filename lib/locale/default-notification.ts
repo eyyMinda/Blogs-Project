@@ -1,3 +1,8 @@
+import { AlertCircle, ChevronDownSquare, CircleDashed, LucideIcon } from "lucide-react";
+type NotificationAlertIcons = {
+  [key: string]: React.ComponentType<React.SVGProps<SVGSVGElement>> | LucideIcon;
+};
+
 const defaultNotification = {
   error: (msg: string[] | string) => ({
     title: "Failed!",
@@ -15,4 +20,16 @@ const defaultNotification = {
     status: "pending"
   }
 };
+
+export const alertVariants: NotificationAlertVariants = {
+  success: "success",
+  error: "destructive",
+  pending: "pending"
+};
+export const alertIcons: NotificationAlertIcons = {
+  success: ChevronDownSquare,
+  error: AlertCircle,
+  pending: CircleDashed
+};
+
 export default defaultNotification;
