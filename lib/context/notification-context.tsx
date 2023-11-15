@@ -1,6 +1,8 @@
 "use client";
 import { createContext, useEffect, useState } from "react";
 
+const statusTimers = { success: 4000, error: 7000 };
+
 const NotificationContext = createContext<NotificationContextType>({
   notification: null,
   setNotification: () => {}
@@ -11,10 +13,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
 
   // Check if status or error and set timer to remove the notification.
   useEffect(() => {
-    const statuses = { success: 4000, error: 7000 };
-
-    if (notification && notification.status in statuses) {
-      const removeTimer = statuses[notification.status as keyof typeof statuses];
+    if (notification && notification.status in statusTimers) {
+      const removeTimer = statusTimers[notification.status as keyof typeof statusTimers];
       const timer = setTimeout(() => setNotification(null), removeTimer);
       return () => clearTimeout(timer);
     }
