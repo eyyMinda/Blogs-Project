@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Header />
 
             <main className="flex min-h-screen flex-col items-center justify-between p-6 sm:px-16">{children}</main>
-            <div id="notifications"></div>
+            <div id="notifications" className="w-full h-full pointer-events-none overflow-hidden"></div>
           </ThemeProvider>
         </NotificationProvider>
       </body>
