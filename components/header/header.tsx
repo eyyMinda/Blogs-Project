@@ -25,7 +25,7 @@ export default function Header() {
           {/* <div className={`flex-1 justify-self-center pb-3 mt-8 md:flex md:pb-0 md:mt-0 ${burgerOpen ? "block" : "hidden"}`}></div> */}
           {navItems.map(({ path, name }, index) => (
             <NavigationMenuItem key={index}>
-              <Link href={path} legacyBehavior passHref>
+              <Link href={path}>
                 <NavigationMenuLink className={navigationMenuTriggerStyle}>{name}</NavigationMenuLink>
               </Link>
             </NavigationMenuItem>

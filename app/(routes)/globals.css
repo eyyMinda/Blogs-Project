@@ -120,11 +120,10 @@
 
 @layer components {
   .three-d-title {
-    @apply text-gray-800 text-center font-bold text-4xl md:text-5xl;
+    @apply text-gray-800 dark:text-title text-center font-bold text-4xl md:text-5xl;
     text-shadow: var(--color-gray-300) 0.2rem 0.2rem 0.2rem;
   }
   .dark .three-d-title {
-    @apply text-title;
     text-shadow: #5e204bb3 0.2rem 0.2rem 0.2rem;
   }
   .markdown-content > * {
