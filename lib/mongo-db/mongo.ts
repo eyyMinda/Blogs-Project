@@ -1,4 +1,5 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
+import { NextResponse } from "next/server";
 
 //=================== INIT ====================
 const uri = process.env.NEXT_PUBLIC_MONGODB_URI;
@@ -26,6 +27,14 @@ export const connectToMongo = async (): MongoDBClientPromise<MongoClient> => {
  */
 export const isMongoClient = (obj: any): obj is MongoClient => typeof obj?.db === "function";
 
+export const getClient = async () => {
+  try {
+    const client = await connectToMongo();
+    return client;
+  } catch {
+    return NextResponse.json({ err: true, msg: ["Failed to connect to the database"] }, { status: 500 });
+  }
+};
 // ----------------------------------------------------------------
 
 export const postToMongo = async (client: MongoClient, collection: string, body: object): Promise<void> => {
