@@ -1,14 +1,18 @@
-import css from "./styles/user-profile.module.css";
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
 import ProfileForm from "./profile-form";
+import { AvatarIcon } from "../header/avatar-icon";
 
 function UserProfile() {
   // Redirect away if NOT auth
-  redirect("/login");
+  // redirect("/login");
 
   return (
-    <section className={css.profile}>
-      <h1>Your User Profile</h1>
+    <section className="mx-auto my-12 text-center">
+      <header className="flex flex-col items-center gap-3">
+        <AvatarIcon size={200} />
+        <h1 className="text-4xl">Your User Profile</h1>
+      </header>
+
       <ProfileForm />
     </section>
   );

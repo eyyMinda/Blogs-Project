@@ -16,7 +16,7 @@ export function AvatarMenu() {
           <AvatarIcon />
           <div className="text-sm">
             <h2>Common Name</h2>
-            <Button variant="link" className="p-0 m-0 h-auto">
+            <Button variant="link" className="h-auto p-0 m-0">
               <Link href={"/profile"}>View your profile</Link>
             </Button>
           </div>
@@ -30,7 +30,7 @@ export function AvatarMenu() {
           <Button variant="outline" size="lg" className="w-full bg-transparent border-none">
             <Link href={"/login"}>Login</Link>
           </Button>
-          <Button className="w-full bg-transparent border-none flex gap-2 mt-4 text-black dark:text-white">
+          <Button className="flex w-full gap-2 mt-4 text-black bg-transparent border-none dark:text-white">
             <LogOut />
             Logout
           </Button>
