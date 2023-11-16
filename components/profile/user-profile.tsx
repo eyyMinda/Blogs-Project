@@ -7,9 +7,9 @@ function UserProfile() {
   // redirect("/login");
 
   return (
-    <section className="mx-auto my-12 text-center">
+    <section className="mx-auto my-12 text-center text-">
       <header className="flex flex-col items-center gap-3">
-        <AvatarIcon size={200} />
+        <AvatarIcon variant="sm" />
         <h1 className="text-4xl">Your User Profile</h1>
       </header>
 

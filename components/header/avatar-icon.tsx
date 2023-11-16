@@ -1,18 +1,20 @@
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
-interface AvatarProps {
-  size?: number;
-}
+type AvatarProps = { variant?: "mini" | "sm" };
+
+const sizeVariants = {
+  mini: { size: 50, sizeCss: "w-12 h-12", text: "text-base" },
+  sm: { size: 200, sizeCss: "w-52 h-52", text: "text-9xl" }
+} as const;
 
 export function AvatarIcon(props: AvatarProps) {
-  const { size = 50 } = props;
-  const sizeCss = `w-[${size}px] h-[${size}px]`; //Optional resize
-  const fallbackCss = `text-[${200 * 0.65}px]`; //Text size for fallback
+  const { variant = "mini" } = props;
+  const currVariant = sizeVariants[variant];
 
   return (
-    <Avatar className={props.size ? sizeCss : ""}>
-      <AvatarImage src="/images/account/default-pic.png" alt="Profile" width={size} height={size} fetchPriority="high" />
-      <AvatarFallback className={props.size ? fallbackCss : ""}>P</AvatarFallback>
+    <Avatar className={props.variant ? currVariant.sizeCss : ""}>
+      <AvatarImage src="/images/account/default-pic.png" alt="Profile" width={currVariant.size} height={currVariant.size} fetchPriority="high" />
+      <AvatarFallback className={props.variant ? currVariant.text : ""}>P</AvatarFallback>
     </Avatar>
   );
 }
