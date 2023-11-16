@@ -13,7 +13,7 @@ export function AvatarIcon(props: AvatarProps) {
 
   return (
     <Avatar className={props.variant ? currVariant.sizeCss : ""}>
-      <AvatarImage src="/images/account/efault-pic.png" alt="Profile" width={currVariant.size} height={currVariant.size} fetchPriority="high" />
+      <AvatarImage src="/images/account/default-pic.png" alt="Profile" width={currVariant.size} height={currVariant.size} fetchPriority="high" />
       <AvatarFallback className={props.variant ? currVariant.text : ""}>P</AvatarFallback>
     </Avatar>
   );
