@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { isValid } from "./isValid";
+import { isValid } from "./auth-valid/isValid";
 
 export const cn = (...args: ClassValue[]) => twMerge(clsx(args));
 
