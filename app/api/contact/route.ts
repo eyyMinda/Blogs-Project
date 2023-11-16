@@ -19,6 +19,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   const data: ContactInfo = await req.json();
+  if (!data) return NextResponse.json({ err: true, msg: "No data has been provided." }, { status: 400 });
 
   // Validation
   const errors = validateMultipleInputs(Object.values(data), Object.keys(data));
