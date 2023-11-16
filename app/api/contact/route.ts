@@ -21,10 +21,7 @@ export async function POST(req: NextRequest) {
   const data: ContactInfo = await req.json();
 
   // Validation
-  const errors = validateMultipleInputs(
-    Object.values(data).map(e => e.trim()),
-    Object.keys(data)
-  );
+  const errors = validateMultipleInputs(Object.values(data), Object.keys(data));
   if (errors.length > 0) return NextResponse.json({ err: true, msg: errors }, { status: 422 });
 
   const newMessage = trimObjectValues(data, ["message"]);
