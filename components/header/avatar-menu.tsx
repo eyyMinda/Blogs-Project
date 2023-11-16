@@ -9,7 +9,7 @@ export function AvatarMenu() {
   return (
     <Popover>
       <PopoverTrigger>
-        <AvatarIcon />
+        <AvatarIcon variant="mini" />
       </PopoverTrigger>
       <PopoverContent className="p-0 mt-2 mr-4">
         <header id="menu-header" className="flex items-end gap-4 px-4 py-6 border-b-2">
