@@ -1,3 +1,5 @@
+[![wakatime](https://wakatime.com/badge/user/7217dc82-1bcf-4a0a-8b7f-96e2332f4c45/project/018b960f-87c9-4136-90b5-276b5bd721a7.svg?style=for-the-badge)](https://wakatime.com/badge/user/7217dc82-1bcf-4a0a-8b7f-96e2332f4c45/project/018b960f-87c9-4136-90b5-276b5bd721a7)
+
 # Next.js Blog Project
 
 This is a simple blog project built with Next.js 13 using App Router. It allows you to create and manage blog posts stored as Markdown files (.md) within the `posts` folder. These posts are dynamically loaded and displayed on your blog website.
