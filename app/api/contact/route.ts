@@ -1,16 +1,7 @@
 import { ContactInfo } from "@/app/_types/ContactType";
-import { validateMultipleInputs } from "@/lib/utils";
+import { trimObjectValues, validateMultipleInputs } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
-import { connectToMongo, getFromMongo, isMongoClient, postToMongo } from "@/lib/mongo-db/mongo";
-
-const getClient = async () => {
-  try {
-    const client = await connectToMongo();
-    return client;
-  } catch {
-    return NextResponse.json({ err: true, msg: ["Failed to connect to the database"] }, { status: 500 });
-  }
-};
+import { getClient, getFromMongo, isMongoClient, postToMongo } from "@/lib/mongo-db/mongo";
 
 export async function GET(req: NextRequest) {
   const client = await getClient();
@@ -30,10 +21,13 @@ export async function POST(req: NextRequest) {
   const data: ContactInfo = await req.json();
 
   // Validation
-  const errors = validateMultipleInputs(Object.values(data), Object.keys(data));
+  const errors = validateMultipleInputs(
+    Object.values(data).map(e => e.trim()),
+    Object.keys(data)
+  );
   if (errors.length > 0) return NextResponse.json({ err: true, msg: errors }, { status: 422 });
 
-  const newMessage = data;
+  const newMessage = trimObjectValues(data, ["message"]);
 
   const client = await getClient();
   if (!isMongoClient(client)) return client;
