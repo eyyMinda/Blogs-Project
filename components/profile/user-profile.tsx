@@ -9,7 +9,6 @@ function UserProfile() {
   const images = getFolderFileNames("public/images/account/remix-rumble-avatars");
   // Redirect away if NOT auth
   // redirect("/login");
-  function handlePopover() {}
   return (
     <section className="mx-auto my-12 text-center">
       <header className="flex flex-col items-center gap-3">
