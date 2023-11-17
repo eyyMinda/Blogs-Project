@@ -28,7 +28,7 @@ export default function ChooseAvatar({ images }: { images: string[] }) {
 
   return (
     <section className="flex flex-col mx-4">
-      <Button variant="ghost" className="self-end mb-2 w-min" onClick={closePopover}>
+      <Button size="sm" variant="ghost" className="self-end mb-2 w-min" onClick={closePopover}>
         <X />
       </Button>
 
