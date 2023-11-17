@@ -1,6 +1,7 @@
 // import { redirect } from "next/navigation";
 import ProfileForm from "./profile-form";
 import { AvatarIcon } from "../header/avatar-icon";
+import ChooseAvatar from "./choose-avatar";
 
 function UserProfile() {
   // Redirect away if NOT auth
@@ -12,6 +13,8 @@ function UserProfile() {
         <AvatarIcon variant="sm" />
         <h1 className="text-4xl">Your User Profile</h1>
       </header>
+
+      <ChooseAvatar />
 
       <ProfileForm />
     </section>

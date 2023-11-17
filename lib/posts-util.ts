@@ -18,6 +18,12 @@ const getFolderPath = (dir = "posts") => path.join(process.cwd(), dir);
 
 const getFileData = (filePath: string) => JSON.parse(fs.readFileSync(filePath, "utf-8")); //.JSON
 
+export const getFolderFileNames = (folderPath: string) => {
+  const fullFolderPath = getFolderPath(folderPath);
+  const folderFileNames = fs.readdirSync(fullFolderPath);
+  return folderFileNames;
+};
+
 export const getPostData = (postIdentifier: string) => {
   //.MD
   const postSlug = postIdentifier.replace(/\.md$/, ""); //replace extention with nothing
