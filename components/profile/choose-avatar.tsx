@@ -28,9 +28,9 @@ export default function ChooseAvatar({ images }: { images: string[] }) {
 
   return (
     <section className="flex flex-col mx-4">
-      <Button size="sm" variant="ghost" className="self-end mb-2 w-min" onClick={closePopover}>
+      <PopoverClose ref={popoverCloseRef} className="self-end px-3 mb-2 rounded-md w-min hover:bg-accent hover:text-accent-foreground h-9">
         <X />
-      </Button>
+      </PopoverClose>
 
       <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 gap-2 mb-8 border-4 py-2 max-h-[30rem] overflow-y-scroll">
         {images?.map((img, i) => {
@@ -53,7 +53,6 @@ export default function ChooseAvatar({ images }: { images: string[] }) {
       <Button type="button" variant="secondary" className="hover:bg-title" onClick={handleChooseAvatar} disabled={!selected}>
         {isLoading ? "Loading..." : "Choose Avatar"}
       </Button>
-      <PopoverClose ref={popoverCloseRef} />
     </section>
   );
 }
