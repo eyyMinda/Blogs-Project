@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { useRef, useState } from "react";
 import { PopoverClose } from "@radix-ui/react-popover";
-import { X } from "lucide-react";
+import { Loader2, X } from "lucide-react";
 
 const prePath = "/images/account/remix-rumble-avatars/";
 
@@ -50,8 +50,8 @@ export default function ChooseAvatar({ images }: { images: string[] }) {
         })}
       </div>
 
-      <Button type="button" variant="secondary" className="hover:bg-title" onClick={handleChooseAvatar} disabled={!selected}>
-        {isLoading ? "Loading..." : "Choose Avatar"}
+      <Button type="button" variant="secondary" className="hover:bg-title" onClick={handleChooseAvatar} disabled={!selected && isLoading}>
+        {isLoading ? <Loader2 className="animate-spin" /> : "Choose Avatar"}
       </Button>
     </section>
   );
