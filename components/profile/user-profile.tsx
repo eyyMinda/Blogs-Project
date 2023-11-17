@@ -1,6 +1,6 @@
 // import { redirect } from "next/navigation";
 import ProfileForm from "./profile-form";
-import { AvatarIcon } from "../header/avatar-icon";
+import { AvatarIcon } from "../ui/avatar-icon";
 import ChooseAvatar from "./choose-avatar";
 
 function UserProfile() {
