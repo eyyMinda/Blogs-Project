@@ -28,7 +28,7 @@ export default function ChooseAvatar({ images }: { images: string[] }) {
 
   return (
     <section className="flex flex-col mx-4">
-      <PopoverClose ref={popoverCloseRef} className="self-end px-3 mb-2 rounded-md w-min hover:bg-accent hover:text-accent-foreground h-9">
+      <PopoverClose ref={popoverCloseRef} title="close" className="self-end px-3 mb-2 rounded-md w-min hover:bg-accent hover:text-accent-foreground h-9">
         <X />
       </PopoverClose>
 
@@ -50,7 +50,7 @@ export default function ChooseAvatar({ images }: { images: string[] }) {
         })}
       </div>
 
-      <Button type="button" variant="secondary" className="hover:bg-title" onClick={handleChooseAvatar} disabled={!selected && isLoading}>
+      <Button type="button" variant="secondary" className="hover:bg-title" onClick={handleChooseAvatar} disabled={!selected || isLoading}>
         {isLoading ? <Loader2 className="animate-spin" /> : "Choose Avatar"}
       </Button>
     </section>
