@@ -6,11 +6,11 @@ const sizeVariants = {
 } as const;
 
 export function AvatarIcon(props: AvatarProps) {
-  const { variant = "mini", path = "/images/account/default-pic.png", fallback = "P" } = props;
+  const { variant = "mini", path = "/images/account/default-pic.png", fallback = "P", className = "" } = props;
   const currVariant = sizeVariants[variant];
 
   return (
-    <Avatar className={props.variant ? currVariant.sizeCss : ""}>
+    <Avatar className={`${props.variant ? currVariant.sizeCss : ""}${className && " " + className}`}>
       <AvatarImage src={path} alt="Profile" width={currVariant.size} height={currVariant.size} fetchPriority="high" />
       <AvatarFallback className={props.variant ? currVariant.text : ""}>{fallback}</AvatarFallback>
     </Avatar>

@@ -1,6 +1,6 @@
 // import { redirect } from "next/navigation";
 import ProfileForm from "./profile-form";
-import { AvatarIcon } from "../ui/avatar-icon";
+import DisplayAvatar from "./display-avatar";
 import ChooseAvatar from "./choose-avatar";
 
 function UserProfile() {
@@ -10,7 +10,8 @@ function UserProfile() {
   return (
     <section className="mx-auto my-12 text-center">
       <header className="flex flex-col items-center gap-3">
-        <AvatarIcon variant="sm" />
+        <DisplayAvatar />
+
         <h1 className="text-4xl">Your User Profile</h1>
       </header>
 
