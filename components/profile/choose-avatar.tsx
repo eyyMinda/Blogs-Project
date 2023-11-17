@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { useRef, useState } from "react";
 import { PopoverClose } from "@radix-ui/react-popover";
+import { X } from "lucide-react";
 
 const prePath = "/images/account/remix-rumble-avatars/";
 
@@ -12,6 +13,8 @@ export default function ChooseAvatar({ images }: { images: string[] }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const popoverCloseRef = useRef<HTMLButtonElement>(null);
 
+  const closePopover = () => popoverCloseRef.current?.click();
+
   function handleChooseAvatar() {
     setIsLoading(true);
     console.log(selected);
@@ -19,12 +22,16 @@ export default function ChooseAvatar({ images }: { images: string[] }) {
     setTimeout(() => {
       setIsLoading(false);
       // Send notification
-      popoverCloseRef.current?.click();
+      closePopover();
     }, 2000);
   }
 
   return (
-    <section className="flex flex-col m-4">
+    <section className="flex flex-col mx-4">
+      <Button variant="ghost" className="self-end mb-2 w-min" onClick={closePopover}>
+        <X />
+      </Button>
+
       <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 gap-2 mb-8 border-4 py-2 max-h-[30rem] overflow-y-scroll">
         {images?.map((img, i) => {
           const fullPath = prePath + img;
