@@ -8,7 +8,7 @@ import { Loader2, X } from "lucide-react";
 
 const prePath = "/images/account/remix-rumble-avatars/";
 
-export default function ChooseAvatar({ images }: { images: string[] }) {
+export default function ChooseAvatar({ avatars }: { avatars: string[] }) {
   const [selected, setSelected] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const popoverCloseRef = useRef<HTMLButtonElement>(null);
@@ -33,7 +33,7 @@ export default function ChooseAvatar({ images }: { images: string[] }) {
       </PopoverClose>
 
       <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 gap-2 mb-8 border-4 py-2 max-h-[30rem] overflow-y-scroll">
-        {images?.map((img, i) => {
+        {avatars?.map((img, i) => {
           const fullPath = prePath + img;
           const isSelected = selected === fullPath;
           return (
