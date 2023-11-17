@@ -11,7 +11,7 @@ const PostItem: React.FC<PostObject> = ({ post }) => {
     year: "numeric"
   });
   const linkPath = `/posts/${slug}`;
-  const imagePath = image ? `/images${linkPath}/${image}` : "/images/default-blog.jpg";
+  const imagePath = image ? `/images${linkPath}/${image}` : "/images/default-blog.webp";
 
   return (
     <Card className="flex flex-col content-between">

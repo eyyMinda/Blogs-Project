@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 const PostContent: React.FC<PostDataObject> = ({ postData }) => {
   const { image, slug, title, content } = postData;
-  const imagePath = image ? `/images/posts/${slug}/${image}` : "/images/default-blog.jpg";
+  const imagePath = image ? `/images/posts/${slug}/${image}` : "/images/default-blog.webp";
 
   return (
     <Card className="border-2 my-12">

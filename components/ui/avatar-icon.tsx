@@ -6,7 +6,7 @@ const sizeVariants = {
 } as const;
 
 export function AvatarIcon(props: AvatarProps) {
-  const { variant = "mini", path = "/images/account/default-pic.png", fallback = "P", className = "" } = props;
+  const { variant = "mini", path = "/images/account/default-pic.webp", fallback = "P", className = "" } = props;
   const currVariant = sizeVariants[variant];
 
   return (
