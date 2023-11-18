@@ -1,5 +1,5 @@
 import { Loader2 } from "lucide-react";
-import { Button } from "./button";
+import { Button } from "../button";
 
 type SubmitButton = {
   isLoading: boolean;

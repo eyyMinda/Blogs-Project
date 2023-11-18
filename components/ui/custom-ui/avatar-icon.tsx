@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../avatar";
 
 const sizeVariants = {
   mini: { size: 50, sizeCss: "w-10 h-10", text: "text-lg" },
