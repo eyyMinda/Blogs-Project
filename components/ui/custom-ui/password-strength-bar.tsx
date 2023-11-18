@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
-export default function PasswordStrengthChecker({ password }: { password: string }) {
+export default function PasswordStrengthChecker({ password, className = "" }: { password: string; className?: string }) {
   const [passStrength, setPassStrength] = useState<string>("empty");
   const [passStrengthIndex, setPassStrengthIndex] = useState<number>(0);
 
@@ -53,7 +53,7 @@ export default function PasswordStrengthChecker({ password }: { password: string
   }
 
   return (
-    <div className="relative w-full">
+    <div className={`w-full${" " + className}`}>
       <div className="flex items-center gap-1 mt-[5px] m-w-full">
         {[1, 2, 3, 4, 5].map(index => (
           <div key={index} className={`w-full h-[2px] ${index <= passStrengthIndex ? strengthColors[passStrength] : strengthColors.empty}`}></div>
