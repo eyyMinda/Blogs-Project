@@ -16,20 +16,26 @@ export function AvatarMenu() {
           <AvatarIcon />
           <div className="text-sm">
             <h2>Common Name</h2>
-            <Button variant="link" className="h-auto p-0 m-0">
-              <Link href={"/profile"}>View your profile</Link>
-            </Button>
+            <Link href={"/profile"}>
+              <Button variant="link" className="h-auto p-0 m-0">
+                View your profile
+              </Button>
+            </Link>
           </div>
         </header>
 
         <div id="menu-container" className="flex flex-col gap-1 py-6">
+          <Link href={"/profile"}>
+            <Button variant="outline" size="lg" className="w-full bg-transparent border-none">
+              Profile
+            </Button>
+          </Link>
+          <Link href={"/login"}>
+            <Button variant="outline" size="lg" className="w-full bg-transparent border-none">
+              Login
+            </Button>
+          </Link>
           <ModeToggle className="bg-transparent border-none" />
-          <Button variant="outline" size="lg" className="w-full bg-transparent border-none">
-            <Link href={"/profile"}>Profile</Link>
-          </Button>
-          <Button variant="outline" size="lg" className="w-full bg-transparent border-none">
-            <Link href={"/login"}>Login</Link>
-          </Button>
           <Button className="flex w-full gap-2 mt-4 text-black bg-transparent border-none dark:text-white">
             <LogOut />
             Logout
