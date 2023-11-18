@@ -18,16 +18,16 @@ export function CardWithForm() {
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t" />
           </div>
-          <div className="relative flex justify-center text-xs uppercase">
+          <div className="relative flex justify-center text-sm">
             <span className="px-2 bg-background text-muted-foreground">Or continue with</span>
           </div>
         </div>
         <div className="grid grid-flow-col gap-6">
-          <Button variant="outline">
+          <Button variant="outline" disabled>
             <Github className="w-4 h-4 mr-2" />
             Github
           </Button>
-          <Button variant="outline">
+          <Button variant="outline" disabled>
             <Image src="/google.svg" width={16} height={16} alt="Google-Logo" className="mr-2" />
             Google
           </Button>

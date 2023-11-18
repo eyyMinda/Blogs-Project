@@ -66,9 +66,7 @@ export default function AuthForm() {
             </FormItem>
           )}
         />
-
-        {/* <PasswordStrengthBar password={pass} className="pb-4" minLength={4} /> */}
-        <PasswordStrengthChecker password={pass} />
+        <PasswordStrengthChecker password={pass} className="pt-2" />
 
         <SubmitButton className="w-full dark:bg-white dark:hover:bg-primary dark:text-black dark:hover:text-white" isLoading={isLoading} text="Sign up" />
       </form>
