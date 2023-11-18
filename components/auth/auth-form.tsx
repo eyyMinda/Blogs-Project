@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
 import NotificationContext from "@/lib/context/notification-context";
 import defaultNotification from "@/lib/locale/default-notification";
-import PasswordStrengthBar from "react-password-strength-bar";
 import { authFormSchema } from "@/lib/formSchema";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
