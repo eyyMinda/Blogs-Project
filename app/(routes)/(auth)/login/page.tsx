@@ -1,4 +1,4 @@
-import AuthForm from "@/components/auth/auth-form";
+import { CardWithForm } from "@/components/auth/auth-form-card";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function Login() {
-  return <AuthForm />;
+  return <CardWithForm />;
 }
