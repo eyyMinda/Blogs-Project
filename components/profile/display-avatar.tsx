@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { AvatarIcon } from "../ui/avatar-icon";
+import { AvatarIcon } from "../ui/custom-ui/avatar-icon";
 
 export default function DisplayAvatar() {
   const [avatarHover, setAvatarHover] = useState<boolean>(false);

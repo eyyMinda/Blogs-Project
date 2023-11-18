@@ -1,4 +1,4 @@
-import { AvatarIcon } from "../ui/avatar-icon";
+import { AvatarIcon } from "../ui/custom-ui/avatar-icon";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { ModeToggle } from "../ui/theme-toggle";
