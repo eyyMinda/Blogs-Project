@@ -10,9 +10,9 @@ import { contactFormSchema } from "@/lib/formSchema";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import SubmitButton from "./submit-btn";
+import SubmitButton from "../ui/submit-btn";
 
-export default function ProfileForm() {
+export default function ContactForm() {
   const notifCtx = useContext(NotificationContext);
 
   const form = useForm<z.infer<typeof contactFormSchema>>({
@@ -82,7 +82,7 @@ export default function ProfileForm() {
           )}
         />
         <div className="text-right">
-          <SubmitButton isLoading={isLoading} />
+          <SubmitButton isLoading={isLoading} text="Send message" />
         </div>
       </form>
     </Form>
