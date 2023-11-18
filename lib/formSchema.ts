@@ -5,3 +5,8 @@ export const contactFormSchema = z.object({
   email: z.string().min(10, { message: "Email must be at least 10 characters." }).max(40, { message: "Email exceeds the character limit." }).email(),
   message: z.string().min(12, { message: "Should write a more informative message." }).max(1000, { message: "Message exceeds the character limit." })
 });
+
+export const authFormSchema = z.object({
+  email: z.string().min(10, { message: "Email must be at least 10 characters." }).max(40, { message: "Email exceeds the character limit." }).email(),
+  password: z.string().min(8, { message: "Password is too short." }).max(84, { message: "Password is too long." })
+});
