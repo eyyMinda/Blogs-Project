@@ -2,7 +2,7 @@
 
 # Next.js Blog Project
 
-This is a simple blog project built with Next.js 13 using App Router. It allows you to create and manage blog posts stored as Markdown files (.md) within the `posts` folder. These posts are dynamically loaded and displayed on your blog website.
+Blog project built with Next.js 14 using App Router (no actions). It allows you to create and manage blog posts stored as Markdown files (.md) within the `posts` folder. These posts are dynamically loaded and displayed on your blog website.
 
 ## Features
 
