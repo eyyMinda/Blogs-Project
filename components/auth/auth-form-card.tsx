@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "../ui/button";
 import AuthForm from "./auth-form";
 import AgreementMessage from "../others/agreement-message";
+import TextOverLine from "../others/text-over-line";
 
 export function CardWithForm() {
   return (
@@ -14,14 +15,7 @@ export function CardWithForm() {
       </CardHeader>
       <CardContent className="grid gap-4">
         <AuthForm />
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-background text-muted-foreground">Or continue with</span>
-          </div>
-        </div>
+        <TextOverLine />
         <div className="grid grid-flow-col gap-6">
           <Button variant="outline" disabled>
             <Github className="w-4 h-4 mr-2" />
