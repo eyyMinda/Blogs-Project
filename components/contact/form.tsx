@@ -23,7 +23,7 @@ export default function ContactForm() {
 
   async function onSubmit(values: z.infer<typeof contactFormSchema>) {
     // ✅ This will be type-safe and validated.
-    notifCtx.setNotification(defaultNotification.pending);
+    notifCtx.setNotification(defaultNotification.message.pending);
 
     const res = await fetch("/api/contact", {
       method: "POST",
@@ -31,7 +31,7 @@ export default function ContactForm() {
     });
     const { err, msg } = await res.json();
 
-    notifCtx.setNotification(defaultNotification[err ? "error" : "success"](msg));
+    notifCtx.setNotification(defaultNotification.message[err ? "error" : "success"](msg));
     !err && form.reset();
     return;
   }

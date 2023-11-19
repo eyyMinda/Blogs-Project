@@ -24,7 +24,7 @@ export default function AuthForm({ auth, btnText }: { auth: string; btnText: str
 
   async function onSubmit(values: z.infer<typeof authFormSchema>) {
     // ✅ This will be type-safe and validated.
-    notifCtx.setNotification(defaultNotification.pending);
+    notifCtx.setNotification(defaultNotification[auth].pending);
 
     const res = await fetch("/api/auth/signup", {
       method: "POST",
@@ -32,7 +32,7 @@ export default function AuthForm({ auth, btnText }: { auth: string; btnText: str
     });
     const { err, msg } = await res.json();
 
-    notifCtx.setNotification(defaultNotification[err ? "error" : "success"](msg));
+    notifCtx.setNotification(defaultNotification[auth][err ? "error" : "success"](msg));
     form.reset();
     setPass(""); // For Password Strength Bar Reset
     return;
