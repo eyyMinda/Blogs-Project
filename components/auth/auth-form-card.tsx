@@ -5,19 +5,22 @@ import { Button } from "../ui/button";
 import AuthForm from "./auth-form";
 import AgreementMessage from "../others/agreement-message";
 import TextOverLine from "../others/text-over-line";
+import { authTemplate } from "@/lib/locale/default-auth";
 
-export function CardWithForm() {
+export function CardWithForm({ auth }: { auth: "register" | "login" }) {
+  const currTemplate = authTemplate[auth];
+
   return (
     <Card className="bg-gray-black">
       <CardHeader className="text-center">
-        <CardTitle>Create an account</CardTitle>
-        <CardDescription>Enter your email below to create your account</CardDescription>
+        <CardTitle>{currTemplate.title}</CardTitle>
+        <CardDescription>{currTemplate.description}</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <AuthForm />
+        <AuthForm btnText={currTemplate.button} />
         <TextOverLine />
         <div className="grid grid-flow-col gap-6">
-          <Button variant="outline" disabled>
+          <Button variant="outline">
             <Github className="w-4 h-4 mr-2" />
             Github
           </Button>

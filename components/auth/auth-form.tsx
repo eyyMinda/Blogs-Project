@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import SubmitButton from "../ui/custom-ui/submit-btn";
 import PasswordStrengthChecker from "../ui/custom-ui/password-strength-bar";
 
-export default function AuthForm() {
+export default function AuthForm({ btnText }: { btnText: string }) {
   const notifCtx = useContext(NotificationContext);
   const [pass, setPass] = useState<string>("");
 
@@ -61,7 +61,7 @@ export default function AuthForm() {
             <FormItem>
               <FormLabel className="">Password</FormLabel>
               <FormControl>
-                <Input placeholder="password123" onChangeCapture={e => setPass(e.currentTarget.value)} type="password" {...field} />
+                <Input placeholder="password" onChangeCapture={e => setPass(e.currentTarget.value)} type="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -69,7 +69,7 @@ export default function AuthForm() {
         />
         <PasswordStrengthChecker password={pass} className="pt-2" />
 
-        <SubmitButton className="w-full dark:bg-white dark:hover:bg-primary dark:text-black dark:hover:text-white" isLoading={isLoading} text="Sign up" />
+        <SubmitButton className="w-full dark:bg-white dark:hover:bg-primary dark:text-black dark:hover:text-white" isLoading={isLoading} text={btnText} />
       </form>
     </Form>
   );
