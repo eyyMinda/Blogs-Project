@@ -3,7 +3,6 @@ import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import { connectToMongo, getFromMongo, isMongoClient } from "@/lib/mongo-db/mongo";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
-import { NextResponse } from "next/server";
 import { verifyPassword } from "@/lib/auth-valid/auth";
 
 interface User {
