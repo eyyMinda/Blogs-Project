@@ -8,13 +8,13 @@ type NotificationStatus = "error" | "success" | "pending";
 
 type NotificationData = {
   title: string;
-  message: string[] | string;
+  message: string[] | string | null;
   status: NotificationStatus;
 };
 
 interface NotificationLocale {
-  error: (msg: string[] | string) => NotificationData;
-  success: (msg: string[] | string) => NotificationData;
+  error: (msg: string[] | string | null) => NotificationData;
+  success: (msg: string[] | string | null) => NotificationData;
   pending: NotificationData;
 }
 interface DefaultNotification {
