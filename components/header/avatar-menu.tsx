@@ -1,11 +1,14 @@
+"use client";
+
 import { AvatarIcon } from "../ui/custom-ui/avatar-icon";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { ModeToggle } from "../ui/theme-toggle";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { LogOut } from "lucide-react";
+import { signOut } from "next-auth/react";
 
-export function AvatarMenu() {
+export function AvatarMenu({ session }: { session: boolean }) {
   return (
     <Popover>
       <PopoverTrigger>
@@ -30,13 +33,8 @@ export function AvatarMenu() {
               Profile
             </Button>
           </Link>
-          <Link href={"/login"}>
-            <Button variant="outline" size="lg" className="w-full bg-transparent border-none">
-              Login
-            </Button>
-          </Link>
-          <ModeToggle className="bg-transparent border-none" />
-          <Button className="flex w-full gap-2 mt-4 text-black bg-transparent border-none dark:text-white">
+          <ModeToggle variant="large" className="bg-transparent border-none" />
+          <Button onClick={() => signOut()} className="flex w-full gap-2 mt-4 text-black bg-transparent border-none dark:text-white">
             <LogOut />
             Logout
           </Button>

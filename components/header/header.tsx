@@ -6,6 +6,8 @@ import Logo from "./logo";
 import BurgerMenu from "./burger";
 import { AvatarMenu } from "./avatar-menu";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "../ui/navigation-menu";
+import { UserCircle2 } from "lucide-react";
+import { ModeToggle } from "../ui/theme-toggle";
 
 const navItems = [
   { path: "/", name: "Home" },
@@ -13,7 +15,7 @@ const navItems = [
   { path: "/contact", name: "Contact" }
 ];
 
-export default function Header() {
+export default function Header({ session }: { session: boolean }) {
   const [burgerOpen, setBurgerOpen] = useState<Boolean>(false);
 
   return (
@@ -31,9 +33,25 @@ export default function Header() {
             </NavigationMenuItem>
           ))}
 
-          <NavigationMenuItem className="pl-4">
-            <AvatarMenu />
-          </NavigationMenuItem>
+          {!session ? (
+            <>
+              <NavigationMenuItem>
+                <ModeToggle />
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link href={"/login"} legacyBehavior passHref>
+                  <NavigationMenuLink className={`${navigationMenuTriggerStyle} gap-2`}>
+                    <UserCircle2 />
+                    Sign In
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+            </>
+          ) : (
+            <NavigationMenuItem className="pl-4">
+              <AvatarMenu session={session} />
+            </NavigationMenuItem>
+          )}
 
           {/* <NavigationMenuItem>
             <BurgerMenu setBurgerOpen={setBurgerOpen} />
