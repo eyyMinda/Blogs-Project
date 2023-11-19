@@ -21,16 +21,22 @@ export async function POST(req: NextRequest) {
   const data: DataObject = await req.json();
   if (!data) return NextResponse.json({ err: true, msg: "No data has been provided." }, { status: 400 });
 
-  // Validation
+  // ================== Validation ====================================
   const errors = validateMultipleInputs(Object.values(data), Object.keys(data));
   if (errors.length > 0) return NextResponse.json({ err: true, msg: errors }, { status: 422 });
 
-  const trimmedData = trimObjectValues(data);
-  const signUpData = { ...trimmedData, password: await hashPassword(trimmedData.password) };
+  const { email, password } = trimObjectValues(data);
 
+  // ============= Define/Redefine Client =============================
   const client = await getClient();
   if (!isMongoClient(client)) return client;
 
+  // ============== Check if User Exists ==============================
+  const existingUser = await getFromMongo(client, "users", { email: email });
+  if (existingUser.length) return NextResponse.json({ err: true, msg: "User with this Email already exists." }, { status: 422 });
+
+  // ================== Create User ===================================
+  const signUpData = { email, password: await hashPassword(password) };
   try {
     await postToMongo(client, "users", signUpData);
   } catch (error) {

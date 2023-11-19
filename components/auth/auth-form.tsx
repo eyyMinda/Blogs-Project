@@ -33,7 +33,7 @@ export default function AuthForm() {
     const { err, msg } = await res.json();
 
     notifCtx.setNotification(defaultNotification[err ? "error" : "success"](msg));
-    !err && form.reset();
+    form.reset();
     return;
   }
 
