@@ -1,36 +1,44 @@
 import NextAuth from "next-auth";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
-import { connectToMongo } from "@/lib/mongo-db/mongo";
+import { connectToMongo, getFromMongo, isMongoClient } from "@/lib/mongo-db/mongo";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
+import { NextResponse } from "next/server";
+import { verifyPassword } from "@/lib/auth-valid/auth";
+
+interface User {
+  id: string;
+  email: string;
+  password: string;
+}
 
 const authOptions = {
   adapter: MongoDBAdapter(connectToMongo()),
   providers: [
     CredentialsProvider({
-      // The name to display on the sign in form (e.g. "Sign in with...")
       name: "Credentials",
-      // `credentials` is used to generate a form on the sign in page.
-      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-      // e.g. domain, username, password, 2FA token, etc.
-      // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        email: { label: "Email", type: "text", placeholder: "john@doe.com" },
-        password: { label: "Password", type: "password" }
+        email: {},
+        password: {}
       },
       async authorize(credentials, req) {
-        // Add logic here to look up the user from the credentials supplied
-        const user = { id: "1", name: "J Smith", email: "jsmith@example.com" };
+        if (!credentials) return null;
+        const { email, password } = credentials;
 
-        if (user) {
-          // Any object returned will be saved in `user` property of the JWT
-          return user;
-        } else {
-          // If you return null then an error will be displayed advising the user to check their details.
-          return null;
+        const client = await connectToMongo();
+        if (!isMongoClient(client)) return client;
 
-          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+        const matchedUser = (await getFromMongo(client, "users", { email: email }))[0] as User;
+        const passwordMatch = await verifyPassword(password, matchedUser.password);
+        console.log(passwordMatch);
+        if (passwordMatch) {
+          return {
+            id: matchedUser.id,
+            email: matchedUser.email
+          };
         }
+        // return NextResponse.json({ err: true, msg: "No data has been provided." }, { status: 400 });
+        return null;
       }
     }),
     GitHubProvider({
@@ -40,5 +48,5 @@ const authOptions = {
   ]
 };
 
-export const handler = NextAuth(authOptions);
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

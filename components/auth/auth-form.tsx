@@ -11,8 +11,11 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import SubmitButton from "../ui/custom-ui/submit-btn";
 import PasswordStrengthChecker from "../ui/custom-ui/password-strength-bar";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function AuthForm({ auth, btnText }: { auth: string; btnText: string }) {
+  const router = useRouter();
   const notifCtx = useContext(NotificationContext);
   const [pass, setPass] = useState<string>("");
 
@@ -26,13 +29,24 @@ export default function AuthForm({ auth, btnText }: { auth: string; btnText: str
     // ✅ This will be type-safe and validated.
     notifCtx.setNotification(defaultNotification[auth].pending);
 
-    const res = await fetch("/api/auth/signup", {
-      method: "POST",
-      body: JSON.stringify({ ...values })
-    });
-    const { err, msg } = await res.json();
+    if (auth === "login") {
+      const res = await signIn("credentials", { ...values, redirect: false });
+      console.log(res);
+      if (!res?.error) {
+        router.push("/");
+        router.refresh();
+      }
+      const { error } = res!;
+      notifCtx.setNotification(defaultNotification[auth][error ? "error" : "success"](error));
+    } else {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        body: JSON.stringify({ ...values })
+      });
+      const { err, msg } = await res.json();
+      notifCtx.setNotification(defaultNotification[auth][err ? "error" : "success"](msg));
+    }
 
-    notifCtx.setNotification(defaultNotification[auth][err ? "error" : "success"](msg));
     form.reset();
     setPass(""); // For Password Strength Bar Reset
     return;
