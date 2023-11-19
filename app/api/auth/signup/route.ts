@@ -9,7 +9,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 //   let user;
 //   try {
-//     user = await getFromMongo(client, "users", "query");
+//     user = await getFromMongo(client, "users", {email});
 //   } catch (error) {
 //     return NextResponse.json({ err: true, msg: "Failed to retreive user data." }, { status: 500 });
 //   }
