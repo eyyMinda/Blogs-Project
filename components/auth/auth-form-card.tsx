@@ -17,7 +17,7 @@ export function CardWithForm({ auth }: { auth: "register" | "login" }) {
         <CardDescription>{currTemplate.description}</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <AuthForm btnText={currTemplate.button} />
+        <AuthForm auth={auth} btnText={currTemplate.button} />
         <TextOverLine />
         <div className="grid grid-flow-col gap-6">
           <Button variant="outline">

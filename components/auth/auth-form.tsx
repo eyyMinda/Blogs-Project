@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import SubmitButton from "../ui/custom-ui/submit-btn";
 import PasswordStrengthChecker from "../ui/custom-ui/password-strength-bar";
 
-export default function AuthForm({ btnText }: { btnText: string }) {
+export default function AuthForm({ auth, btnText }: { auth: string; btnText: string }) {
   const notifCtx = useContext(NotificationContext);
   const [pass, setPass] = useState<string>("");
 
@@ -58,8 +58,8 @@ export default function AuthForm({ btnText }: { btnText: string }) {
           control={form.control}
           name="password"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="">Password</FormLabel>
+            <FormItem className={auth === "login" ? "pb-4" : ""}>
+              <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input placeholder="password" onChangeCapture={e => setPass(e.currentTarget.value)} type="password" {...field} />
               </FormControl>
@@ -67,7 +67,7 @@ export default function AuthForm({ btnText }: { btnText: string }) {
             </FormItem>
           )}
         />
-        <PasswordStrengthChecker password={pass} className="pt-2" />
+        {auth === "register" && <PasswordStrengthChecker password={pass} className="pt-2" />}
 
         <SubmitButton className="w-full dark:bg-white dark:hover:bg-primary dark:text-black dark:hover:text-white" isLoading={isLoading} text={btnText} />
       </form>
