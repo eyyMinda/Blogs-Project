@@ -17,7 +17,6 @@ export default function PasswordStrengthChecker({ password, className = "" }: { 
   useEffect(passwordStrength, [password]);
 
   function passwordStrength() {
-    console.log("pass: ", password);
     const trimmedPassword = password.trim();
 
     if (!trimmedPassword) {

@@ -34,6 +34,7 @@ export default function AuthForm() {
 
     notifCtx.setNotification(defaultNotification[err ? "error" : "success"](msg));
     form.reset();
+    setPass(""); // For Password Strength Bar Reset
     return;
   }
 
