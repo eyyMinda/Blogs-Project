@@ -6,7 +6,7 @@ import { getFolderFileNames } from "@/lib/posts-util";
 import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
 
 async function UserProfile() {
-  const avatars = await getFolderFileNames("images/account/remix-rumble-avatars", "public");
+  const avatars = await getFolderFileNames("public/images/account/remix-rumble-avatars");
   // Redirect away if NOT auth
   // redirect("/login");
   return (
