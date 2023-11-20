@@ -4,12 +4,7 @@ import { connectToMongo, getFromMongo, isMongoClient } from "@/lib/mongo-db/mong
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 import { verifyPassword } from "@/lib/auth-valid/auth";
-
-interface User {
-  id: string;
-  email: string;
-  password: string;
-}
+import { isValid } from "@/lib/auth-valid/isValid";
 
 const authOptions = {
   adapter: MongoDBAdapter(connectToMongo()),
@@ -22,22 +17,26 @@ const authOptions = {
       },
       async authorize(credentials, req) {
         if (!credentials) return null;
-        const { email, password } = credentials;
+        const data = { email: credentials.email, password: credentials.password };
 
-        const client = await connectToMongo();
-        if (!isMongoClient(client)) return client;
+        const emailErr = isValid.email(data.email);
+        if (emailErr[0]) throw new Error(emailErr[1]);
+        const passwordErr = isValid.password(data.password);
+        if (passwordErr[0]) throw new Error(passwordErr[1]);
 
-        const matchedUser = (await getFromMongo(client, "users", { email: email }))[0] as User;
-        const passwordMatch = await verifyPassword(password, matchedUser.password);
-        console.log(passwordMatch);
-        if (passwordMatch) {
-          return {
-            id: matchedUser.id,
-            email: matchedUser.email
-          };
+        let client;
+        try {
+          client = await connectToMongo();
+          if (!isMongoClient(client)) throw new Error("Failed to connect to the database.");
+        } catch (error) {
+          throw new Error("Failed to connect to the database.");
         }
-        // return NextResponse.json({ err: true, msg: "No data has been provided." }, { status: 400 });
-        return null;
+
+        const matchedUser = (await getFromMongo(client, "users", { email: data.email }))[0] as User;
+        const passwordMatch = await verifyPassword(data.password, matchedUser.password);
+        if (passwordMatch) throw new Error("Incorrect password for this email account.");
+
+        return { id: matchedUser.id, email: matchedUser.email };
       }
     }),
     GitHubProvider({
