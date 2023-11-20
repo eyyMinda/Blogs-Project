@@ -20,6 +20,7 @@ const getFileData = (filePath: string) => JSON.parse(fs.readFileSync(filePath, "
 
 export const getFolderFileNames = (folderPath: string) => {
   const fullFolderPath = getFolderPath(folderPath);
+  console.log(fullFolderPath);
   const folderFileNames = fs.readdirSync(fullFolderPath);
   return folderFileNames;
 };

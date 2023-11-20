@@ -6,7 +6,7 @@ import { getFolderFileNames } from "@/lib/posts-util";
 import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
 
 function UserProfile() {
-  const avatars = getFolderFileNames("public/images/account/remix-rumble-avatars");
+  const avatars = getFolderFileNames("./public/images/account/remix-rumble-avatars");
   // Redirect away if NOT auth
   // redirect("/login");
   return (
