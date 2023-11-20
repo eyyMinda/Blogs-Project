@@ -1,12 +1,12 @@
-// import { redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import ProfileForm from "./profile-form";
 import DisplayAvatar from "./display-avatar";
 import ChooseAvatar from "./choose-avatar";
 import { getFolderFileNames } from "@/lib/posts-util";
 import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
 
-function UserProfile() {
-  const avatars = getFolderFileNames("./public/images/account/remix-rumble-avatars");
+async function UserProfile() {
+  const avatars = await getFolderFileNames("images/account/remix-rumble-avatars", "public");
   // Redirect away if NOT auth
   // redirect("/login");
   return (
