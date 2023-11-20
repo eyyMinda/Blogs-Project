@@ -18,9 +18,9 @@ const getFolderPath = (dir = "posts") => path.join(process.cwd(), dir);
 
 const getFileData = (filePath: string) => JSON.parse(fs.readFileSync(filePath, "utf-8")); //.JSON
 
-export const getFolderFileNames = (folderPath: string) => {
-  const fullFolderPath = getFolderPath(folderPath);
-  const folderFileNames = fs.readdirSync(fullFolderPath);
+export const getFolderFileNames = async (folderPath: string) => {
+  const fullFolderPath = await getFolderPath(folderPath);
+  const folderFileNames = await fs.readdirSync(fullFolderPath);
   return folderFileNames;
 };
 
