@@ -14,14 +14,19 @@ const getFilePath = (dirOrFilename = "getting-started-with-nextjs.md", filename 
   return path.join(process.cwd(), dirOrFilename, filename);
 };
 
-const getFolderPath = (dir = "posts") => path.join(process.cwd(), dir);
+const getFolderPath = (dir = "posts", extraPath = "") => path.join(process.cwd(), dir, extraPath);
 
 const getFileData = (filePath: string) => JSON.parse(fs.readFileSync(filePath, "utf-8")); //.JSON
 
-export const getFolderFileNames = async (folderPath: string) => {
-  const fullFolderPath = await getFolderPath(folderPath);
-  const folderFileNames = await fs.readdirSync(fullFolderPath);
-  return folderFileNames;
+export const getFolderFileNames = async (folderPath: string, dir = "") => {
+  const fullFolderPath = getFolderPath(dir, folderPath);
+  try {
+    const folderFileNames = await fs.readdirSync(fullFolderPath);
+    return folderFileNames;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 };
 
 export const getPostData = (postIdentifier: string) => {
