@@ -44,6 +44,10 @@ export default function AuthForm({ auth, btnText }: { auth: string; btnText: str
         body: JSON.stringify({ ...values })
       });
       const { err, msg } = await res.json();
+      if (!err) {
+        router.push("/login");
+        router.refresh();
+      }
       notifCtx.setNotification(defaultNotification[auth][err ? "error" : "success"](msg));
     }
 
