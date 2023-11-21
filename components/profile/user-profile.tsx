@@ -1,14 +1,19 @@
-import { redirect } from "next/navigation";
 import ProfileForm from "./profile-form";
 import DisplayAvatar from "./display-avatar";
 import ChooseAvatar from "./choose-avatar";
 import { getFolderFileNames } from "@/lib/posts-util";
 import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
+import { getServerSession } from "next-auth";
+import { useRouter } from "next/router";
 
 async function UserProfile() {
-  const avatars = await getFolderFileNames("images/account/remix-rumble-avatars/", "public");
+  const router = useRouter();
   // Redirect away if NOT auth
-  // redirect("/login");
+  const session = await getServerSession();
+  if (!session) router.replace("/login");
+
+  const avatars = await getFolderFileNames("images/account/remix-rumble-avatars/", "public");
+
   return (
     <section className="mx-auto my-12 text-center">
       <header className="flex flex-col items-center gap-3">
