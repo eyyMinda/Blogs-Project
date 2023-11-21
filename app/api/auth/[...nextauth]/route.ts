@@ -7,6 +7,9 @@ import { verifyPassword } from "@/lib/auth-valid/auth";
 import { isValid } from "@/lib/auth-valid/isValid";
 
 const authOptions = {
+  session: {
+    maxAge: 60 * 60 * 24 * 14
+  },
   adapter: MongoDBAdapter(connectToMongo()),
   providers: [
     CredentialsProvider({
