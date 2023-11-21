@@ -8,13 +8,12 @@ import AgreementMessage from "../others/agreement-message";
 import TextOverLine from "../others/text-over-line";
 import { authTemplate } from "@/lib/locale/default-auth";
 import { getServerSession } from "next-auth";
-import { useRouter } from "next/router";
+import { redirect } from "next/navigation";
 
 export async function CardWithForm({ auth }: { auth: "register" | "login" }) {
   const currTemplate = authTemplate[auth];
-  const router = useRouter();
   const session = await getServerSession();
-  if (session) router.replace("/");
+  if (session) redirect("/");
 
   return (
     <Card className="bg-gray-black">
