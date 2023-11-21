@@ -4,12 +4,13 @@ import ChooseAvatar from "./choose-avatar";
 import { getFolderFileNames } from "@/lib/posts-util";
 import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/router";
 
 async function UserProfile() {
+  const router = useRouter();
   // Redirect away if NOT auth
   const session = await getServerSession();
-  if (!session) redirect("/login");
+  if (!session) router.replace("/login");
 
   const avatars = await getFolderFileNames("images/account/remix-rumble-avatars/", "public");
 

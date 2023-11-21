@@ -6,7 +6,6 @@ export const metadata: Metadata = {
   description: "Your Profile"
 };
 
-export default async function ProfilePage() {
-  // Redirect away if NOT auth
+export default function ProfilePage() {
   return <UserProfile />;
 }
