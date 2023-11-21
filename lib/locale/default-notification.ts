@@ -34,7 +34,7 @@ const defaultNotification: DefaultNotification = {
     }),
     pending: {
       title: "Registering...",
-      message: "Registering the user...",
+      message: "Signing you up...",
       status: "pending"
     }
   },
@@ -50,8 +50,8 @@ const defaultNotification: DefaultNotification = {
       status: "success"
     }),
     pending: {
-      title: "Loging in...",
-      message: "Loging in the user...",
+      title: "Logging in...",
+      message: "Logging you in...",
       status: "pending"
     }
   }
