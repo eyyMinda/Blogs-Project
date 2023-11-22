@@ -39,7 +39,7 @@ export const authOptions: any = {
 
         const matchedUser = (await getFromMongo(client, "users", { email: data.email }))[0] as User;
         const passwordMatch = await verifyPassword(data.password, matchedUser.password);
-        if (passwordMatch) throw new Error("Incorrect password for this email account.");
+        if (!passwordMatch) throw new Error("Incorrect password for this email account.");
 
         const { id, email, name, image, createdAt } = matchedUser;
         return { id, email, name, image, createdAt };
