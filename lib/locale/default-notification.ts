@@ -46,12 +46,29 @@ const defaultNotification: DefaultNotification = {
     }),
     success: msg => ({
       title: "Success!",
-      message: msg || "Successfully Loged in!",
+      message: msg || "Successfully Logged in!",
       status: "success"
     }),
     pending: {
       title: "Logging in...",
       message: "Logging you in...",
+      status: "pending"
+    }
+  },
+  changepass: {
+    error: msg => ({
+      title: "Failed!",
+      message: msg || "Something went wrong!",
+      status: "error"
+    }),
+    success: msg => ({
+      title: "Success!",
+      message: msg || "Password changed!",
+      status: "success"
+    }),
+    pending: {
+      title: "Changing...",
+      message: "Changing your password...",
       status: "pending"
     }
   }

@@ -9,14 +9,29 @@ export const contactFormSchema = z.object({
 export const authFormSchema = z.object({
   email: z
     .string()
-    .min(1, { message: "Enter an email" })
+    .min(1, { message: "Enter an email." })
     .min(10, { message: "Email must be at least 10 characters." })
     .max(40, { message: "Email exceeds the character limit." })
     .email(),
   password: z
     .string()
     .trim()
-    .min(1, { message: "Enter a password" })
+    .min(1, { message: "Enter a password." })
     .min(8, { message: "Password is too short." })
     .max(84, { message: "Password is too long." })
+});
+
+export const changePassFormSchema = z.object({
+  oldpassword: z
+    .string()
+    .trim()
+    .min(1, { message: "Enter old password." })
+    .min(8, { message: "Old password is too short." })
+    .max(84, { message: "Old password is too long." }),
+  newpassword: z
+    .string()
+    .trim()
+    .min(1, { message: "Enter new password." })
+    .min(8, { message: "New password is too short." })
+    .max(84, { message: "New password is too long." })
 });
