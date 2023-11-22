@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
 
   // ============== Check if User Exists ==============================
   const existingUser = await getFromMongo(client, "users", { email: email });
-  if (existingUser.length) return NextResponse.json({ err: true, msg: "User with this Email already exists." }, { status: 422 });
+  if (existingUser.length) return NextResponse.json({ err: true, msg: `User with this email ${email} already exists.` }, { status: 422 });
 
   // ================== Create User ===================================
   const date = new Date();

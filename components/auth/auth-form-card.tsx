@@ -25,8 +25,8 @@ export async function CardWithForm({ auth, session }: { auth: "register" | "logi
         <AuthForm auth={auth} btnText={currTemplate.button} />
         <TextOverLine />
         <div className="grid grid-flow-col gap-6">
-          <Button variant="outline">
-            <Github className="w-4 h-4 mr-2" onClick={() => signIn("github")} />
+          <Button variant="outline" onClick={() => signIn("github")}>
+            <Github className="w-4 h-4 mr-2" />
             Github
           </Button>
           <Button variant="outline" disabled>
