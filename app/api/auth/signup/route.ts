@@ -36,7 +36,15 @@ export async function POST(req: NextRequest) {
   if (existingUser.length) return NextResponse.json({ err: true, msg: "User with this Email already exists." }, { status: 422 });
 
   // ================== Create User ===================================
-  const signUpData = { email, password: await hashPassword(password) };
+  const date = new Date();
+  const tempUsername = "user_" + (await hashPassword(email)).substring(0, email.indexOf("@"));
+  const signUpData = {
+    email,
+    password: await hashPassword(password),
+    username: tempUsername,
+    createdAt: date,
+    updatedAt: date
+  };
   try {
     await postToMongo(client, "users", signUpData);
   } catch (error) {
