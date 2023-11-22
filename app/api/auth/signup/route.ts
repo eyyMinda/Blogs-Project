@@ -24,6 +24,8 @@ export async function POST(req: NextRequest) {
 
   // ================== Create User ===================================
   const newUser = createUser(email, password);
+  console.log("Fresh & New User Data: ", newUser);
+
   try {
     await postToMongo(client, "users", newUser);
   } catch (error) {

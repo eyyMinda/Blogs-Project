@@ -3,7 +3,7 @@ import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import { connectToMongo, getFromMongo, isMongoClient, postToMongo, updateInMongo } from "@/lib/mongo-db/mongo";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
-import { hashPassword, verifyPassword } from "@/lib/auth-valid/auth";
+import { verifyPassword } from "@/lib/auth-valid/auth";
 import { isValid } from "@/lib/auth-valid/isValid";
 import { createUser } from "@/lib/locale/default-user";
 
@@ -52,6 +52,7 @@ export const authOptions: any = {
   ],
   callbacks: {
     async signIn({ user, account }: { user: AuthUser; account: Account }) {
+      let userExtended: any = { ...user };
       if (account.provider === "credentials") return true;
 
       if (account.provider === "github") {
@@ -69,7 +70,7 @@ export const authOptions: any = {
         const newUser = await createUser(email, user.image ? user.image : null);
 
         user.name = newUser.name;
-        console.log("New User data: " + newUser);
+        console.log("Additional User Data for Github Provider: ", newUser);
 
         const matchedUser = (await getFromMongo(client, "users", { email: email }))[0] as User;
         if (!matchedUser) {
@@ -80,13 +81,16 @@ export const authOptions: any = {
           }
         } else {
           try {
-            await updateInMongo(client, "users", { id: matchedUser.id }, { $set: { name: newUser.name, updatedAt: newUser.date } });
+            const updateObj: any = { name: user.name, updatedAt: newUser.updatedAt };
+            if (newUser.image !== matchedUser.image) userExtended.image = matchedUser.image;
+            await updateInMongo(client, "users", { id: matchedUser.id }, { $set: updateObj });
+            userExtended.createdAt = matchedUser.createdAt;
           } catch (error) {
             throw new Error("Failed to Update user on the database.");
           }
         }
       }
-      return true;
+      return { ...userExtended };
     }
   }
 };

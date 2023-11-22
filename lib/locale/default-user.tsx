@@ -1,8 +1,8 @@
-import { hashPassword } from "../auth-valid/auth";
+import { newRandUsername, hashPassword } from "../auth-valid/auth";
 
 export const createUser = async (email: string, password?: string | null, image?: string) => {
   const date = new Date();
-  const tempUsername = "user_" + (await hashPassword(email)).slice(0, 9);
+  const tempUsername = newRandUsername();
 
   const userObject: any = {
     email,
