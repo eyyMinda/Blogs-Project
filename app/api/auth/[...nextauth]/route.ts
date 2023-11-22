@@ -7,7 +7,7 @@ import { verifyPassword } from "@/lib/auth-valid/auth";
 import { isValid } from "@/lib/auth-valid/isValid";
 import { createUser, defaultUserImg } from "@/lib/locale/default-user";
 
-export const authOptions: any = {
+const authOptions: any = {
   session: {
     strategy: "jwt",
     maxAge: 60 * 60 * 24 * 14
