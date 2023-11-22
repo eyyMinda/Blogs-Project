@@ -14,10 +14,6 @@ export const createUser = async ({ email, password, image }: { email: string; pa
     createdAt: date,
     updatedAt: date
   };
-  console.log("pass: ", password);
-  if (password) {
-    console.log("password if check: ", password);
-    userObject.password = await hashPassword(password);
-  }
+  if (password) userObject.password = await hashPassword(password);
   return userObject;
 };

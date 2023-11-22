@@ -14,7 +14,6 @@ async function UserProfile() {
   console.log(session.user);
 
   const avatars = await getFolderFileNames("images/account/remix-rumble-avatars/", "public");
-  console.log("session: ", session);
   return (
     <section className="mx-auto my-8 text-center">
       <header className="flex flex-col items-center gap-3 mb-10">

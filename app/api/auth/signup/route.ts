@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
   if (existingUser.length) return NextResponse.json({ err: true, msg: `User with this email ${email} already exists.` }, { status: 422 });
 
   // ================== Create User ===================================
-  const newUser = createUser(email, password);
+  const newUser = await createUser({ email, password });
   console.log("Fresh & New User Data: ", newUser);
 
   try {
