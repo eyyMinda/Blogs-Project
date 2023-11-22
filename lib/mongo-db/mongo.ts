@@ -62,6 +62,6 @@ export const deleteFromMongo = async (client: MongoClient, collection: string, m
 export const getFromMongo = async (client: MongoClient, collection: string, query: object = {}, sort = {}): Promise<object[]> => {
   const db = client.db("blogs_nextjs");
   const coll = await db.collection(collection);
-  const comments = await coll.find(query).sort(sort).limit(10).toArray();
-  return comments;
+  const items = await coll.find(query).sort(sort).limit(10).toArray();
+  return items;
 };

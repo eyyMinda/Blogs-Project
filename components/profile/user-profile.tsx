@@ -16,8 +16,8 @@ async function UserProfile() {
   const avatars = await getFolderFileNames("images/account/remix-rumble-avatars/", "public");
 
   return (
-    <section className="mx-auto my-12 text-center">
-      <header className="flex flex-col items-center gap-3">
+    <section className="mx-auto my-8 text-center">
+      <header className="flex flex-col items-center gap-3 mb-10">
         <Popover>
           <PopoverTrigger>
             <DisplayAvatar image={session.user?.image || undefined} />
