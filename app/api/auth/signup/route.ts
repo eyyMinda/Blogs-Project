@@ -3,20 +3,6 @@ import { getClient, getFromMongo, isMongoClient, postToMongo } from "@/lib/mongo
 import { trimObjectValues, validateMultipleInputs } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 
-// export async function GET(req: NextRequest) {
-//   const client = await getClient();
-//   if (!isMongoClient(client)) return client;
-
-//   let user;
-//   try {
-//     user = await getFromMongo(client, "users", {email});
-//   } catch (error) {
-//     return NextResponse.json({ err: true, msg: "Failed to retreive user data." }, { status: 500 });
-//   }
-
-//   return NextResponse.json({ err: false, msg: "User data retreived successfully!", user }, { status: 201 });
-// }
-
 export async function POST(req: NextRequest) {
   const data: DataObject = await req.json();
   if (!data) return NextResponse.json({ err: true, msg: "No data has been provided." }, { status: 400 });
@@ -37,11 +23,13 @@ export async function POST(req: NextRequest) {
 
   // ================== Create User ===================================
   const date = new Date();
-  const tempUsername = "user_" + (await hashPassword(email)).substring(0, email.indexOf("@"));
+  const tempUsername = "user_" + (await hashPassword(email)).slice(0, 9);
   const signUpData = {
     email,
     password: await hashPassword(password),
-    username: tempUsername,
+    name: tempUsername,
+    image: "/images/account/default-pic.webp",
+    emailVerified: null,
     createdAt: date,
     updatedAt: date
   };
