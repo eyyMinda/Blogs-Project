@@ -3,8 +3,8 @@ import { getClient, getFromMongo, isMongoClient, postToMongo } from "@/lib/mongo
 import { trimObjectValues, validateMultipleInputs } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 
-// --------------------------- UPDATE -------------------------------------
-export async function UPDATE(req: NextRequest) {
+// --------------------------- POST -------------------------------------
+export async function POST(req: NextRequest) {
   const data: DataObject = await req.json();
   if (!data) return NextResponse.json({ err: true, msg: "No data has been provided." }, { status: 400 });
 
@@ -24,16 +24,9 @@ export async function UPDATE(req: NextRequest) {
 
   // ================== Create User ===================================
   const date = new Date();
-  const tempUsername = "user_" + (await hashPassword(email)).substring(0, email.indexOf("@"));
-  const signUpData = {
-    email,
-    password: await hashPassword(password),
-    username: tempUsername,
-    createdAt: date,
-    updatedAt: date
-  };
+
   try {
-    await postToMongo(client, "users", signUpData);
+    // await postToMongo(client, "users", signUpData);
   } catch (error) {
     return NextResponse.json({ err: true, msg: "Failed to Sign-up." }, { status: 500 });
   }
