@@ -1,4 +1,3 @@
-import { hashPassword } from "@/lib/auth-valid/auth";
 import { createUser } from "@/lib/locale/default-user";
 import { getClient, getFromMongo, isMongoClient, postToMongo } from "@/lib/mongo-db/mongo";
 import { trimObjectValues, validateMultipleInputs } from "@/lib/utils";

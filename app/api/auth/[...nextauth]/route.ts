@@ -5,7 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 import { verifyPassword } from "@/lib/auth-valid/auth";
 import { isValid } from "@/lib/auth-valid/isValid";
-import { createUser } from "@/lib/locale/default-user";
+import { createUser, defaultUserImg } from "@/lib/locale/default-user";
 
 export const authOptions: any = {
   session: {
@@ -67,7 +67,7 @@ export const authOptions: any = {
 
         const email = user.email || "";
 
-        const newUser = await createUser(email, user.image ? user.image : null);
+        const newUser = await createUser({ email, image: user.image ? user.image : null });
 
         user.name = newUser.name;
         console.log("Additional User Data for Github Provider: ", newUser);
@@ -81,9 +81,19 @@ export const authOptions: any = {
           }
         } else {
           try {
-            const updateObj: any = { name: user.name, updatedAt: newUser.updatedAt };
-            if (newUser.image !== matchedUser.image) userExtended.image = matchedUser.image;
-            await updateInMongo(client, "users", { id: matchedUser.id }, { $set: updateObj });
+            // ========================== Update User Data on DB =============================
+            const updateObj: any = {};
+            if (!matchedUser.name) updateObj.name = newUser.name;
+
+            // Check if default generated image is not on the current user database info
+            if (matchedUser.image !== newUser.image) {
+              matchedUser.image !== defaultUserImg ? (updateObj.image = newUser.image) : (userExtended.image = matchedUser.image);
+            }
+
+            if (Object.keys(updateObj).length > 0) {
+              updateObj.updatedAt = newUser.updatedAt;
+              await updateInMongo(client, "users", { id: matchedUser.id }, { $set: updateObj });
+            }
             userExtended.createdAt = matchedUser.createdAt;
           } catch (error) {
             throw new Error("Failed to Update user on the database.");
