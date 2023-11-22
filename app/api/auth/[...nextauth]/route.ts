@@ -8,6 +8,7 @@ import { isValid } from "@/lib/auth-valid/isValid";
 
 export const authOptions: any = {
   session: {
+    strategy: "jwt",
     maxAge: 60 * 60 * 24 * 14
   },
   adapter: MongoDBAdapter(connectToMongo()),
@@ -72,6 +73,7 @@ export const authOptions: any = {
           updatedAt: date
         };
         user.name = tempUsername;
+        console.log("Signup Data: " + signUpData);
 
         const matchedUser = (await getFromMongo(client, "users", { email: email }))[0] as User;
         if (!matchedUser) {
@@ -82,15 +84,7 @@ export const authOptions: any = {
           }
         } else {
           try {
-            await updateInMongo(
-              client,
-              "users",
-              { id: matchedUser.id },
-              {
-                name: tempUsername,
-                updatedAt: date
-              }
-            );
+            await updateInMongo(client, "users", { id: matchedUser.id }, { $set: { name: tempUsername, updatedAt: date } });
           } catch (error) {
             throw new Error("Failed to Update user on the database.");
           }

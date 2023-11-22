@@ -7,18 +7,19 @@ import { ModeToggle } from "../ui/theme-toggle";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
+import { SessionType } from "@/app/_types/NextAuthRetype";
 
-export function AvatarMenu({ session }: { session: boolean }) {
+export function AvatarMenu({ session }: { session: SessionType }) {
   return (
     <Popover>
       <PopoverTrigger>
-        <AvatarIcon variant="mini" />
+        <AvatarIcon variant="mini" path={session.user?.image || undefined} />
       </PopoverTrigger>
       <PopoverContent className="p-0 mt-2 mr-4">
         <header id="menu-header" className="flex items-end gap-4 px-4 py-6 border-b-2">
-          <AvatarIcon />
+          <AvatarIcon path={session.user?.image || undefined} />
           <div className="text-sm">
-            <h2>Common Name</h2>
+            <h2>{session.user?.name || "User Name"}</h2>
             <Link href={"/profile"}>
               <Button variant="link" className="h-auto p-0 m-0">
                 View your profile

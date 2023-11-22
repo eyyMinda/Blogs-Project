@@ -20,7 +20,7 @@ async function UserProfile() {
       <header className="flex flex-col items-center gap-3">
         <Popover>
           <PopoverTrigger>
-            <DisplayAvatar />
+            <DisplayAvatar image={session.user?.image || undefined} />
           </PopoverTrigger>
 
           <PopoverContent className="w-[90vw] md:w-[40rem] -translate-y-56 md:-translate-y-72">

@@ -1,6 +1,6 @@
 type AvatarProps = {
   variant?: "mini" | "sm";
-  path?: string;
+  path?: string | undefined;
   fallback?: string;
   className?: string;
 };

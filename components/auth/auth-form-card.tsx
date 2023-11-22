@@ -7,11 +7,11 @@ import AuthForm from "./auth-form";
 import AgreementMessage from "../others/agreement-message";
 import TextOverLine from "../others/text-over-line";
 import { authTemplate } from "@/lib/locale/default-auth";
-import { Session, getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { SessionType } from "@/app/_types/NextAuthRetype";
 
-export async function CardWithForm({ auth, session }: { auth: "register" | "login"; session: Session | null }) {
+export async function CardWithForm({ auth, session }: { auth: "register" | "login"; session: SessionType | null }) {
   const currTemplate = authTemplate[auth];
   if (session) redirect("/");
 

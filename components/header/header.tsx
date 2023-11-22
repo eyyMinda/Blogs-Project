@@ -8,6 +8,7 @@ import { AvatarMenu } from "./avatar-menu";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "../ui/navigation-menu";
 import { UserCircle2 } from "lucide-react";
 import { ModeToggle } from "../ui/theme-toggle";
+import { SessionType } from "@/app/_types/NextAuthRetype";
 
 const navItems = [
   { path: "/", name: "Home" },
@@ -15,7 +16,7 @@ const navItems = [
   { path: "/contact", name: "Contact" }
 ];
 
-export default function Header({ session }: { session: boolean }) {
+export default function Header({ session }: { session: SessionType | null }) {
   const [burgerOpen, setBurgerOpen] = useState<Boolean>(false);
 
   return (
