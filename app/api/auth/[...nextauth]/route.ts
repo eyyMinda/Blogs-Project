@@ -13,6 +13,9 @@ const authOptions: any = {
     maxAge: 60 * 60 * 24 * 14
   },
   adapter: MongoDBAdapter(connectToMongo()),
+  pages: {
+    signIn: "/login"
+  },
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -105,5 +108,5 @@ const authOptions: any = {
   }
 };
 
-export const handler = NextAuth(authOptions);
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
