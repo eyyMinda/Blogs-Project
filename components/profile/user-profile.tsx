@@ -5,11 +5,13 @@ import { getFolderFileNames } from "@/lib/posts-util";
 import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import DeleteAccount from "./delete-account";
 
 async function UserProfile() {
   // Redirect away if NOT auth
   const session = await getServerSession();
   if (!session) redirect("/login");
+  console.log(session.user);
 
   const avatars = await getFolderFileNames("images/account/remix-rumble-avatars/", "public");
 
@@ -26,10 +28,12 @@ async function UserProfile() {
           </PopoverContent>
         </Popover>
 
-        <h1 className="text-4xl">Your User Profile</h1>
+        <h1 className="text-4xl">{session.user?.name || "Your User Profile"}</h1>
       </header>
 
       <ProfileForm />
+
+      <DeleteAccount email={session.user?.email || null} />
     </section>
   );
 }
