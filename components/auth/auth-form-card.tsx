@@ -7,12 +7,12 @@ import AuthForm from "./auth-form";
 import AgreementMessage from "../others/agreement-message";
 import TextOverLine from "../others/text-over-line";
 import { authTemplate } from "@/lib/locale/default-auth";
-import { getServerSession } from "next-auth";
+import { Session, getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import { signIn } from "next-auth/react";
 
-export async function CardWithForm({ auth }: { auth: "register" | "login" }) {
+export async function CardWithForm({ auth, session }: { auth: "register" | "login"; session: Session | null }) {
   const currTemplate = authTemplate[auth];
-  const session = await getServerSession();
   if (session) redirect("/");
 
   return (
@@ -26,7 +26,7 @@ export async function CardWithForm({ auth }: { auth: "register" | "login" }) {
         <TextOverLine />
         <div className="grid grid-flow-col gap-6">
           <Button variant="outline">
-            <Github className="w-4 h-4 mr-2" />
+            <Github className="w-4 h-4 mr-2" onClick={() => signIn("github")} />
             Github
           </Button>
           <Button variant="outline" disabled>

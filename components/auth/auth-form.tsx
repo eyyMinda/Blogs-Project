@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import NotificationContext from "@/lib/context/notification-context";
 import defaultNotification from "@/lib/locale/default-notification";
 import { authFormSchema } from "@/lib/formSchema";
@@ -11,8 +13,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import SubmitButton from "../ui/custom-ui/submit-btn";
 import PasswordStrengthChecker from "../ui/custom-ui/password-strength-bar";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 export default function AuthForm({ auth, btnText }: { auth: string; btnText: string }) {
   const router = useRouter();
@@ -31,7 +31,6 @@ export default function AuthForm({ auth, btnText }: { auth: string; btnText: str
 
     if (auth === "login") {
       const res = await signIn("credentials", { ...values, redirect: false });
-      console.log(res);
       if (!res?.error) {
         router.push("/");
         router.refresh();
