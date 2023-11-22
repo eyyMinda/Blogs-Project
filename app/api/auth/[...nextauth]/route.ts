@@ -5,6 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 import { hashPassword, verifyPassword } from "@/lib/auth-valid/auth";
 import { isValid } from "@/lib/auth-valid/isValid";
+import { createUser } from "@/lib/locale/default-user";
 
 export const authOptions: any = {
   session: {
@@ -40,7 +41,8 @@ export const authOptions: any = {
         const passwordMatch = await verifyPassword(data.password, matchedUser.password);
         if (passwordMatch) throw new Error("Incorrect password for this email account.");
 
-        return { id: matchedUser.id, email: matchedUser.email, username: matchedUser.name, createdAt: matchedUser.createdAt };
+        const { id, email, name, image, createdAt } = matchedUser;
+        return { id, email, name, image, createdAt };
       }
     }),
     GitHubProvider({
@@ -50,11 +52,10 @@ export const authOptions: any = {
   ],
   callbacks: {
     async signIn({ user, account }: { user: AuthUser; account: Account }) {
-      console.log("checking provider");
       if (account.provider === "credentials") return true;
-      console.log("provider is not credentials??");
 
       if (account.provider === "github") {
+        console.log("Github provider");
         let client;
         try {
           client = await connectToMongo();
@@ -64,27 +65,22 @@ export const authOptions: any = {
         }
 
         const email = user.email || "";
-        const date = new Date();
-        const tempUsername = "user_" + (await hashPassword(email.substring(0, email.indexOf("@")))).slice(0, 9);
-        const signUpData = {
-          email: user.email,
-          name: tempUsername,
-          createdAt: date,
-          updatedAt: date
-        };
-        user.name = tempUsername;
-        console.log("Signup Data: " + signUpData);
+
+        const newUser = await createUser(email, user.image ? user.image : null);
+
+        user.name = newUser.name;
+        console.log("New User data: " + newUser);
 
         const matchedUser = (await getFromMongo(client, "users", { email: email }))[0] as User;
         if (!matchedUser) {
           try {
-            await postToMongo(client, "users", signUpData);
+            await postToMongo(client, "users", newUser);
           } catch (error) {
             throw new Error("Failed to Sign-up on the database.");
           }
         } else {
           try {
-            await updateInMongo(client, "users", { id: matchedUser.id }, { $set: { name: tempUsername, updatedAt: date } });
+            await updateInMongo(client, "users", { id: matchedUser.id }, { $set: { name: newUser.name, updatedAt: newUser.date } });
           } catch (error) {
             throw new Error("Failed to Update user on the database.");
           }

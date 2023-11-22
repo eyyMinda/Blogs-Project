@@ -1,4 +1,5 @@
 import { hashPassword } from "@/lib/auth-valid/auth";
+import { createUser } from "@/lib/locale/default-user";
 import { getClient, getFromMongo, isMongoClient, postToMongo } from "@/lib/mongo-db/mongo";
 import { trimObjectValues, validateMultipleInputs } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
@@ -22,19 +23,9 @@ export async function POST(req: NextRequest) {
   if (existingUser.length) return NextResponse.json({ err: true, msg: `User with this email ${email} already exists.` }, { status: 422 });
 
   // ================== Create User ===================================
-  const date = new Date();
-  const tempUsername = "user_" + (await hashPassword(email)).slice(0, 9);
-  const signUpData = {
-    email,
-    password: await hashPassword(password),
-    name: tempUsername,
-    image: "/images/account/default-pic.webp",
-    emailVerified: null,
-    createdAt: date,
-    updatedAt: date
-  };
+  const newUser = createUser(email, password);
   try {
-    await postToMongo(client, "users", signUpData);
+    await postToMongo(client, "users", newUser);
   } catch (error) {
     return NextResponse.json({ err: true, msg: "Failed to Sign-up." }, { status: 500 });
   }
