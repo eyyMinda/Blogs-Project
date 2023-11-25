@@ -44,8 +44,10 @@ const authOptions: any = {
         const passwordMatch = await verifyPassword(data.password, matchedUser.password);
         if (!passwordMatch) throw new Error("Incorrect password for this email account.");
 
-        const { id, email, name, image, createdAt } = matchedUser;
-        return { id, email, name, image, createdAt };
+        const { id, email, name, image, createdAt, emailVerified } = matchedUser;
+        const user = { id, email, name, image, createdAt: createdAt.toString(), emailVerified };
+
+        return user;
       }
     }),
     GitHubProvider({
@@ -54,9 +56,50 @@ const authOptions: any = {
     })
   ],
   callbacks: {
+    async jwt({ token, user }: { token: any; user: any }) {
+      console.log("token init: ", token);
+      console.log("user init: ", user);
+      if (user) {
+        token.createdAt = user.createdAt;
+        token.emailVerified = user.emailVerified;
+      }
+      console.log("token modified: ", token);
+      console.log("user modified: ", user);
+      return token;
+    },
+    async session({ session, token }: { session: any; token: any }) {
+      if (token && session.user) {
+        session.user.createdAt = token.createdAt;
+        session.user.emailVerified = token.emailVerified;
+      }
+      return session;
+    },
+    // async session({ session, user }: { session: any; user: any }) {
+    //   console.log("async session (session): ", session);
+    //   console.log("async session (user): ", user);
+    //   let client;
+    //   try {
+    //     client = await connectToMongo();
+    //     if (!isMongoClient(client)) throw new Error("Failed to connect to the database.");
+    //   } catch (error) {
+    //     throw new Error("Failed to connect to the database.");
+    //   }
+
+    //   const matchedUser = (await getFromMongo(client, "users", { email: user.email }))[0] as User;
+    //   if (!matchedUser) {
+    //     return session;
+    //   } else {
+    //     session.user.createdAt = matchedUser.createdAt;
+    //     session.user.id = matchedUser.id;
+    //   }
+
+    //   return session;
+    // },
     async signIn({ user, account }: { user: AuthUser; account: Account }) {
-      let userExtended: any = { ...user };
-      if (account.provider === "credentials") return true;
+      if (account.provider === "credentials") {
+        console.log("user from signIn(): ", user);
+        return user;
+      }
 
       if (account.provider === "github") {
         console.log("Github provider");
@@ -73,7 +116,6 @@ const authOptions: any = {
         const newUser = await createUser({ email, image: user.image ? user.image : null });
 
         user.name = newUser.name;
-        console.log("Additional User Data for Github Provider: ", newUser);
 
         const matchedUser = (await getFromMongo(client, "users", { email: email }))[0] as User;
         if (!matchedUser) {
@@ -88,22 +130,22 @@ const authOptions: any = {
             const updateObj: any = {};
             if (!matchedUser.name) updateObj.name = newUser.name;
 
-            // Check if default generated image is not on the current user database info
-            if (matchedUser.image !== newUser.image) {
-              matchedUser.image !== defaultUserImg ? (updateObj.image = newUser.image) : (userExtended.image = matchedUser.image);
+            // Check if current user image on database is not github image and is not default image
+            if (matchedUser.image !== newUser.image && matchedUser.image !== defaultUserImg) {
+              updateObj.image = newUser.image;
             }
 
             if (Object.keys(updateObj).length > 0) {
               updateObj.updatedAt = newUser.updatedAt;
               await updateInMongo(client, "users", { id: matchedUser.id }, { $set: updateObj });
             }
-            userExtended.createdAt = matchedUser.createdAt;
+            console.log("Additional User Data for Github Provider: ", newUser);
           } catch (error) {
             throw new Error("Failed to Update user on the database.");
           }
         }
       }
-      return { ...userExtended };
+      return true;
     }
   }
 };
