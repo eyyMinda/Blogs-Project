@@ -1,7 +1,8 @@
 "use client";
 import { Button } from "../ui/button";
 
-export default function DeleteAccount({ email }: { email: string | null }) {
+export default function DeleteAccount({ email }: { email?: string | null }) {
+  if (!email) return;
   const handleDelete = async () => {
     if (window.confirm("Ae you sure you want to delete your account?")) {
       const res = await fetch("/api/account/delete", {
