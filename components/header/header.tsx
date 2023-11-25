@@ -9,7 +9,6 @@ import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuL
 import { UserCircle2 } from "lucide-react";
 import { ModeToggle } from "../ui/theme-toggle";
 import { useSession } from "next-auth/react";
-import { formatDate } from "@/lib/utils";
 
 const navItems = [
   { path: "/", name: "Home" },
@@ -20,11 +19,6 @@ const navItems = [
 export default function Header() {
   const [burgerOpen, setBurgerOpen] = useState<Boolean>(false);
   const { data: session, status } = useSession();
-  console.log("header status: ", status);
-  console.log("header session: ", session);
-
-  const formattedDate = formatDate(session?.user?.createdAt || "");
-  console.log(formattedDate);
 
   return (
     <header className="flex gap-8 justify-between p-4">
