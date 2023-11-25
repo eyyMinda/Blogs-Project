@@ -7,8 +7,9 @@ import { ModeToggle } from "../ui/theme-toggle";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
+import { IUser } from "@/nextauth";
 
-export function AvatarMenu({ user }: { user?: User }) {
+export function AvatarMenu({ user }: { user?: IUser }) {
   return (
     <Popover>
       <PopoverTrigger>
