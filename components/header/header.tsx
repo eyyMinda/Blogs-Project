@@ -8,7 +8,8 @@ import { AvatarMenu } from "./avatar-menu";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "../ui/navigation-menu";
 import { UserCircle2 } from "lucide-react";
 import { ModeToggle } from "../ui/theme-toggle";
-import { SessionType } from "@/app/_types/NextAuthRetype";
+import { useSession } from "next-auth/react";
+import { formatDate } from "@/lib/utils";
 
 const navItems = [
   { path: "/", name: "Home" },
@@ -16,8 +17,14 @@ const navItems = [
   { path: "/contact", name: "Contact" }
 ];
 
-export default function Header({ session }: { session: SessionType | null }) {
+export default function Header() {
   const [burgerOpen, setBurgerOpen] = useState<Boolean>(false);
+  const { data: session, status } = useSession();
+  console.log("header status: ", status);
+  console.log("header session: ", session);
+
+  const formattedDate = formatDate(session?.user?.createdAt || "");
+  console.log(formattedDate);
 
   return (
     <header className="flex gap-8 justify-between p-4">
@@ -50,7 +57,7 @@ export default function Header({ session }: { session: SessionType | null }) {
             </>
           ) : (
             <NavigationMenuItem className="pl-4">
-              <AvatarMenu session={session} />
+              <AvatarMenu user={session.user} />
             </NavigationMenuItem>
           )}
 
