@@ -6,6 +6,7 @@ import { connectToMongo, getFromMongo, isMongoClient, postToMongo, updateInMongo
 import { verifyPassword } from "@/lib/auth-valid/auth";
 import { isValid } from "@/lib/auth-valid/isValid";
 import { createUser, defaultUserImg } from "@/lib/locale/default-user";
+import { kebabToCapitalized } from "../utils";
 
 export const authOptions: any = {
   session: {
@@ -41,11 +42,16 @@ export const authOptions: any = {
         }
 
         const matchedUser = (await getFromMongo(client, "users", { email: data.email }))[0] as User;
-        const passwordMatch = await verifyPassword(data.password, matchedUser.password);
+        if (!matchedUser.password) {
+          const provider = kebabToCapitalized(matchedUser.provider);
+          throw new Error(`This account is associated with ${provider}. Please login with ${provider} and add a password.`);
+        }
+
+        let passwordMatch = await verifyPassword(data.password, matchedUser.password);
         if (!passwordMatch) throw new Error("Incorrect password for this email account.");
 
         const { id, email, name, image, createdAt, emailVerified } = matchedUser;
-        const user = { id, email, name, image, createdAt: createdAt.toString(), emailVerified };
+        const user = { id, email, name, image, createdAt, emailVerified };
 
         return user;
       }
@@ -57,14 +63,11 @@ export const authOptions: any = {
   ],
   callbacks: {
     async jwt({ token, user }: { token: any; user: any }) {
-      console.log("token init: ", token);
-      console.log("user init: ", user);
       if (user) {
+        console.log("JWT", user);
         token.createdAt = user.createdAt;
         token.emailVerified = user.emailVerified;
       }
-      console.log("token modified: ", token);
-      console.log("user modified: ", user);
       return token;
     },
     async session({ session, token }: { session: any; token: any }) {
@@ -113,7 +116,7 @@ export const authOptions: any = {
 
         const email = user.email || "";
 
-        const newUser = await createUser({ email, image: user.image ? user.image : null });
+        const newUser = await createUser({ email, image: user.image ? user.image : null, provider: "github" });
 
         user.name = newUser.name;
 

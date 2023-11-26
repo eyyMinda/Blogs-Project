@@ -28,7 +28,6 @@ export default function AuthForm({ auth, btnText }: { auth: string; btnText: str
   async function onSubmit(values: z.infer<typeof authFormSchema>) {
     // ✅ This will be type-safe and validated.
     notifCtx.setNotification(defaultNotification[auth].pending);
-
     if (auth === "login") {
       const res = await signIn("credentials", { ...values, redirect: false });
       if (!res?.error) {

@@ -11,7 +11,7 @@ interface IUser extends DefaultUser {
   /**
    * Field to check when the user was created
    */
-  createdAt?: string;
+  createdAt?: string | Date;
   /**
    * Field to check whether a user has verified their email
    */

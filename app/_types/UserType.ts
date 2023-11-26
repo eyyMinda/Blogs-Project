@@ -5,5 +5,6 @@ type User = {
   name: string;
   image: string;
   createdAt: string;
+  provider: "credentials" | "github";
   emailVerified: boolean;
 };
