@@ -71,6 +71,23 @@ const defaultNotification: DefaultNotification = {
       message: "Changing your password...",
       status: "pending"
     }
+  },
+  deleteacc: {
+    error: msg => ({
+      title: "Failed!",
+      message: msg || "Failed to Delete your account.",
+      status: "error"
+    }),
+    success: msg => ({
+      title: "Success!",
+      message: msg || "Password changed!",
+      status: "success"
+    }),
+    pending: {
+      title: "Deleting...",
+      message: "Deleting your account...",
+      status: "pending"
+    }
   }
 };
 
