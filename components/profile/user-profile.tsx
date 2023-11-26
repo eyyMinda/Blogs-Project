@@ -20,12 +20,9 @@ function UserProfile({ avatars }: { avatars: string[] }) {
     router.refresh();
     return;
   }
-  // console.log("Profile status: ", status);
-  // console.log("Profile session: ", session);
   const { image, name, email, createdAt } = session?.user as IUser;
   let formattedDate;
   if (createdAt) formattedDate = timeAgo(createdAt);
-  console.log(session);
 
   return (
     <section className="mx-auto my-8 px-8 text-center">
