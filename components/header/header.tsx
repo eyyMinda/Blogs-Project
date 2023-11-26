@@ -6,7 +6,7 @@ import Logo from "./logo";
 import BurgerMenu from "./burger";
 import { AvatarMenu } from "./avatar-menu";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "../ui/navigation-menu";
-import { UserCircle2 } from "lucide-react";
+import { Loader2, UserCircle2 } from "lucide-react";
 import { ModeToggle } from "../ui/theme-toggle";
 import { useSession } from "next-auth/react";
 
@@ -35,7 +35,9 @@ export default function Header() {
             </NavigationMenuItem>
           ))}
 
-          {!session ? (
+          {status === "loading" ? (
+            <Loader2 className="animate-spin" />
+          ) : !session ? (
             <>
               <NavigationMenuItem>
                 <ModeToggle />
