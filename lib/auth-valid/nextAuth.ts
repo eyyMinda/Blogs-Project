@@ -58,7 +58,20 @@ export const authOptions: any = {
     }),
     GitHubProvider({
       clientId: process.env.NEXT_PUBLIC_GITHUB_ID ?? "",
-      clientSecret: process.env.NEXT_PUBLIC_GITHUB_SECRET ?? ""
+      clientSecret: process.env.NEXT_PUBLIC_GITHUB_SECRET ?? "",
+      profile(profile) {
+        const [createdAt, emailVerified, needPassword] = ["", "", ""];
+        console.log(profile);
+        return {
+          id: profile.id.toString(),
+          name: profile.name ?? profile.login,
+          email: profile.email,
+          image: profile.avatar_url
+          // createdAt: createdAt,
+          // emailVerified: emailVerified,
+          // needPassword: needPassword,
+        };
+      }
     })
   ],
   callbacks: {
@@ -67,6 +80,7 @@ export const authOptions: any = {
         console.log("JWT", user);
         token.createdAt = user.createdAt;
         token.emailVerified = user.emailVerified;
+        token.needPassword = user.needPassword;
       }
       return token;
     },
@@ -74,6 +88,7 @@ export const authOptions: any = {
       if (token && session.user) {
         session.user.createdAt = token.createdAt;
         session.user.emailVerified = token.emailVerified;
+        session.user.needPassword = token.needPassword;
       }
       return session;
     },
@@ -104,6 +119,7 @@ export const authOptions: any = {
         return user;
       }
 
+      let returnValue: any = true;
       if (account.provider === "github") {
         console.log("Github provider");
         let client;
@@ -119,7 +135,6 @@ export const authOptions: any = {
         const newUser = await createUser({ email, image: user.image ? user.image : null, provider: "github" });
 
         user.name = newUser.name;
-
         const matchedUser = (await getFromMongo(client, "users", { email: email }))[0] as User;
         if (!matchedUser) {
           try {
@@ -142,13 +157,19 @@ export const authOptions: any = {
               updateObj.updatedAt = newUser.updatedAt;
               await updateInMongo(client, "users", { id: matchedUser.id }, { $set: updateObj });
             }
+
+            // Extend session.user (CreatedAt, NeedPassword)
+            const needPassword: boolean = !matchedUser.password && matchedUser.provider !== "credentials";
+            returnValue = { ...user, createdAt: matchedUser.createdAt };
+            returnValue.needPassword = needPassword;
+            console.log("returnValue: ", returnValue);
             console.log("Additional User Data for Github Provider: ", newUser);
           } catch (error) {
             throw new Error("Failed to Update user on the database.");
           }
         }
       }
-      return true;
+      return returnValue;
     }
   }
 };

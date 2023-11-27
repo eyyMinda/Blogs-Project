@@ -20,9 +20,11 @@ function UserProfile({ avatars }: { avatars: string[] }) {
     router.refresh();
     return;
   }
-  const { image, name, email, createdAt } = session?.user as IUser;
+  const { image, name, email, createdAt, needPassword } = session?.user as IUser;
   let formattedDate;
   if (createdAt) formattedDate = timeAgo(createdAt);
+
+  console.log("Profile Session: ", session);
 
   return (
     <section className="mx-auto my-8 px-8 text-center">
@@ -41,6 +43,7 @@ function UserProfile({ avatars }: { avatars: string[] }) {
         {formattedDate && <p className="text-gray-500">Joined {formattedDate}</p>}
       </header>
 
+      {needPassword && <h2>{needPassword}</h2>}
       <ProfileForm />
 
       <DeleteAccount email={email} />
