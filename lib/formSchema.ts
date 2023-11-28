@@ -6,7 +6,7 @@ export const contactFormSchema = z.object({
   message: z.string().min(12, { message: "Should write a more informative message." }).max(1000, { message: "Message exceeds the character limit." })
 });
 
-export const authFormSchema = z.object({
+export const loginFormSchema = z.object({
   email: z
     .string()
     .min(1, { message: "Enter an email." })
@@ -20,6 +20,24 @@ export const authFormSchema = z.object({
     .min(8, { message: "Password is too short." })
     .max(84, { message: "Password is too long." })
 });
+
+export const registerFormSchema = z
+  .object({
+    email: z
+      .string()
+      .min(1, { message: "Enter an email." })
+      .min(10, { message: "Email must be at least 10 characters." })
+      .max(40, { message: "Email exceeds the character limit." })
+      .email(),
+    password: z
+      .string()
+      .trim()
+      .min(1, { message: "Enter a password." })
+      .min(8, { message: "Password is too short." })
+      .max(84, { message: "Password is too long." }),
+    passwordConfirm: z.string().trim().min(1, { message: "Enter a matching password." })
+  })
+  .refine(data => data.password === data.passwordConfirm, { message: "Passwords do not match.", path: ["passwordConfirm"] });
 
 export const changePassFormSchema = z.object({
   oldpassword: z

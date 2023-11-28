@@ -8,38 +8,45 @@ import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import NotificationContext from "@/lib/context/notification-context";
 import defaultNotification from "@/lib/locale/default-notification";
-import { authFormSchema } from "@/lib/formSchema";
+import { loginFormSchema, registerFormSchema } from "@/lib/formSchema";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import SubmitButton from "../ui/custom-ui/submit-btn";
 import PasswordStrengthChecker from "../ui/custom-ui/password-strength-bar";
 
-export default function AuthForm({ auth, btnText }: { auth: string; btnText: string }) {
+export default function AuthForm({ auth, btnText }: { auth: "register" | "login"; btnText: string }) {
+  const login = auth === "login";
   const router = useRouter();
   const notifCtx = useContext(NotificationContext);
   const [pass, setPass] = useState<string>("");
+  const defaultValues: any = {
+    register: { email: "", password: "" },
+    login: { email: "", password: "", passwordConfirm: "" }
+  };
 
+  const authFormSchema = login ? loginFormSchema : registerFormSchema;
   const form = useForm<z.infer<typeof authFormSchema>>({
     resolver: zodResolver(authFormSchema),
-    defaultValues: { email: "", password: "" }
+    defaultValues: defaultValues[auth]
   });
   const isLoading = form.formState.isSubmitting;
 
   async function onSubmit(values: z.infer<typeof authFormSchema>) {
     // ✅ This will be type-safe and validated.
     notifCtx.setNotification(defaultNotification[auth].pending);
-    if (auth === "login") {
+    if (login) {
       const res = await signIn("credentials", { ...values, redirect: false });
-      if (!res?.error) {
+      const { error } = res!;
+      if (!error) {
         router.push("/");
         router.refresh();
       }
-      const { error } = res!;
       notifCtx.setNotification(defaultNotification[auth][error ? "error" : "success"](error));
     } else {
+      const data = { email: values.email, password: values.password };
       const res = await fetch("/api/auth/signup", {
         method: "POST",
-        body: JSON.stringify({ ...values })
+        body: JSON.stringify(data)
       });
       const { err, msg } = await res.json();
       if (!err) {
@@ -74,7 +81,7 @@ export default function AuthForm({ auth, btnText }: { auth: string; btnText: str
           control={form.control}
           name="password"
           render={({ field }) => (
-            <FormItem className={auth === "login" ? "pb-4" : ""}>
+            <FormItem className={login ? "pb-4" : ""}>
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input placeholder="password" onChangeCapture={e => setPass(e.currentTarget.value)} type="password" {...field} />
@@ -83,8 +90,22 @@ export default function AuthForm({ auth, btnText }: { auth: string; btnText: str
             </FormItem>
           )}
         />
-        {auth === "register" && <PasswordStrengthChecker password={pass} className="pt-2" />}
-
+        {!login && (
+          <FormField
+            control={form.control}
+            name="passwordConfirm"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm Password</FormLabel>
+                <FormControl>
+                  <Input placeholder="confirm password" type="password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+        {!login && <PasswordStrengthChecker password={pass} className="pt-2" />}
         <SubmitButton className="w-full dark:bg-white dark:hover:bg-primary dark:text-black dark:hover:text-white" isLoading={isLoading} text={btnText} />
       </form>
     </Form>
