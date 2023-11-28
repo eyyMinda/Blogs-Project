@@ -60,16 +60,18 @@ export const authOptions: any = {
       clientId: process.env.NEXT_PUBLIC_GITHUB_ID ?? "",
       clientSecret: process.env.NEXT_PUBLIC_GITHUB_SECRET ?? "",
       profile(profile) {
-        const [createdAt, emailVerified, needPassword] = ["", "", ""];
-        console.log(profile);
+        console.log("Profile from Github: ", profile);
+        // Modifying here doesn't work for some reason.
+        const [createdAt, emailVerified, needPassword] = ["Sun Nov 26 2023 16:44:22 GMT+0000 (Coordinated Universal Time)", true, true];
+        console.log("USER", profile.login);
         return {
           id: profile.id.toString(),
-          name: profile.name ?? profile.login,
+          name: profile.login ?? profile.name,
           email: profile.email,
-          image: profile.avatar_url
-          // createdAt: createdAt,
-          // emailVerified: emailVerified,
-          // needPassword: needPassword,
+          image: profile.avatar_url,
+          createdAt: createdAt,
+          emailVerified: emailVerified,
+          needPassword: needPassword
         };
       }
     })
@@ -77,42 +79,32 @@ export const authOptions: any = {
   callbacks: {
     async jwt({ token, user }: { token: any; user: any }) {
       if (user) {
-        console.log("JWT", user);
-        token.createdAt = user.createdAt;
-        token.emailVerified = user.emailVerified;
-        token.needPassword = user.needPassword;
+        let client;
+        try {
+          client = await connectToMongo();
+          if (!isMongoClient(client)) throw new Error("Failed to connect to the database.");
+        } catch (error) {
+          throw new Error("Failed to connect to the database.");
+        }
+
+        const matchedUser = (await getFromMongo(client, "users", { email: user.email }))[0] as User;
+
+        console.log("JWT USER", user);
+        token.createdAt = matchedUser.createdAt || user.createdAt;
+        token.emailVerified = matchedUser.emailVerified || user.emailVerified || true;
+        token.needPassword = !!matchedUser.password || user.needPassword;
       }
       return token;
     },
     async session({ session, token }: { session: any; token: any }) {
       if (token && session.user) {
+        console.log("TOKEN", token);
         session.user.createdAt = token.createdAt;
         session.user.emailVerified = token.emailVerified;
         session.user.needPassword = token.needPassword;
       }
       return session;
     },
-    // async session({ session, user }: { session: any; user: any }) {
-    //   console.log("async session (session): ", session);
-    //   console.log("async session (user): ", user);
-    //   let client;
-    //   try {
-    //     client = await connectToMongo();
-    //     if (!isMongoClient(client)) throw new Error("Failed to connect to the database.");
-    //   } catch (error) {
-    //     throw new Error("Failed to connect to the database.");
-    //   }
-
-    //   const matchedUser = (await getFromMongo(client, "users", { email: user.email }))[0] as User;
-    //   if (!matchedUser) {
-    //     return session;
-    //   } else {
-    //     session.user.createdAt = matchedUser.createdAt;
-    //     session.user.id = matchedUser.id;
-    //   }
-
-    //   return session;
-    // },
     async signIn({ user, account }: { user: AuthUser; account: Account }) {
       if (account.provider === "credentials") {
         console.log("user from signIn(): ", user);
