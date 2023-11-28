@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import NotificationContext from "@/lib/context/notification-context";
 import defaultNotification from "@/lib/locale/default-notification";
-import { loginFormSchema, registerFormSchema } from "@/lib/formSchema";
+import { authFormSchema } from "@/lib/formSchema";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import SubmitButton from "../ui/custom-ui/submit-btn";
@@ -19,19 +19,19 @@ export default function AuthForm({ auth, btnText }: { auth: "register" | "login"
   const router = useRouter();
   const notifCtx = useContext(NotificationContext);
   const [pass, setPass] = useState<string>("");
-  const defaultValues: any = {
-    register: { email: "", password: "" },
-    login: { email: "", password: "", passwordConfirm: "" }
-  };
+  const [passConfirm, setPassConfirm] = useState<string>("");
 
-  const authFormSchema = login ? loginFormSchema : registerFormSchema;
-  const form = useForm<z.infer<typeof authFormSchema>>({
-    resolver: zodResolver(authFormSchema),
-    defaultValues: defaultValues[auth]
+  const AuthFormSchema = authFormSchema(auth);
+  const form = useForm<z.infer<typeof AuthFormSchema>>({
+    resolver: zodResolver(AuthFormSchema),
+    defaultValues: {
+      register: { email: "", password: "" },
+      login: { email: "", password: "", passwordConfirm: "" }
+    }[auth]
   });
   const isLoading = form.formState.isSubmitting;
 
-  async function onSubmit(values: z.infer<typeof authFormSchema>) {
+  const onSubmit = async (values: z.infer<typeof AuthFormSchema>) => {
     // ✅ This will be type-safe and validated.
     notifCtx.setNotification(defaultNotification[auth].pending);
     if (login) {
@@ -58,52 +58,50 @@ export default function AuthForm({ auth, btnText }: { auth: "register" | "login"
 
     form.reset();
     setPass(""); // For Password Strength Bar Reset
-    return;
-  }
+  };
+
+  const authFields = [
+    { name: "email", label: "Email", placeholder: "john@doe.com" },
+    {
+      name: "password",
+      label: "Password",
+      placeholder: "password",
+      type: "password",
+      value: pass,
+      onChangeCapture: e => setPass(e.currentTarget.value),
+      className: login ? "pb-4" : ""
+    },
+    !login && {
+      name: "passwordConfirm",
+      label: "Confirm Password",
+      placeholder: "confirm password",
+      type: "password",
+      value: passConfirm,
+      onChange: e => setPassConfirm(e.target.value)
+    }
+  ] as AuthFieldConfig[];
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="john@doe.com" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem className={login ? "pb-4" : ""}>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input placeholder="password" onChangeCapture={e => setPass(e.currentTarget.value)} type="password" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {!login && (
-          <FormField
-            control={form.control}
-            name="passwordConfirm"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Confirm Password</FormLabel>
-                <FormControl>
-                  <Input placeholder="confirm password" type="password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        {authFields.map(
+          (item, index) =>
+            item && (
+              <FormField
+                key={index}
+                control={form.control}
+                name={item.name}
+                render={({ field }) => (
+                  <FormItem className={item.className}>
+                    <FormLabel>{item.label}</FormLabel>
+                    <FormControl>
+                      <Input {...field} {...item} type={item.type} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )
         )}
         {!login && <PasswordStrengthChecker password={pass} className="pt-2" />}
         <SubmitButton className="w-full dark:bg-white dark:hover:bg-primary dark:text-black dark:hover:text-white" isLoading={isLoading} text={btnText} />
