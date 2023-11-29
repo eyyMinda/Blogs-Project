@@ -4,32 +4,6 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 346.8 77.2% 49.8%;
-    --primary-foreground: 355.7 100% 97.3%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --markdown-p-color: var(--color-gray-700);
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --success: 120 100% 50%;
-    --success-foreground: 210 40% 98%;
-    --pending: 204, 78%, 42%;
-    --pending-foreground: 204, 78%, 42%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 346.8 77.2% 49.8%;
-    --radius: 0.5rem;
-
     --color-gray-50: hsl(265, 55%, 96%);
     --color-gray-100: hsl(265, 19%, 88%);
     --color-gray-200: hsl(265, 7%, 70%);
@@ -64,6 +38,32 @@
     --size-16: 4rem;
     --size-20: 5rem;
     --size-40: 10rem;
+
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 346.8 77.2% 49.8%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --markdown-p-color: var(--color-gray-500);
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --success: 120 100% 50%;
+    --success-foreground: 210 40% 98%;
+    --pending: 204, 78%, 42%;
+    --pending-foreground: 204, 78%, 42%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 346.8 77.2% 49.8%;
+    --radius: 0.5rem;
   }
 
   .dark {
@@ -141,5 +141,12 @@
   .markdown-content > :is(ul, ol) {
     list-style-type: unset;
     margin-left: 1.5rem;
+  }
+  .markdown-content a {
+    color: rgb(178, 200, 248);
+    transition: all 0.2s ease;
+  }
+  .markdown-content a:hover {
+    color: rgb(3, 69, 155);
   }
 }

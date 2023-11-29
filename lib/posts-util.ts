@@ -29,10 +29,10 @@ export const getFolderFileNames = async (folderPath: string, dir = "") => {
   }
 };
 
-export const getPostData = (postIdentifier: string) => {
+export const getPostData = (postIdentifier: string, dir?: string) => {
   //.MD
   const postSlug = postIdentifier.replace(/\.md$/, ""); //replace extention with nothing
-  const filePath = getFilePath("posts", postSlug + ".md");
+  const filePath = getFilePath(dir || "posts", postSlug + ".md");
   const fileContent = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(fileContent);
   const { title, date, image, excerpt, isFeatured } = data;
