@@ -44,9 +44,9 @@ A dynamic and personalized blogging platform built with Next.js 14 using the App
 
 - **License:** This project is licensed under the MIT License - see the [LICENSE](MIT-LICENSE.txt) file for details.
 
-- **Privacy Policy:** Read our [Privacy Policy](/privacy.md).
+- **Privacy Policy:** Read our [Privacy Policy](/privacy-policy.md).
 
-- **Terms of Service:** View our [Terms of Service](/terms.md).
+- **Terms of Service:** View our [Terms of Service](/terms-of-service.md).
 
 ---
 
