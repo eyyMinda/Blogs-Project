@@ -42,11 +42,11 @@ A dynamic and personalized blogging platform built with Next.js 14 using the App
 
 ## Additional Information:
 
-- **License:** This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- **License:** This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details.
 
-- **Privacy Policy:** Read our [Privacy Policy](/privacy).
+- **Privacy Policy:** Read our [Privacy Policy](/privacy.md).
 
-- **Terms of Service:** View our [Terms of Service](/terms).
+- **Terms of Service:** View our [Terms of Service](/terms.md).
 
 ---
 
