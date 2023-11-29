@@ -6,6 +6,15 @@ export const cn = (...args: ClassValue[]) => twMerge(clsx(args));
 
 export const sleep = (delay: number) => new Promise(resolve => setTimeout(resolve, delay * 1000));
 
+/**
+ * The function `validateMultipleInputs` takes an array of inputs and an array of validator names, and
+ * returns an array of error messages for inputs that fail validation.
+ * @param {string[]} inputs - An array of strings representing the inputs to be validated.
+ * @param {string[]} validators - The `validators` parameter is an array of strings that represent the
+ * names of validator functions. These validator functions are expected to be defined in an object
+ * called `isValid`.
+ * @returns The function `validateMultipleInputs` returns an array of strings.
+ */
 export const validateMultipleInputs = (inputs: string[], validators: string[]) => {
   return validators
     .map((validatorName, index) => {
@@ -19,6 +28,11 @@ export const validateMultipleInputs = (inputs: string[], validators: string[]) =
     .filter(Boolean) as string[];
 };
 
+/**
+ * The function `kebabToCapitalized` takes a kebab-case string as input and converts it to a
+ * capitalized string with each word separated by a space.
+ * @param {string} input - The `input` parameter is a string that represents a kebab-case string.
+ */
 export const kebabToCapitalized = (input: string): string =>
   input
     .split("-")
@@ -55,8 +69,16 @@ export const nth = (d: number) => {
   }
 };
 
-export const formatDate = (dateStr: string) => {
-  const date = new Date(dateStr);
+/**
+ * The `formatDate` function takes a string or Date object and returns a formatted date string with the
+ * day of the month with a suffix and month, year.
+ * @param {string | Date} dateStr - The `dateStr` parameter can accept either a string or a Date
+ * object. It represents the date that needs to be formatted.
+ * @returns The `formatDate` function returns a formatted date string in the format "day + nthSuffix
+ * monthYear" Ex. 27th May 2023.
+ */
+export const formatDate = (dateStr: string | Date) => {
+  const date = dateStr instanceof Date ? dateStr : new Date(dateStr);
   const day = date.getDate();
   const nthSuffix = nth(day);
 
@@ -69,6 +91,15 @@ export const formatDate = (dateStr: string) => {
   return formattedDate;
 };
 
+/**
+ * The `timeAgo` function takes a string or Date input and returns a formatted string representing the
+ * time elapsed since the input.
+ * @param {string | Date} input - The `input` parameter can be either a string or a Date object.
+ * It represents the date and time to calculate the relative time from.
+ * @returns a string representing the relative time difference between the input date and the current
+ * date. It returns a string indicating how many years, months, weeks, days, hours, minutes, or seconds -
+ * are remaining (if input date is in the future) or have passed (if input date is in the past).
+ */
 export function timeAgo(input: string | Date) {
   const date = input instanceof Date ? input : new Date(input);
   const formatter = new Intl.RelativeTimeFormat("en");
