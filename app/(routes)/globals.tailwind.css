@@ -135,7 +135,7 @@
     padding-bottom: 0.5rem;
     margin-block: 1.5rem;
   }
-  .markdown-content p {
+  .dark .markdown-content :is(p, li) {
     color: var(--markdown-p-color);
   }
   .markdown-content > :is(ul, ol) {
@@ -143,10 +143,16 @@
     margin-left: 1.5rem;
   }
   .markdown-content a {
-    color: rgb(178, 200, 248);
+    color: rgb(60, 116, 238);
     transition: all 0.2s ease;
+  }
+  .dark .markdown-content a {
+    color: rgb(178, 200, 248);
   }
   .markdown-content a:hover {
     color: rgb(3, 69, 155);
+  }
+  .dark .markdown-content strong {
+    color: white;
   }
 }
