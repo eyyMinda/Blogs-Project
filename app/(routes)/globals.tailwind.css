@@ -158,17 +158,17 @@
   }
   .btnMimick {
     display: block;
-    animation: bg-fade 0.8s linear forwards;
+    animation: bg-fade 0.8s ease-in-out forwards;
   }
   @keyframes bg-fade {
     0% {
       @apply text-sm;
     }
-    75% {
-      @apply bg-transparent text-sm;
+    30% {
+      @apply bg-transparent text-sm translate-x-1;
     }
     100% {
-      @apply bg-transparent text-2xl;
+      @apply bg-transparent text-xl translate-x-0;
     }
   }
 
@@ -176,11 +176,11 @@
     max-height: 0;
     width: 100%;
     overflow: hidden;
-    transition: all 0.8s ease;
+    transition: all 0.8s ease-out;
   }
 
   .accordion-by-state.open {
     max-height: 1000px;
-    padding: 1rem;
+    padding: 0 1rem 1rem;
   }
 }

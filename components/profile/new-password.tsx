@@ -76,7 +76,7 @@ function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
         <div className="flex items-center gap-4">
           <SubmitButton variant="secondary" isLoading={isLoading} text="Update password" />
           {!needPassword && (
-            <Link href="/password_reset" className="text-blue-600 text-sm hover:underline underline-offset-2">
+            <Link href="/password_reset" className="text-blue-500 text-sm hover:underline underline-offset-2">
               I forgot my password
             </Link>
           )}
