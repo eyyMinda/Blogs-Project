@@ -7,3 +7,9 @@ interface AuthFieldConfig {
   onChangeCapture?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
 }
+
+interface ChangePassFieldConfig {
+  name: "passwordOld" | "passwordNew" | "passwordConfirm";
+  label: string;
+  onChangeCapture?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}

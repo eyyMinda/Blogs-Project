@@ -90,6 +90,7 @@ export const authOptions: any = {
         const matchedUser = (await getFromMongo(client, "users", { email: user.email }))[0] as User;
 
         console.log("JWT USER", user);
+        if (matchedUser.image !== defaultUserImg) token.image = matchedUser.image;
         token.createdAt = matchedUser.createdAt || user.createdAt;
         token.emailVerified = matchedUser.emailVerified || user.emailVerified || true;
         token.needPassword = !!matchedUser.password || user.needPassword;

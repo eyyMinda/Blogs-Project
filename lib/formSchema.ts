@@ -6,6 +6,8 @@ export const contactFormSchema = z.object({
   message: z.string().min(12, { message: "Should write a more informative message." }).max(1000, { message: "Message exceeds the character limit." })
 });
 
+// =================================================================
+
 const coreAuthSchema = {
   email: z
     .string()
@@ -29,17 +31,22 @@ export const authFormSchema = (auth: "register" | "login") =>
       .refine(data => data.password === data.passwordConfirm, { message: "Passwords do not match.", path: ["passwordConfirm"] })
   }[auth]);
 
-export const changePassFormSchema = z.object({
-  oldpassword: z
-    .string()
-    .trim()
-    .min(1, { message: "Enter old password." })
-    .min(8, { message: "Old password is too short." })
-    .max(84, { message: "Old password is too long." }),
-  newpassword: z
+// =================================================================
+
+const coreChangePassSchema = {
+  passwordNew: z
     .string()
     .trim()
     .min(1, { message: "Enter new password." })
     .min(8, { message: "New password is too short." })
-    .max(84, { message: "New password is too long." })
-});
+    .max(84, { message: "New password is too long." }),
+  passwordConfirm: z.string().trim().min(1, { message: "Enter a matching password." })
+};
+
+export const changePassFormSchema = (needPassword: "true" | "false") => {
+  const zObject = needPassword
+    ? z.object(coreChangePassSchema)
+    : z.object({ ...coreChangePassSchema, passwordOld: z.string().trim().min(1, { message: "Enter old password." }) });
+
+  return zObject.refine(data => data.passwordNew === data.passwordConfirm, { message: "Passwords do not match.", path: ["passwordConfirm"] });
+};
