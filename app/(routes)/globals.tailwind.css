@@ -156,4 +156,31 @@
   .dark .markdown-content strong {
     color: white;
   }
+  .btnMimick {
+    display: block;
+    animation: bg-fade 0.8s linear forwards;
+  }
+  @keyframes bg-fade {
+    0% {
+      @apply text-sm;
+    }
+    75% {
+      @apply bg-transparent text-sm;
+    }
+    100% {
+      @apply bg-transparent text-2xl;
+    }
+  }
+
+  .accordion-by-state {
+    max-height: 0;
+    width: 100%;
+    overflow: hidden;
+    transition: all 0.8s ease;
+  }
+
+  .accordion-by-state.open {
+    max-height: 1000px;
+    padding: 1rem;
+  }
 }
