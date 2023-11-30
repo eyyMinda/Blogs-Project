@@ -93,7 +93,7 @@ export const authOptions: any = {
         if (matchedUser.image !== defaultUserImg) token.image = matchedUser.image;
         token.createdAt = matchedUser.createdAt || user.createdAt;
         token.emailVerified = matchedUser.emailVerified || user.emailVerified || true;
-        token.needPassword = !!matchedUser.password || user.needPassword;
+        token.needPassword = !matchedUser.password || user.needPassword;
       }
       return token;
     },
