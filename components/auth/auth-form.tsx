@@ -78,7 +78,7 @@ export default function AuthForm({ auth, btnText }: { auth: "register" | "login"
       placeholder: "confirm password",
       type: "password",
       value: passConfirm,
-      onChange: e => setPassConfirm(e.target.value)
+      onChangeCapture: e => setPassConfirm(e.target.value)
     }
   ] as AuthFieldConfig[];
 
