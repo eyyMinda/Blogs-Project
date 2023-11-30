@@ -25,8 +25,8 @@ export default function AuthForm({ auth, btnText }: { auth: "register" | "login"
   const form = useForm<z.infer<typeof AuthFormSchema>>({
     resolver: zodResolver(AuthFormSchema),
     defaultValues: {
-      register: { email: "", password: "" },
-      login: { email: "", password: "", passwordConfirm: "" }
+      register: { email: "", password: "", passwordConfirm: "" },
+      login: { email: "", password: "" }
     }[auth]
   });
   const isLoading = form.formState.isSubmitting;
@@ -43,6 +43,7 @@ export default function AuthForm({ auth, btnText }: { auth: "register" | "login"
       }
       notifCtx.setNotification(defaultNotification[auth][error ? "error" : "success"](error));
     } else {
+      console.log(values);
       const data = { email: values.email, password: values.password };
       const res = await fetch("/api/auth/signup", {
         method: "POST",
