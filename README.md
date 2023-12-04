@@ -2,7 +2,7 @@
 
 # NextJS Markdown Blogs
 
-> Note: aking functionality first
+> Note: making functionality first
 
 A dynamic and personalized blogging platform built with Next.js 14 using the App Router (no actions). Create and manage your blog posts stored as Markdown files (.md) within the `posts` folder.
 
