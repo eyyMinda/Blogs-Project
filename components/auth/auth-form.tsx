@@ -13,6 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import SubmitButton from "../ui/custom-ui/submit-btn";
 import PasswordStrengthChecker from "../ui/custom-ui/password-strength-bar";
+import ForgotPassword from "./forgotPassword";
 
 export default function AuthForm({ auth, btnText }: { auth: "register" | "login"; btnText: string }) {
   const login = auth === "login";
@@ -84,7 +85,7 @@ export default function AuthForm({ auth, btnText }: { auth: "register" | "login"
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         {authFields.map(
           (item, index) =>
             item && (
@@ -94,7 +95,9 @@ export default function AuthForm({ auth, btnText }: { auth: "register" | "login"
                 name={item.name}
                 render={({ field }) => (
                   <FormItem className={item.className}>
-                    <FormLabel>{item.label}</FormLabel>
+                    <FormLabel className={`${item.name === "password" ? "flex justify-between items-center" : ""}`}>
+                      {item.label} {login && item.name === "password" && <ForgotPassword className="text-xs" />}
+                    </FormLabel>
                     <FormControl>
                       <Input {...field} {...item} type={item.type} />
                     </FormControl>

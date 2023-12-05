@@ -11,10 +11,12 @@ import defaultNotification from "@/lib/locale/default-notification";
 import NotificationContext from "@/lib/context/notification-context";
 import PasswordStrengthChecker from "../ui/custom-ui/password-strength-bar";
 import SubmitButton from "../ui/custom-ui/submit-btn";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import ForgotPassword from "../auth/forgotPassword";
 
 function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
   const needPass: "true" | "false" = needPassword.toString() as "true" | "false";
+  const router = useRouter();
   const notifCtx = useContext(NotificationContext);
   const [pass, setPass] = useState<string>("");
 
@@ -32,11 +34,12 @@ function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
     // ✅ This will be type-safe and validated.
     notifCtx.setNotification(defaultNotification.changepass.pending);
 
-    // Fetch to compare the old password and if fits, validate the new password
-    // update db with new password
-
-    const error = "Password changed";
-    notifCtx.setNotification(defaultNotification.changepass[error ? "error" : "success"](error));
+    const res = await fetch("/api/account/update", {
+      method: "POST",
+      body: JSON.stringify({ newPass: true, ...values })
+    });
+    const { err, msg } = await res.json();
+    notifCtx.setNotification(defaultNotification.changepass[err ? "error" : "success"](msg));
 
     form.reset();
     setPass(""); // For Password Strength Bar Reset
@@ -75,11 +78,7 @@ function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
 
         <div className="flex items-center gap-4">
           <SubmitButton variant="secondary" isLoading={isLoading} text="Update password" />
-          {!needPassword && (
-            <Link href="/password_reset" className="text-blue-500 text-sm hover:underline underline-offset-2">
-              I forgot my password
-            </Link>
-          )}
+          {!needPassword && <ForgotPassword />}
         </div>
       </form>
     </Form>
