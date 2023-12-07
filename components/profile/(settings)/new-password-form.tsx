@@ -4,19 +4,17 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
-import { Input } from "../ui/input";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../ui/form";
+import { Input } from "../../ui/input";
 import { changePassFormSchema } from "@/lib/formSchema";
 import defaultNotification from "@/lib/locale/default-notification";
 import NotificationContext from "@/lib/context/notification-context";
-import PasswordStrengthChecker from "../ui/custom-ui/password-strength-bar";
-import SubmitButton from "../ui/custom-ui/submit-btn";
-import { useRouter } from "next/navigation";
-import ForgotPassword from "../auth/forgotPassword";
+import PasswordStrengthChecker from "../../ui/custom-ui/password-strength-bar";
+import SubmitButton from "../../ui/custom-ui/submit-btn";
+import ForgotPassword from "../../auth/forgotPassword";
 
 function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
   const needPass: "true" | "false" = needPassword.toString() as "true" | "false";
-  const router = useRouter();
   const notifCtx = useContext(NotificationContext);
   const [pass, setPass] = useState<string>("");
 
@@ -33,7 +31,7 @@ function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
   async function onSubmit(values: z.infer<typeof passFormSchema>) {
     // ✅ This will be type-safe and validated.
     notifCtx.setNotification(defaultNotification.changepass.pending);
-
+    console.log(values);
     const res = await fetch("/api/account/update", {
       method: "POST",
       body: JSON.stringify({ newPass: true, ...values })
@@ -54,7 +52,7 @@ function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 mt-4 text-start w-full">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 mt-4 text-start w-auto max-w-max">
         {passwordFields.map(
           (item, index) =>
             item && (
@@ -66,7 +64,7 @@ function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
                   <FormItem>
                     <FormLabel>{item.label}</FormLabel>
                     <FormControl>
-                      <Input type="password" {...field} {...item} />
+                      <Input type="password" {...item} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

@@ -3,7 +3,7 @@ import { signOut } from "next-auth/react";
 import { useContext } from "react";
 import NotificationContext from "@/lib/context/notification-context";
 import defaultNotification from "@/lib/locale/default-notification";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 
 export default function DeleteAccount({ email }: { email?: string | null }) {
   const notifCtx = useContext(NotificationContext);
@@ -24,8 +24,10 @@ export default function DeleteAccount({ email }: { email?: string | null }) {
   };
 
   return (
-    <Button variant="destructive" className="mt-40" onClick={() => handleDelete()}>
-      Delete Account
-    </Button>
+    <>
+      <Button variant="destructive" className="mt-4" onClick={() => handleDelete()}>
+        Delete Account
+      </Button>
+    </>
   );
 }
