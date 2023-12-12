@@ -1,5 +1,5 @@
 import { hashPassword } from "@/lib/auth-valid/auth";
-import { getClient, getFromMongo, isMongoClient, postToMongo } from "@/lib/mongo-db/mongo";
+import { getClient, getFromMongo, isMongoClient, postToMongo, updateInMongo } from "@/lib/mongo-db/mongo";
 import { trimObjectValues, validateMultipleInputs } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
   const date = new Date();
 
   try {
-    // await postToMongo(client, "users", signUpData);
+    await updateInMongo(client, "users", { email: email }, { email: email, password: password });
   } catch (error) {
     return NextResponse.json({ err: true, msg: "Failed to Sign-up." }, { status: 500 });
   }
