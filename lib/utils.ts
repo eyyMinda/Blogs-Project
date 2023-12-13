@@ -18,6 +18,7 @@ export const sleep = (delay: number) => new Promise(resolve => setTimeout(resolv
 export const validateMultipleInputs = (inputs: string[], validators: string[]) => {
   return validators
     .map((validatorName, index) => {
+      if (validatorName.includes("password")) validatorName = "password";
       const validatorFunction = isValid[validatorName as keyof typeof isValid];
       if (validatorFunction && typeof validatorFunction === "function") {
         const [err, msg] = validatorFunction(inputs[index]);

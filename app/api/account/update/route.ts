@@ -1,5 +1,5 @@
-import { hashPassword } from "@/lib/auth-valid/auth";
-import { getClient, isMongoClient, updateInMongo } from "@/lib/mongo-db/mongo";
+import { hashPassword, verifyPassword } from "@/lib/auth-valid/auth";
+import { getClient, getFromMongo, isMongoClient, updateInMongo } from "@/lib/mongo-db/mongo";
 import { trimObjectValues, validateMultipleInputs } from "@/lib/utils";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
   const errors = validateMultipleInputs(Object.values(data), Object.keys(data));
   if (errors.length > 0) return NextResponse.json({ err: true, msg: errors }, { status: 422 });
 
-  const { email, password } = trimObjectValues(data);
+  const { email, password, passwordOld } = trimObjectValues(data);
 
   // ============= Define/Redefine Client =============================
   const client = await getClient();
@@ -23,6 +23,14 @@ export async function POST(req: NextRequest) {
   // ============== Check if User is Authorized ==============================
   const session = (await getServerSession()) as any;
   if (!session) return NextResponse.json({ err: true, msg: "You are not authorized! This action will be noted." }, { status: 401 });
+
+  // ============== Check if Old Password is Correct ==============================
+  if (passwordOld) {
+    const existingUser = (await getFromMongo(client, "users", { email: email }))[0] as User;
+    console.log("Compare old password: ", passwordOld, existingUser.password);
+    let passwordMatch = await verifyPassword(passwordOld, existingUser.password);
+    if (!passwordMatch) return NextResponse.json({ err: true, msg: "Incorrect old password for this email account." }, { status: 401 });
+  }
 
   // ================== Update User ===================================
   const date = new Date();
