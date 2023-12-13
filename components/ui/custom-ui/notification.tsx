@@ -17,7 +17,7 @@ function Notification({ title, message, status }: NotificationData) {
   return createPortal(
     <Alert
       variant={currVariant}
-      className="alertComp absolute top-24 right-4 w-3/12 pointer-events-auto text-gray-200 bg-gray-800 dark:bg-white shadow dark:text-gray-600">
+      className="alertComp fixed top-24 right-4 w-3/12 pointer-events-auto text-gray-200 bg-gray-800 dark:bg-white shadow dark:text-gray-600">
       <IconComponent className="h-8 w-8" />
       <div className="ml-2">
         <div className="flex items-end justify-between">
