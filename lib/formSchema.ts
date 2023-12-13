@@ -50,3 +50,14 @@ export const changePassFormSchema = (needPassword: boolean) => {
 
   return zObject.refine(data => data.passwordNew === data.passwordConfirm, { message: "Passwords do not match.", path: ["passwordConfirm"] });
 };
+
+// =================================================================
+
+export const changeUsernameSchema = z.object({
+  username: z
+    .string()
+    .trim()
+    .min(1, { message: "Enter new username." })
+    .min(4, { message: "Username must be at least 2 characters." })
+    .max(24, { message: "Username exceeds the character limit." })
+});
