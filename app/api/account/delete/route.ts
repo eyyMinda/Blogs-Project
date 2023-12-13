@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
 
   // ============== Check if User is Authorized ==============================
   const session = await getServerSession();
-  if (!session) return NextResponse.json({ err: true, msg: "You are not authorized!" }, { status: 401 });
+  if (!session) return NextResponse.json({ err: true, msg: "You are not authorized! This action will be noted." }, { status: 401 });
 
   // ================== Delete User ===================================
   try {
