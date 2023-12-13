@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
         client,
         "users",
         { email: continueData.email },
-        { $set: { email: continueData.email, username: continueData.username, updatedAt: date } }
+        { $set: { email: continueData.email, name: continueData.username, updatedAt: date } }
       );
     }
   } catch (error) {
