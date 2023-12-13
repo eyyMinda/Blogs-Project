@@ -35,7 +35,10 @@ function ChangeUsernameForm() {
     const { err, msg } = await res.json();
     notifCtx.setNotification(defaultNotification.changeusername[err ? "error" : "success"](msg));
 
-    if (!err) update({ name: username });
+    if (!err) {
+      await update({ name: username });
+      update();
+    }
     form.reset();
     return;
   }
@@ -55,7 +58,6 @@ function ChangeUsernameForm() {
             </FormItem>
           )}
         />
-
         <SubmitButton variant="secondary" isLoading={isLoading} text="Change" />
       </form>
     </Form>

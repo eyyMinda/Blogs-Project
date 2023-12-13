@@ -2,22 +2,26 @@ import { IUser } from "@/nextauth";
 import NewPassword from "./(settings)/new-password";
 import DeleteAccount from "./(settings)/delete-account";
 import ChangeUsernameForm from "./(settings)/change-username";
+import { cn } from "@/lib/utils";
 
 export default function Settings({ user }: { user?: IUser }) {
   const { image, name, email, createdAt, needPassword } = user as IUser;
 
   const settingsFields = [
     {
-      description: "Change Username",
+      description: "Username",
+      descriptionClass: "not-italic font-bold",
       component: <ChangeUsernameForm />
     },
     {
       description: "Selecting 'Change Password' allows you to update your account security. Be sure to remember your new credentials for future logins.",
+      descriptionClass: "",
       component: <NewPassword needPassword={needPassword} />
     },
     {
       description:
         "Clicking 'Delete Account' will permanently remove your profile and associated data from our system. Please note that this action is irreversible, and you will no longer have access to your account or any related information.",
+      descriptionClass: "",
       component: <DeleteAccount email={email} />
     }
   ];
@@ -29,7 +33,7 @@ export default function Settings({ user }: { user?: IUser }) {
 
       {settingsFields.map((f, i) => (
         <div key={i} className="border-y py-4">
-          <p className="italic text-sm lg:text-base">{f.description}</p>
+          <p className={cn("italic text-sm lg:text-base", f.descriptionClass)}>{f.description}</p>
           {f.component}
         </div>
       ))}
