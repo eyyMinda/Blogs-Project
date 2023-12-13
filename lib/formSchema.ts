@@ -58,6 +58,6 @@ export const changeUsernameSchema = z.object({
     .string()
     .trim()
     .min(1, { message: "Enter new username." })
-    .min(4, { message: "Username must be at least 2 characters." })
+    .min(4, { message: "Username must be at least 4 characters." })
     .max(24, { message: "Username exceeds the character limit." })
 });
