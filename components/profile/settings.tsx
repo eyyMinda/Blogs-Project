@@ -1,11 +1,16 @@
 import { IUser } from "@/nextauth";
 import NewPassword from "./(settings)/new-password";
 import DeleteAccount from "./(settings)/delete-account";
+import ChangeUsernameForm from "./(settings)/change-username";
 
 export default function Settings({ user }: { user?: IUser }) {
   const { image, name, email, createdAt, needPassword } = user as IUser;
 
   const settingsFields = [
+    {
+      description: "Change Username",
+      component: <ChangeUsernameForm />
+    },
     {
       description: "Selecting 'Change Password' allows you to update your account security. Be sure to remember your new credentials for future logins.",
       component: <NewPassword needPassword={needPassword} />
