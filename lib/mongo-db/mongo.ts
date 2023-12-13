@@ -52,6 +52,12 @@ export const deleteFromMongo = async (client: MongoClient, collection: string, m
   await db.collection(collection).deleteOne(match);
 };
 
+export const findOneMongo = async (client: MongoClient, collection: string, match: object, body: object): Promise<object | null> => {
+  const db = await client.db("blogs_nextjs");
+  const MongoItem = await db.collection(collection).findOne(match, body);
+  return MongoItem;
+};
+
 /**
  * @param {client} client - object
  * @param {string} collection - string
