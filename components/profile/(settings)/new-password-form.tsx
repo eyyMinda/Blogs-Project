@@ -15,35 +15,37 @@ import SubmitButton from "../../ui/custom-ui/submit-btn";
 import ForgotPassword from "../../auth/forgotPassword";
 
 function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
-  const needPass: "true" | "false" = needPassword.toString() as "true" | "false";
   const notifCtx = useContext(NotificationContext);
   const { data: session, update } = useSession();
   const [pass, setPass] = useState<string>("");
 
-  const passFormSchema = changePassFormSchema(needPass);
+  type ChangePassType = { passwordOld?: string; passwordNew: string; passwordConfirm: string };
+
+  const passFormSchema = changePassFormSchema(needPassword);
   const form = useForm<z.infer<typeof passFormSchema>>({
     resolver: zodResolver(passFormSchema),
-    defaultValues: {
-      true: { passwordNew: "", passwordConfirm: "" },
-      false: { passwordOld: "", passwordNew: "", passwordConfirm: "" } as any
-    }[needPass]
+    defaultValues: needPassword ? { passwordNew: "", passwordConfirm: "" } : ({ passwordOld: "", passwordNew: "", passwordConfirm: "" } as ChangePassType)
   });
   const isLoading = form.formState.isSubmitting;
 
   async function onSubmit(values: z.infer<typeof passFormSchema>) {
     // ✅ This will be type-safe and validated.
     notifCtx.setNotification(defaultNotification.changepass.pending);
-    const email = session?.user?.email;
-    console.log("Post Values: ", values, email);
+
+    let data = { password: values.passwordNew, email: session?.user?.email } as any;
+    if (!needPassword) {
+      const passwordOld = (values as ChangePassType).passwordOld;
+      data.passwordOld = passwordOld;
+    }
+
     const res = await fetch("/api/account/update", {
       method: "POST",
-      body: JSON.stringify({ password: values.passwordNew, email })
+      body: JSON.stringify(data)
     });
     const { err, msg } = await res.json();
     notifCtx.setNotification(defaultNotification.changepass[err ? "error" : "success"](msg));
-    console.log("Session: ", session);
-    await update({ needPassword: false });
-    console.log("Session: ", session);
+
+    if (!err) update({ needPassword: false });
     form.reset();
     setPass(""); // For Password Strength Bar Reset
     return;

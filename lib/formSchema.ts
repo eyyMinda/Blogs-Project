@@ -43,7 +43,7 @@ const coreChangePassSchema = {
   passwordConfirm: z.string().trim().min(1, { message: "Enter a matching password." })
 };
 
-export const changePassFormSchema = (needPassword: "true" | "false") => {
+export const changePassFormSchema = (needPassword: boolean) => {
   const zObject = needPassword
     ? z.object(coreChangePassSchema)
     : z.object({ ...coreChangePassSchema, passwordOld: z.string().trim().min(1, { message: "Enter old password." }) });
