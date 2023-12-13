@@ -6,25 +6,20 @@ import NewPasswordForm from "./new-password-form";
 export default function NewPassword({ needPassword = false }: { needPassword?: boolean }) {
   const [changePassForm, setChangePassForm] = useState<boolean>(false);
 
-  const handleChangePassForm = () => {
-    setChangePassForm(v => !v);
-    // Possibly have to update session
-    // Unless i update on api (server-side)
-  };
-
   return (
     <div className="flex flex-col items-start mt-4">
       {needPassword && (
-        <div className="flex items-center gap-2 text-orange-400/90 text-lg">
+        <div className="flex items-center gap-2 text-orange-400/90 text-lg mb-2">
           <ShieldAlert className="animate-bounce" />
           Create a password to login without 3rd-party
         </div>
       )}
+
       <div className="w-full flex items-center justify-between">
         <Button
           variant="secondary"
           size={changePassForm ? "sm" : "default"}
-          onClick={handleChangePassForm}
+          onClick={() => setChangePassForm(v => !v)}
           className={`${changePassForm ? "order-1 mr-4" : ""}`}>
           {changePassForm ? "Cancel" : "Change Password"}
         </Button>
