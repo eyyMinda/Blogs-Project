@@ -3,6 +3,7 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext, useState } from "react";
+import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../ui/form";
 import { Input } from "../../ui/input";
@@ -16,6 +17,7 @@ import ForgotPassword from "../../auth/forgotPassword";
 function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
   const needPass: "true" | "false" = needPassword.toString() as "true" | "false";
   const notifCtx = useContext(NotificationContext);
+  const { data: session, update } = useSession();
   const [pass, setPass] = useState<string>("");
 
   const passFormSchema = changePassFormSchema(needPass);
@@ -31,14 +33,17 @@ function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
   async function onSubmit(values: z.infer<typeof passFormSchema>) {
     // ✅ This will be type-safe and validated.
     notifCtx.setNotification(defaultNotification.changepass.pending);
-    console.log(values);
+    const email = session?.user?.email;
+    console.log("Post Values: ", values, email);
     const res = await fetch("/api/account/update", {
       method: "POST",
-      body: JSON.stringify({ newPass: true, ...values })
+      body: JSON.stringify({ password: values.passwordNew, email })
     });
     const { err, msg } = await res.json();
     notifCtx.setNotification(defaultNotification.changepass[err ? "error" : "success"](msg));
-
+    console.log("Session: ", session);
+    await update({ needPassword: false });
+    console.log("Session: ", session);
     form.reset();
     setPass(""); // For Password Strength Bar Reset
     return;
