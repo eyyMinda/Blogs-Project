@@ -71,7 +71,7 @@ export default function AuthForm({ auth, btnText }: { auth: "register" | "login"
       type: "password",
       value: pass,
       onChangeCapture: e => setPass(e.currentTarget.value),
-      className: login ? "pb-4" : ""
+      className: login ? "!mb-4" : ""
     },
     !login && {
       name: "passwordConfirm",
