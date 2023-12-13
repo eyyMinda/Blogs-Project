@@ -72,6 +72,23 @@ const defaultNotification: DefaultNotification = {
       status: "pending"
     }
   },
+  changeusername: {
+    error: msg => ({
+      title: "Failed!",
+      message: msg || "Something went wrong!",
+      status: "error"
+    }),
+    success: msg => ({
+      title: "Success!",
+      message: msg || "Username changed!",
+      status: "success"
+    }),
+    pending: {
+      title: "Changing...",
+      message: "Changing your username...",
+      status: "pending"
+    }
+  },
   deleteacc: {
     error: msg => ({
       title: "Failed!",
