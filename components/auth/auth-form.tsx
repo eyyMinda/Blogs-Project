@@ -44,7 +44,6 @@ export default function AuthForm({ auth, btnText }: { auth: "register" | "login"
       }
       notifCtx.setNotification(defaultNotification[auth][error ? "error" : "success"](error));
     } else {
-      console.log(values);
       const data = { email: values.email, password: values.password };
       const res = await fetch("/api/auth/signup", {
         method: "POST",
