@@ -78,7 +78,9 @@ export const authOptions: any = {
   ],
   callbacks: {
     async jwt({ token, user, trigger, session }: { token: any; user: any; trigger: any; session: any }) {
-      if (user) {
+      if (trigger === "update") {
+        token = { ...token, ...session };
+      } else if (user) {
         let client;
         try {
           client = await connectToMongo();
@@ -96,13 +98,13 @@ export const authOptions: any = {
         token.emailVerified = matchedUser.emailVerified || user.emailVerified || true;
         token.needPassword = !matchedUser.password || user.needPassword;
       }
-      if (trigger === "update") {
-        token = { ...session, ...token };
-      }
       return token;
     },
-    async session({ session, token }: { session: any; token: any }) {
-      if (token && session.user) {
+    async session({ session, token, trigger, newSession }: { session: any; token: any; trigger: any; newSession: any }) {
+      if (trigger === "update") {
+        session.user = { ...session.user, ...newSession };
+        return session;
+      } else if (token && session.user) {
         console.log("TOKEN", token);
         session.user.createdAt = token.createdAt;
         session.user.emailVerified = token.emailVerified;
