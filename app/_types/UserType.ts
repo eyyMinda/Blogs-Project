@@ -4,7 +4,8 @@ type User = {
   password: string;
   name: string;
   image: string;
-  createdAt: string;
+  createdAt: string | Date;
   provider: "credentials" | "github";
   emailVerified: boolean;
+  updatedAt?: string | Date;
 };
