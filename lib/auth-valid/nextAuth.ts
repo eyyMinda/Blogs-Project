@@ -77,7 +77,7 @@ export const authOptions: any = {
     })
   ],
   callbacks: {
-    async jwt({ token, user }: { token: any; user: any }) {
+    async jwt({ token, user, trigger, session }: { token: any; user: any; trigger: any; session: any }) {
       if (user) {
         let client;
         try {
@@ -91,9 +91,13 @@ export const authOptions: any = {
 
         console.log("JWT USER", user);
         if (matchedUser.image !== defaultUserImg) token.image = matchedUser.image;
+        token.name = matchedUser.name || user.name;
         token.createdAt = matchedUser.createdAt || user.createdAt;
         token.emailVerified = matchedUser.emailVerified || user.emailVerified || true;
         token.needPassword = !matchedUser.password || user.needPassword;
+      }
+      if (trigger === "update") {
+        token = { ...session, ...token };
       }
       return token;
     },
