@@ -19,6 +19,7 @@ export const validateMultipleInputs = (inputs: string[], validators: string[]) =
   return validators
     .map((validatorName, index) => {
       if (validatorName.includes("password")) validatorName = "password";
+      if (validatorName === "image") validatorName = "path";
       const validatorFunction = isValid[validatorName as keyof typeof isValid];
       if (validatorFunction && typeof validatorFunction === "function") {
         const [err, msg] = validatorFunction(inputs[index]);

@@ -99,4 +99,11 @@ export class isValid {
 
     return [false, "OK"];
   }
+  static path(str: string): [boolean, string] {
+    if (str === undefined || str.trim() === "") return [true, "Path cannot be blank"];
+    const minSize: number = 1;
+    if (str.length < minSize) return [true, `Path is too short, has to be at least ${minSize} symbols`];
+
+    return [false, "OK"];
+  }
 }
