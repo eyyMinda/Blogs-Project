@@ -3,8 +3,11 @@ import { useState } from "react";
 import { AvatarIcon } from "../ui/custom-ui/avatar-icon";
 import { defaultUserImg } from "@/lib/locale/default-user";
 
+const prePath = "/images/account/remix-rumble-avatars/";
+
 export default function DisplayAvatar({ image }: { image: string | null | undefined }) {
   const [avatarHover, setAvatarHover] = useState<boolean>(false);
+  if (image?.startsWith("remix")) image = prePath + image;
 
   return (
     <div className="relative rounded-full cursor-pointer" onMouseEnter={() => setAvatarHover(true)} onMouseLeave={() => setAvatarHover(false)}>

@@ -1,8 +1,8 @@
 import { IUser } from "@/nextauth";
+import { cn } from "@/lib/utils";
 import NewPassword from "./(settings)/new-password";
 import DeleteAccount from "./(settings)/delete-account";
 import ChangeUsernameForm from "./(settings)/change-username";
-import { cn } from "@/lib/utils";
 
 export default function Settings({ user }: { user?: IUser }) {
   const { image, name, email, createdAt, needPassword } = user as IUser;

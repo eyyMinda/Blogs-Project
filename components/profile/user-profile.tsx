@@ -20,8 +20,7 @@ function UserProfile({ avatars }: { avatars: string[] }) {
     return;
   }
   const { image, name, email, createdAt, needPassword } = session?.user as IUser;
-  let formattedDate;
-  if (createdAt) formattedDate = timeAgo(createdAt);
+  let formattedDate = createdAt && timeAgo(createdAt);
 
   return (
     <section className="mx-auto my-8 text-center w-full">
@@ -32,7 +31,7 @@ function UserProfile({ avatars }: { avatars: string[] }) {
           </PopoverTrigger>
 
           <PopoverContent className="w-[90vw] md:w-[40rem] -translate-y-56 md:-translate-y-72">
-            <ChooseAvatar avatars={avatars} />
+            <ChooseAvatar avatars={avatars} email={email} />
           </PopoverContent>
         </Popover>
 
