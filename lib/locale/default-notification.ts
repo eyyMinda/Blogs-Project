@@ -89,6 +89,23 @@ const defaultNotification: DefaultNotification = {
       status: "pending"
     }
   },
+  changeavatar: {
+    error: msg => ({
+      title: "Failed!",
+      message: msg || "Something went wrong!",
+      status: "error"
+    }),
+    success: msg => ({
+      title: "Success!",
+      message: msg || "Avatar changed!",
+      status: "success"
+    }),
+    pending: {
+      title: "Changing...",
+      message: "Changing your avatar...",
+      status: "pending"
+    }
+  },
   deleteacc: {
     error: msg => ({
       title: "Failed!",
