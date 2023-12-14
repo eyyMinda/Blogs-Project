@@ -9,17 +9,23 @@ import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { IUser } from "@/nextauth";
 
-export function AvatarMenu({ user }: { user?: IUser }) {
+import { defaultUserImg } from "@/lib/locale/default-user";
+const prePath = "/images/account/remix-rumble-avatars/";
+
+export function AvatarMenu({ user }: { user: IUser }) {
+  let { image, name } = user;
+  if (image && image.startsWith("remix")) image = prePath + image;
+
   return (
     <Popover>
       <PopoverTrigger>
-        <AvatarIcon variant="mini" path={user?.image || undefined} />
+        <AvatarIcon variant="mini" path={image || defaultUserImg} />
       </PopoverTrigger>
       <PopoverContent className="p-0 mt-2 mr-4">
         <header id="menu-header" className="flex items-end gap-4 px-4 py-6 border-b-2">
-          <AvatarIcon path={user?.image || undefined} />
+          <AvatarIcon path={image || defaultUserImg} />
           <div className="text-sm">
-            <h2>{user?.name || "User Name"}</h2>
+            <h2>{name || "User Name"}</h2>
             <Link href={"/profile"}>
               <Button variant="link" className="h-auto p-0 m-0">
                 View your profile

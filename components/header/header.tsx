@@ -1,14 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { IUser } from "@/nextauth";
 import Link from "next/link";
 import Logo from "./logo";
 import BurgerMenu from "./burger";
-import { AvatarMenu } from "./avatar-menu";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "../ui/navigation-menu";
 import { Loader2, UserCircle2 } from "lucide-react";
+import { AvatarMenu } from "./avatar-menu";
 import { ModeToggle } from "../ui/theme-toggle";
-import { useSession } from "next-auth/react";
 
 const navItems = [
   { path: "/", name: "Home" },
@@ -53,7 +54,7 @@ export default function Header() {
             </>
           ) : (
             <NavigationMenuItem className="pl-4">
-              <AvatarMenu user={session.user} />
+              <AvatarMenu user={session.user as IUser} />
             </NavigationMenuItem>
           )}
 
