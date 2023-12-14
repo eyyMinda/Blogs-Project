@@ -1,9 +1,10 @@
-import { SessionContent } from "./SessionContent";
 import "./globals.tailwind.css";
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
 import { GeistSans } from "geist/font";
 import { ThemeProvider } from "@/components/theme-provider";
 import { NotificationProvider } from "@/lib/context/notification-context";
+import { SessionContent } from "./SessionContent";
 
 export const metadata: Metadata = {
   title: "NextJS Blogs",
@@ -19,6 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <SessionContent>{children}</SessionContent>
           </ThemeProvider>
         </NotificationProvider>
+        <Analytics />
       </body>
     </html>
   );
