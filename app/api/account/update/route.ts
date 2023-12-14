@@ -36,19 +36,19 @@ export async function POST(req: NextRequest) {
   const date = new Date();
 
   try {
+    const updateData = { updatedAt: date } as User;
     if (data.password) {
       const newPassword = await hashPassword(continueData.password);
-      await updateInMongo(client, "users", { email: continueData.email }, { $set: { email: continueData.email, password: newPassword, updatedAt: date } });
+      updateData.password = newPassword;
     } else if (data.username) {
-      await updateInMongo(
-        client,
-        "users",
-        { email: continueData.email },
-        { $set: { email: continueData.email, name: continueData.username, updatedAt: date } }
-      );
+      updateData.name = continueData.username;
+    } else if (data.image) {
+      updateData.image = continueData.image;
     }
+
+    await updateInMongo(client, "users", { email: continueData.email }, { $set: updateData });
   } catch (error) {
-    return NextResponse.json({ err: true, msg: "Failed to Update Account. (2/2)" }, { status: 500 });
+    return NextResponse.json({ err: true, msg: "Failed to Update Account." }, { status: 500 });
   }
 
   return NextResponse.json({ err: false, msg: `Account Successfully Updated!` }, { status: 200 });
