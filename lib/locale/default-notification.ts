@@ -3,126 +3,42 @@ type NotificationAlertIcons = {
   [key: string]: React.ComponentType<React.SVGProps<SVGSVGElement>> | LucideIcon;
 };
 
-const defaultNotification: DefaultNotification = {
-  message: {
-    error: msg => ({
-      title: "Failed!",
-      message: msg || "Something went wrong!",
-      status: "error"
-    }),
-    success: msg => ({
-      title: "Success!",
-      message: msg || "Successfully sent a message!",
-      status: "success"
-    }),
-    pending: {
-      title: "Sending...",
-      message: "Sending the message...",
-      status: "pending"
-    }
-  },
-  register: {
-    error: msg => ({
-      title: "Failed!",
-      message: msg || "Something went wrong!",
-      status: "error"
-    }),
-    success: msg => ({
-      title: "Success!",
-      message: msg || "Successfully registered!",
-      status: "success"
-    }),
-    pending: {
-      title: "Registering...",
-      message: "Signing you up...",
-      status: "pending"
-    }
-  },
-  login: {
-    error: msg => ({
-      title: "Failed!",
-      message: msg || "Something went wrong!",
-      status: "error"
-    }),
-    success: msg => ({
-      title: "Success!",
-      message: msg || "Successfully Logged in!",
-      status: "success"
-    }),
-    pending: {
-      title: "Logging in...",
-      message: "Logging you in...",
-      status: "pending"
-    }
-  },
-  changepass: {
-    error: msg => ({
-      title: "Failed!",
-      message: msg || "Something went wrong!",
-      status: "error"
-    }),
-    success: msg => ({
-      title: "Success!",
-      message: msg || "Password changed!",
-      status: "success"
-    }),
-    pending: {
-      title: "Changing...",
-      message: "Changing your password...",
-      status: "pending"
-    }
-  },
-  changeusername: {
-    error: msg => ({
-      title: "Failed!",
-      message: msg || "Something went wrong!",
-      status: "error"
-    }),
-    success: msg => ({
-      title: "Success!",
-      message: msg || "Username changed!",
-      status: "success"
-    }),
-    pending: {
-      title: "Changing...",
-      message: "Changing your username...",
-      status: "pending"
-    }
-  },
-  changeavatar: {
-    error: msg => ({
-      title: "Failed!",
-      message: msg || "Something went wrong!",
-      status: "error"
-    }),
-    success: msg => ({
-      title: "Success!",
-      message: msg || "Avatar changed!",
-      status: "success"
-    }),
-    pending: {
-      title: "Changing...",
-      message: "Changing your avatar...",
-      status: "pending"
-    }
-  },
-  deleteacc: {
-    error: msg => ({
-      title: "Failed!",
-      message: msg || "Failed to Delete your account.",
-      status: "error"
-    }),
-    success: msg => ({
-      title: "Success!",
-      message: msg || "Password changed!",
-      status: "success"
-    }),
-    pending: {
-      title: "Deleting...",
-      message: "Deleting your account...",
-      status: "pending"
-    }
+const generateNotification = (
+  successMessage: string,
+  customPendingTitle?: string,
+  customPendingMessage?: string,
+  defaultErrorMessage?: string
+): NotificationLocale => ({
+  error: msg => ({
+    title: "Failed!",
+    message: msg || defaultErrorMessage || "Something went wrong!",
+    status: "error"
+  }),
+  success: msg => ({
+    title: "Success!",
+    message: msg || successMessage,
+    status: "success"
+  }),
+  pending: {
+    title: customPendingTitle || `Processing...`,
+    message: customPendingMessage || `Processing...`,
+    status: "pending"
   }
+});
+
+/** The `defaultNotification` constant is an object that contains different notification messages for
+ * various operations such as sending a message, registering, logging in, changing password, changing
+ * username, changing avatar, and deleting an account. Each operation has three possible statuses:
+ * success, error, and pending.
+ */
+const defaultNotification: DefaultNotification = {
+  message: generateNotification("Successfully sent a Message!", "Sending...", "Sending your message..."),
+  register: generateNotification("Successfully Registered!", "Registering...", "Singing you up..."),
+  login: generateNotification("Successfully Logged in!", "Logging in...", "Signing you in..."),
+  changepass: generateNotification("Password changed!", "Changing...", "Changing your password..."),
+  changeusername: generateNotification("Username changed!", "Changing...", "Changing your username..."),
+  changeavatar: generateNotification("Avatar changed!", "Changing...", "Changing your avatar..."),
+  deleteacc: generateNotification("Account deleted!", "Deleting...", "Deleting your account...", "Failed to Delete your account.")
 };
 
 export const alertVariants: NotificationAlertVariants = {
