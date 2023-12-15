@@ -25,7 +25,6 @@ export default function ChooseAvatar({ avatars, email }: { avatars: string[]; em
     // update slected avatar to db ==>> profile data
     notifCtx.setNotification(defaultNotification.changeavatar.pending);
 
-    console.log(selected);
     const res = await fetch("/api/account/update", {
       method: "POST",
       body: JSON.stringify({ email, image: selected })
