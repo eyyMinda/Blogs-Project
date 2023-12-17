@@ -23,9 +23,7 @@ const REUSED = {
 
 // ========================== CONTACT =======================================
 
-export const contactFormSchema = z.object({
-  username: REUSED.username,
-  email: REUSED.email,
+const coreContactSchema = {
   subject: z
     .string()
     .min(1, { message: "Enter the subject." })
@@ -36,7 +34,21 @@ export const contactFormSchema = z.object({
     .min(1, { message: "Enter the message." })
     .min(12, { message: "Should write a more informative message." })
     .max(1000, { message: "Message exceeds the character limit." })
-});
+};
+const coreContactDefaults = { subject: "", message: "" };
+
+export const contactFormSchema = (auth: boolean) => [
+  z.object(
+    auth
+      ? coreContactSchema
+      : {
+          username: REUSED.username,
+          email: REUSED.email,
+          ...coreContactSchema
+        }
+  ),
+  auth ? coreContactDefaults : { ...coreContactDefaults, username: "", email: "" }
+];
 
 // =========================== AUTH ======================================
 

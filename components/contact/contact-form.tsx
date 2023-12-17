@@ -17,13 +17,14 @@ export default function ContactForm() {
   const { data: session } = useSession();
   const notifCtx = useContext(NotificationContext);
 
-  const form = useForm<z.infer<typeof contactFormSchema>>({
-    resolver: zodResolver(contactFormSchema),
-    defaultValues: session?.user ? { subject: "", message: "" } : { username: "", email: "", subject: "", message: "" }
+  const [ContactFormSchema, ContactFormDefaults] = contactFormSchema(!!session?.user) as any;
+  const form = useForm<z.infer<typeof ContactFormSchema>>({
+    resolver: zodResolver(ContactFormSchema),
+    defaultValues: ContactFormDefaults
   });
   const isLoading = form.formState.isSubmitting;
 
-  async function onSubmit(values: z.infer<typeof contactFormSchema>) {
+  async function onSubmit(values: z.infer<typeof ContactFormSchema>) {
     // ✅ This will be type-safe and validated.
     notifCtx.setNotification(defaultNotification.message.pending);
 

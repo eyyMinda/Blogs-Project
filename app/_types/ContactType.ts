@@ -1,6 +1,6 @@
-interface ContactInfo extends DataObject {
-  name: string;
-  email: string;
+interface ContactInfo {
+  username?: string;
+  email?: string;
   subject: string;
   message: string;
 }
