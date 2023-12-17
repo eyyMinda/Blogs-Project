@@ -61,7 +61,6 @@ export default function ContactForm() {
 
   const contactFields = [
     !session?.user && {
-      group: true,
       fields: [
         { name: "username", label: "Username", placeholder: "John", description: "What would you like to be referred as." },
         { name: "email", label: "Email", placeholder: "john@doe.com" }
@@ -76,7 +75,7 @@ export default function ContactForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
         {contactFields.map((item, index) => (
           <Fragment key={index}>
-            {item.group ? <div className="flex gap-4">{item.fields?.map(item => renderFormField(item))}</div> : renderFormField(item)}
+            {item.fields ? <div className="flex gap-4">{item.fields?.map(item => renderFormField(item))}</div> : renderFormField(item)}
           </Fragment>
         ))}
 

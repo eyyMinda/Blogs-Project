@@ -13,6 +13,5 @@ interface ContactFieldConfig {
   description?: string;
   rows?: number;
   className?: string;
-  group?: boolean;
   fields?: ContactFieldConfig[]; // For grouped fields
 }
