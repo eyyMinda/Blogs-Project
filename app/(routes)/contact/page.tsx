@@ -1,5 +1,5 @@
+import ContactCard from "@/components/contact/contact-card";
 import { Metadata } from "next";
-import ContactForm from "@/components/contact/form";
 
 export const metadata: Metadata = {
   title: "NextJS Blogs Contact",
@@ -7,10 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function Contact() {
-  return (
-    <div>
-      <h2 className="text-4xl mb-8 underline underline-offset-8">Contact    </h2>
-      <ContactForm />
-    </div>
-  );
+  return <ContactCard />;
 }
