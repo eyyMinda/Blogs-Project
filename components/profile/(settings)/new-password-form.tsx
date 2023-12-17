@@ -19,8 +19,6 @@ function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
   const { data: session, update } = useSession();
   const [pass, setPass] = useState<string>("");
 
-  type ChangePassType = { passwordOld?: string; passwordNew: string; passwordConfirm: string };
-
   const passFormSchema = changePassFormSchema(needPassword);
   const form = useForm<z.infer<typeof passFormSchema>>({
     resolver: zodResolver(passFormSchema),
