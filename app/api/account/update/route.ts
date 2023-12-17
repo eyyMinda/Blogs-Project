@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
   }
   if (data.username) {
     // ============== Check if Username is Taken ==============================
-    const existingUser = (await getFromMongo(client, "users", { username: continueData.username }))[0] as User[];
+    const existingUser = (await getFromMongo(client, "users", { name: continueData.username }))[0] as User[];
     if (existingUser) return NextResponse.json({ err: true, msg: "This username is already taken. Please choose a different username." }, { status: 409 });
   }
 
