@@ -6,6 +6,7 @@ import NewPasswordForm from "./new-password-form";
 export default function NewPassword({ needPassword = false }: { needPassword?: boolean }) {
   const [changePassForm, setChangePassForm] = useState<boolean>(false);
 
+  const ButtonText = needPassword ? "Create Password" : "Change Password";
   return (
     <div className="flex flex-col items-start mt-4">
       {needPassword && (
@@ -21,9 +22,9 @@ export default function NewPassword({ needPassword = false }: { needPassword?: b
           size={changePassForm ? "sm" : "default"}
           onClick={() => setChangePassForm(v => !v)}
           className={`${changePassForm ? "order-1 mr-4" : ""}`}>
-          {changePassForm ? "Cancel" : "Change Password"}
+          {changePassForm ? "Cancel" : ButtonText}
         </Button>
-        {changePassForm && <h3 className="px-4 py-2 text-sm font-semibold bg-secondary rounded-md transition-all block btnMimick">Change Password</h3>}
+        {changePassForm && <h3 className="px-4 py-2 text-sm font-semibold bg-secondary rounded-md transition-all block btnMimick">{ButtonText}</h3>}
       </div>
 
       <div className={`accordion-by-state ${changePassForm ? "open" : ""}`}>
