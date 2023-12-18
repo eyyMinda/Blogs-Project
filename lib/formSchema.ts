@@ -83,13 +83,16 @@ const coreChangePassSchema = {
   passwordNew: REUSED.password,
   passwordConfirm: z.string().trim().min(1, { message: "Enter a matching password." })
 };
+const coreChangePassDefaults = { passwordNew: "", passwordConfirm: "" };
 
 export const changePassFormSchema = (needPassword: boolean) => {
   const zObject = needPassword
     ? z.object(coreChangePassSchema)
     : z.object({ ...coreChangePassSchema, passwordOld: z.string().trim().min(1, { message: "Enter old password." }) });
+  const formSchema = zObject.refine(data => data.passwordNew === data.passwordConfirm, { message: "Passwords do not match.", path: ["passwordConfirm"] });
+  const formDefaults = needPassword ? coreChangePassDefaults : { ...coreChangePassDefaults, passwordOld: "" };
 
-  return zObject.refine(data => data.passwordNew === data.passwordConfirm, { message: "Passwords do not match.", path: ["passwordConfirm"] });
+  return [formSchema, formDefaults];
 };
 
 // ============================ CHANGE USERNAME =====================================

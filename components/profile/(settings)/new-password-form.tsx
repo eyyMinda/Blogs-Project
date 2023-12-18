@@ -19,22 +19,18 @@ function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
   const { data: session, update } = useSession();
   const [pass, setPass] = useState<string>("");
 
-  const passFormSchema = changePassFormSchema(needPassword);
+  const [passFormSchema, passFormDefaults] = changePassFormSchema(needPassword) as any;
   const form = useForm<z.infer<typeof passFormSchema>>({
     resolver: zodResolver(passFormSchema),
-    defaultValues: needPassword ? { passwordNew: "", passwordConfirm: "" } : ({ passwordOld: "", passwordNew: "", passwordConfirm: "" } as ChangePassType)
+    defaultValues: passFormDefaults
   });
   const isLoading = form.formState.isSubmitting;
 
   async function onSubmit(values: z.infer<typeof passFormSchema>) {
-    // ✅ This will be type-safe and validated.
     notifCtx.setNotification(defaultNotification.changepass.pending);
 
     let data = { password: values.passwordNew, email: session?.user?.email } as any;
-    if (!needPassword) {
-      const passwordOld = (values as ChangePassType).passwordOld;
-      data.passwordOld = passwordOld;
-    }
+    if (!needPassword) data.passwordOld = values.passwordOld;
 
     const res = await fetch("/api/account/update", {
       method: "POST",
@@ -46,7 +42,6 @@ function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
     if (!err) update({ needPassword: false });
     form.reset();
     setPass(""); // For Password Strength Bar Reset
-    return;
   }
 
   const passwordFields = [
@@ -64,7 +59,7 @@ function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
               <FormField
                 key={index}
                 control={form.control}
-                name={item.name as any}
+                name={item.name}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{item.label}</FormLabel>
