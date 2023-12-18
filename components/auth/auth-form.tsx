@@ -23,41 +23,34 @@ export default function AuthForm({ auth, btnText }: { auth: "register" | "login"
   const [passConfirm, setPassConfirm] = useState<string>("");
   const [emailShadow, setEmailShadow] = useState<string>(""); // This is just a shadow to avoid uncontrolled -> controlled input error
 
-  const AuthFormSchema = authFormSchema(auth);
+  const [AuthFormSchema, AuthFormDefaults] = authFormSchema(auth) as any;
+
   const form = useForm<z.infer<typeof AuthFormSchema>>({
     resolver: zodResolver(AuthFormSchema),
-    defaultValues: {
-      register: { email: "", password: "", passwordConfirm: "" },
-      login: { email: "", password: "" }
-    }[auth]
+    defaultValues: AuthFormDefaults
   });
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof AuthFormSchema>) => {
-    // ✅ This will be type-safe and validated.
     notifCtx.setNotification(defaultNotification[auth].pending);
+
+    const data = login ? { ...values, redirect: false } : { email: values.email, password: values.password };
+    const successRedirect = login ? "/" : "/login";
+    let error;
+
     if (login) {
-      const res = await signIn("credentials", { ...values, redirect: false });
-      const { error } = res!;
-      if (!error) {
-        router.push("/");
-        router.refresh();
-      }
-      notifCtx.setNotification(defaultNotification[auth][error ? "error" : "success"](error));
+      const res = await signIn("credentials", data)!;
+      if (res && res.error) error = res.error || "Something went wrong on our end.";
     } else {
-      const data = { email: values.email, password: values.password };
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        body: JSON.stringify(data)
-      });
-      const { err, msg } = await res.json();
-      if (!err) {
-        router.push("/login");
-        router.refresh();
-      }
-      notifCtx.setNotification(defaultNotification[auth][err ? "error" : "success"](msg));
+      const { msg } = await (await fetch("/api/auth/signup", { method: "POST", body: JSON.stringify(data) })).json();
+      error = msg;
     }
 
+    if (!error) {
+      router.push(successRedirect);
+      router.refresh();
+    }
+    notifCtx.setNotification(defaultNotification[auth][error ? "error" : "success"](error));
     form.reset();
     setPass(""); // For Password Strength Bar Reset
   };
@@ -99,7 +92,7 @@ export default function AuthForm({ auth, btnText }: { auth: "register" | "login"
                       {item.label} {login && item.name === "password" && <ForgotPassword className="text-xs" />}
                     </FormLabel>
                     <FormControl>
-                      <Input {...field} {...item} type={item.type} />
+                      <Input {...field} {...item} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

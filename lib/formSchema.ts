@@ -1,5 +1,11 @@
 import * as z from "zod";
 
+/* ============== Description =============
+ * Returns an array with 2 values:
+ * FormSchema (z.object)
+ * FormDefaults (object with empty strings)
+ * ======================================== */
+
 const REUSED = {
   email: z
     .string()
@@ -56,14 +62,20 @@ const coreAuthSchema = {
   email: REUSED.email,
   password: REUSED.password
 };
+const coreAuthDefaults = { email: "", password: "" };
 
-export const authFormSchema = (auth: "register" | "login") =>
-  ({
+export const authFormSchema = (auth: "register" | "login") => [
+  {
     login: z.object(coreAuthSchema),
     register: z
       .object({ ...coreAuthSchema, passwordConfirm: z.string().trim().min(1, { message: "Enter a matching password." }) })
       .refine(data => data.password === data.passwordConfirm, { message: "Passwords do not match.", path: ["passwordConfirm"] })
-  }[auth]);
+  }[auth],
+  {
+    login: coreAuthDefaults,
+    register: { ...coreAuthDefaults, passwordConfirm: "" }
+  }
+];
 
 // =========================== CHANGE PASS ======================================
 
