@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getClient, isMongoClient, postToMongo } from "@/lib/mongo-db/mongo";
 
 export async function POST(req: NextRequest) {
-  const data: ContactInfo = await req.json();
+  const data = await req.json();
   if (!data) return NextResponse.json({ err: true, msg: "No data has been provided." }, { status: 400 });
 
   // Validation
