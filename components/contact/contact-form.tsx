@@ -8,10 +8,9 @@ import { useSession } from "next-auth/react";
 import NotificationContext from "@/lib/context/notification-context";
 import defaultNotification from "@/lib/locale/default-notification";
 import { contactFormSchema } from "@/lib/formSchema";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Form } from "@/components/ui/form";
 import SubmitButton from "../ui/custom-ui/submit-btn";
+import renderFormField from "../ui/custom-ui/render-form-field";
 
 export default function ContactForm() {
   const { data: session } = useSession();
@@ -25,7 +24,6 @@ export default function ContactForm() {
   const isLoading = form.formState.isSubmitting;
 
   async function onSubmit(values: z.infer<typeof ContactFormSchema>) {
-    // ✅ This will be type-safe and validated.
     notifCtx.setNotification(defaultNotification.message.pending);
 
     const data = {
@@ -43,23 +41,6 @@ export default function ContactForm() {
     return;
   }
 
-  const renderFormField = (item: ContactFieldConfig) =>
-    item && (
-      <FormField
-        key={item.name}
-        control={form.control}
-        name={item.name}
-        render={({ field }) => (
-          <FormItem>
-            {item.label && <FormLabel>{item.label}</FormLabel>}
-            <FormControl>{item.name === "message" ? <Textarea {...field} {...item} /> : <Input {...field} {...item} />}</FormControl>
-            {item.description && <FormDescription>{item.description}</FormDescription>}
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-    );
-
   const contactFields = [
     !session?.user && {
       fields: [
@@ -76,7 +57,7 @@ export default function ContactForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
         {contactFields.map((item, index) => (
           <Fragment key={index}>
-            {item.fields ? <div className="flex gap-4">{item.fields?.map(item => renderFormField(item))}</div> : renderFormField(item)}
+            {item.fields ? <div className="flex gap-4">{item.fields?.map(item => renderFormField(form, item))}</div> : renderFormField(form, item)}
           </Fragment>
         ))}
 

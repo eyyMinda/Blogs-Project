@@ -40,7 +40,6 @@ function ChangeUsernameForm() {
       update();
     }
     form.reset();
-    return;
   }
 
   return (
