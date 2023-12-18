@@ -22,7 +22,6 @@ export default function ChooseAvatar({ avatars, email }: { avatars: string[]; em
 
   const handleChooseAvatar = async () => {
     setIsLoading(true);
-    // update slected avatar to db ==>> profile data
     notifCtx.setNotification(defaultNotification.changeavatar.pending);
 
     const res = await fetch("/api/account/update", {
@@ -50,7 +49,7 @@ export default function ChooseAvatar({ avatars, email }: { avatars: string[]; em
           const fullPath = prePath + img;
           const isSelected = selected === img;
           return (
-            <div key={i} className={`relative ${isSelected ? "border-4 border-white" : "border-2 border-gray-500"} hover:border-gray-300 w-30 h-30`}>
+            <div key={img} className={`relative ${isSelected ? "border-4 border-white" : "border-2 border-gray-500"} hover:border-gray-300 w-30 h-30`}>
               <input
                 type="checkbox"
                 name={img}
