@@ -13,6 +13,7 @@ import NotificationContext from "@/lib/context/notification-context";
 import PasswordStrengthChecker from "../../ui/custom-ui/password-strength-bar";
 import SubmitButton from "../../ui/custom-ui/submit-btn";
 import ForgotPassword from "../../auth/forgotPassword";
+import renderFormField from "@/components/ui/custom-ui/render-form-field";
 
 function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
   const notifCtx = useContext(NotificationContext);
@@ -45,33 +46,15 @@ function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
   }
 
   const passwordFields = [
-    !needPassword && { name: "passwordOld", label: "Old Password" },
-    { name: "passwordNew", label: "New Password", onChangeCapture: e => setPass(e.currentTarget.value) },
-    { name: "passwordConfirm", label: "Confirm New Password" }
+    !needPassword && { name: "passwordOld", label: "Old Password", type: "password" },
+    { name: "passwordNew", label: "New Password", type: "password", onChangeCapture: e => setPass(e.currentTarget.value) },
+    { name: "passwordConfirm", label: "Confirm New Password", type: "password" }
   ] as ChangePassFieldConfig[];
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 mt-4 text-start w-auto max-w-max">
-        {passwordFields.map(
-          (item, index) =>
-            item && (
-              <FormField
-                key={index}
-                control={form.control}
-                name={item.name}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{item.label}</FormLabel>
-                    <FormControl>
-                      <Input type="password" {...item} {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )
-        )}
+        {passwordFields.map(item => item && renderFormField(form, item))}
         <PasswordStrengthChecker password={pass} className="pt-2" />
 
         <div className="flex items-center gap-4">
