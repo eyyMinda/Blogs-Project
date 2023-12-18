@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { useContext, useRef, useState } from "react";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Loader2, X } from "lucide-react";

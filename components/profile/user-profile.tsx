@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import DisplayAvatar from "./display-avatar";
-import ChooseAvatar from "./choose-avatar";
+import ChooseAvatar from "./(settings)/choose-avatar";
 import Settings from "./settings";
 
 function UserProfile({ avatars }: { avatars: string[] }) {
