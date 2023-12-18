@@ -21,6 +21,7 @@ export default function AuthForm({ auth, btnText }: { auth: "register" | "login"
   const notifCtx = useContext(NotificationContext);
   const [pass, setPass] = useState<string>("");
   const [passConfirm, setPassConfirm] = useState<string>("");
+  const [emailShadow, setEmailShadow] = useState<string>(""); // This is just a shadow to avoid uncontrolled -> controlled input error
 
   const AuthFormSchema = authFormSchema(auth);
   const form = useForm<z.infer<typeof AuthFormSchema>>({
@@ -62,7 +63,7 @@ export default function AuthForm({ auth, btnText }: { auth: "register" | "login"
   };
 
   const authFields = [
-    { name: "email", label: "Email", placeholder: "john@doe.com" },
+    { name: "email", label: "Email", placeholder: "john@doe.com", value: emailShadow, onChangeCapture: e => setEmailShadow(e.currentTarget.value) },
     {
       name: "password",
       label: "Password",
