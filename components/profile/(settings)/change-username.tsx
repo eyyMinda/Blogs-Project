@@ -5,12 +5,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext } from "react";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../ui/form";
-import { Input } from "../../ui/input";
+import { Form } from "../../ui/form";
 import { changeUsernameSchema } from "@/lib/formSchema";
 import defaultNotification from "@/lib/locale/default-notification";
 import NotificationContext from "@/lib/context/notification-context";
 import SubmitButton from "../../ui/custom-ui/submit-btn";
+import renderFormField from "@/components/ui/custom-ui/render-form-field";
 
 function ChangeUsernameForm() {
   const notifCtx = useContext(NotificationContext);
@@ -45,18 +45,8 @@ function ChangeUsernameForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex items-center gap-4 mt-4 text-start">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input type="username" placeholder={name} {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {renderFormField(form, { name: "username", placeholder: name })}
+
         <SubmitButton variant="secondary" isLoading={isLoading} text="Change" />
       </form>
     </Form>
