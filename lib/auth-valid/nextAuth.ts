@@ -129,9 +129,9 @@ export const authOptions: any = {
           throw new Error("Failed to connect to the database.");
         }
 
-        const email = user.email || "";
-
-        const newUser = await createUser({ email, image: user.image ? user.image : null, provider: "github" });
+        const email = user.email || "",
+          image = user.image || null;
+        const newUser = await createUser({ email, image, provider: "github" });
 
         user.name = newUser.name;
         const matchedUser = (await getFromMongo(client, "users", { email: email }))[0] as User;
@@ -139,7 +139,7 @@ export const authOptions: any = {
           try {
             await postToMongo(client, "users", newUser);
           } catch (error) {
-            throw new Error("Failed to Sign-up on the database.");
+            throw new Error("Failed to Sign-in on the database.");
           }
         } else {
           try {
