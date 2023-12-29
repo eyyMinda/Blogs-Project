@@ -37,7 +37,9 @@ export default function Header() {
           ))}
 
           {status === "loading" ? (
-            <Loader2 className="animate-spin" />
+            <NavigationMenuItem>
+              <Loader2 className="animate-spin" />
+            </NavigationMenuItem>
           ) : !session ? (
             <>
               <NavigationMenuItem>
