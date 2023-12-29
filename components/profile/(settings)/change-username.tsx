@@ -24,20 +24,24 @@ function ChangeUsernameForm() {
   const isLoading = form.formState.isSubmitting;
 
   async function onSubmit(values: z.infer<typeof changeUsernameSchema>) {
-    // ✅ This will be type-safe and validated.
     notifCtx.setNotification(defaultNotification.changeusername.pending);
 
     const username = values.username;
-    const res = await fetch("/api/account/update", {
-      method: "POST",
-      body: JSON.stringify({ email, username })
-    });
-    const { err, msg } = await res.json();
-    notifCtx.setNotification(defaultNotification.changeusername[err ? "error" : "success"](msg));
+    try {
+      const res = await fetch("/api/account/update", {
+        method: "PATCH",
+        body: JSON.stringify({ email, username })
+      });
+      const { err, msg } = await res.json();
+      notifCtx.setNotification(defaultNotification.changeusername[err ? "error" : "success"](msg));
 
-    if (!err) {
-      await update({ name: username });
-      update();
+      if (!err) {
+        await update({ name: username });
+        update();
+      }
+    } catch (error) {
+      console.log(error);
+      notifCtx.setNotification(defaultNotification.changeusername.error(""));
     }
     form.reset();
   }
