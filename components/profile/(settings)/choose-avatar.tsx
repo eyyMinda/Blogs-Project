@@ -23,18 +23,22 @@ export default function ChooseAvatar({ avatars, email }: { avatars: string[]; em
   const handleChooseAvatar = async () => {
     setIsLoading(true);
     notifCtx.setNotification(defaultNotification.changeavatar.pending);
-
-    const res = await fetch("/api/account/update", {
-      method: "POST",
-      body: JSON.stringify({ email, image: selected })
-    });
-    const { err, msg } = await res.json();
-    if (!err) {
-      await update({ picture: selected });
-      update();
+    try {
+      const res = await fetch("/api/account/update", {
+        method: "POST",
+        body: JSON.stringify({ email, image: selected })
+      });
+      const { err, msg } = await res.json();
+      if (!err) {
+        await update({ picture: selected });
+        update();
+      }
+      notifCtx.setNotification(defaultNotification.changeavatar[err ? "error" : "success"](msg));
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      notifCtx.setNotification(defaultNotification.changeavatar.error(""));
     }
-    notifCtx.setNotification(defaultNotification.changeavatar[err ? "error" : "success"](msg));
-    setIsLoading(false);
     closePopover();
   };
 
