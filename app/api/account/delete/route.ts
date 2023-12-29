@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { deleteFromMongo, getClient, isMongoClient } from "@/lib/mongo-db/mongo";
 
 // --------------------------- POST -------------------------------------
-export async function handler(req: NextRequest) {
+async function handler(req: NextRequest) {
   const email: DataObject = await req.json();
   if (!email) return NextResponse.json({ err: true, msg: "No email has been provided." }, { status: 400 });
 

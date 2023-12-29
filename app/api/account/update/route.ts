@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 // ----------------------- POST, PUT, PATCH -------------------------------------
-export async function handler(req: NextRequest) {
+async function handler(req: NextRequest) {
   const data: DataObject = await req.json();
   if (!data) return NextResponse.json({ err: true, msg: "No data has been provided." }, { status: 400 });
 
