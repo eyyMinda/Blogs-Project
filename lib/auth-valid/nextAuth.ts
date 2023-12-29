@@ -133,8 +133,8 @@ export const authOptions: any = {
           image = user.image || null;
         const newUser = await createUser({ email, image, provider: "github" });
 
-        user.name = newUser.name;
         const matchedUser = (await getFromMongo(client, "users", { email: email }))[0] as User;
+        user.name = matchedUser.name || newUser.name;
         if (!matchedUser) {
           try {
             await postToMongo(client, "users", newUser);
