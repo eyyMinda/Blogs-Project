@@ -4,13 +4,13 @@ import { trimObjectValues, validateMultipleInputs } from "@/lib/utils";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-// --------------------------- POST -------------------------------------
-export async function POST(req: NextRequest) {
+// ----------------------- POST, PUT, PATCH -------------------------------------
+export async function handler(req: NextRequest) {
   const data: DataObject = await req.json();
   if (!data) return NextResponse.json({ err: true, msg: "No data has been provided." }, { status: 400 });
 
   // ============== Check if User is Authorized ==============================
-  const session = (await getServerSession()) as any;
+  const session = await getServerSession();
   if (!session) return NextResponse.json({ err: true, msg: "You are not authorized! This action will be noted." }, { status: 401 });
 
   // ============= Define/Redefine Client =============================
@@ -58,3 +58,5 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json({ err: false, msg: `Account Successfully Updated!` }, { status: 200 });
 }
+
+export { handler as POST, handler as PUT, handler as PATCH };
