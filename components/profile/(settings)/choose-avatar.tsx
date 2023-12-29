@@ -34,12 +34,13 @@ export default function ChooseAvatar({ avatars, email }: { avatars: string[]; em
         update();
       }
       notifCtx.setNotification(defaultNotification.changeavatar[err ? "error" : "success"](msg));
-      setIsLoading(false);
     } catch (error) {
       console.log(error);
       notifCtx.setNotification(defaultNotification.changeavatar.error(""));
+    } finally {
+      setIsLoading(false);
+      closePopover();
     }
-    closePopover();
   };
 
   return (

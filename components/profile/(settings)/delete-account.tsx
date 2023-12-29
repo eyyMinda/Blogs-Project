@@ -11,16 +11,20 @@ export default function DeleteAccount({ email }: { email?: string | null }) {
 
   const handleDelete = async () => {
     if (!window.confirm("Ae you sure you want to delete your account?")) return;
-
     notifCtx.setNotification(defaultNotification["deleteacc"]["pending"]);
-    const res = await fetch("/api/account/delete", {
-      method: "POST",
-      body: JSON.stringify(email)
-    });
-    const { err, msg } = await res.json();
+    try {
+      const res = await fetch("/api/account/delete", {
+        method: "DELETE",
+        body: JSON.stringify(email)
+      });
+      const { err, msg } = await res.json();
 
-    if (!err) signOut();
-    notifCtx.setNotification(defaultNotification["deleteacc"][err ? "error" : "success"](msg));
+      if (!err) signOut();
+      notifCtx.setNotification(defaultNotification["deleteacc"][err ? "error" : "success"](msg));
+    } catch (error) {
+      console.log(error);
+      notifCtx.setNotification(defaultNotification.changeusername.error(""));
+    }
   };
 
   return (

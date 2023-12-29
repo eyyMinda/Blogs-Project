@@ -36,21 +36,22 @@ export default function AuthForm({ auth, btnText }: { auth: "register" | "login"
 
     const data = login ? { ...values, redirect: false } : { email: values.email, password: values.password };
     const successRedirect = login ? "/" : "/login";
-    let error;
+    let error, message;
 
     if (login) {
       const res = await signIn("credentials", data)!;
       if (res && res.error) error = res.error || "Something went wrong on our end.";
     } else {
-      const { msg } = await (await fetch("/api/auth/signup", { method: "POST", body: JSON.stringify(data) })).json();
-      error = msg;
+      const { err, msg } = await (await fetch("/api/auth/signup", { method: "POST", body: JSON.stringify(data) })).json();
+      error = err;
+      message = msg;
     }
 
     if (!error) {
       router.push(successRedirect);
       router.refresh();
     }
-    notifCtx.setNotification(defaultNotification[auth][error ? "error" : "success"](error));
+    notifCtx.setNotification(defaultNotification[auth][error ? "error" : "success"](error || message));
     form.reset();
     setPass(""); // For Password Strength Bar Reset
   };

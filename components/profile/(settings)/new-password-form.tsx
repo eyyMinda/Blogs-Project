@@ -28,20 +28,25 @@ function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
 
   async function onSubmit(values: z.infer<typeof passFormSchema>) {
     notifCtx.setNotification(defaultNotification.changepass.pending);
-
     let data = { password: values.passwordNew, email: session?.user?.email } as any;
     if (!needPassword) data.passwordOld = values.passwordOld;
 
-    const res = await fetch("/api/account/update", {
-      method: "POST",
-      body: JSON.stringify(data)
-    });
-    const { err, msg } = await res.json();
-    notifCtx.setNotification(defaultNotification.changepass[err ? "error" : "success"](msg));
+    try {
+      const res = await fetch("/api/account/update", {
+        method: "PATCH",
+        body: JSON.stringify(data)
+      });
+      const { err, msg } = await res.json();
+      notifCtx.setNotification(defaultNotification.changepass[err ? "error" : "success"](msg));
 
-    if (!err) update({ needPassword: false });
-    form.reset();
-    setPass(""); // For Password Strength Bar Reset
+      if (!err) update({ needPassword: false });
+    } catch (error) {
+      console.log(error);
+      notifCtx.setNotification(defaultNotification.changepass.error(""));
+    } finally {
+      form.reset();
+      setPass(""); // For Password Strength Bar Reset
+    }
   }
 
   const passwordFields = [

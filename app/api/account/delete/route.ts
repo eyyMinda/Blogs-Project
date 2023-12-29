@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { deleteFromMongo, getClient, isMongoClient } from "@/lib/mongo-db/mongo";
 
 // --------------------------- POST -------------------------------------
-export async function POST(req: NextRequest) {
+export async function handler(req: NextRequest) {
   const email: DataObject = await req.json();
   if (!email) return NextResponse.json({ err: true, msg: "No email has been provided." }, { status: 400 });
 
@@ -24,3 +24,5 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json({ err: false, msg: `Account has been deleted.` }, { status: 200 });
 }
+
+export { handler as POST, handler as DELETE };

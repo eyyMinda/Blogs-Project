@@ -25,8 +25,8 @@ function ChangeUsernameForm() {
 
   async function onSubmit(values: z.infer<typeof changeUsernameSchema>) {
     notifCtx.setNotification(defaultNotification.changeusername.pending);
-
     const username = values.username;
+
     try {
       const res = await fetch("/api/account/update", {
         method: "PATCH",
@@ -42,8 +42,9 @@ function ChangeUsernameForm() {
     } catch (error) {
       console.log(error);
       notifCtx.setNotification(defaultNotification.changeusername.error(""));
+    } finally {
+      form.reset();
     }
-    form.reset();
   }
 
   return (
