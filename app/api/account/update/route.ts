@@ -23,10 +23,13 @@ export async function handler(req: NextRequest) {
 
   const continueData = trimObjectValues(data);
 
+  // ================= Does User Exist ==============================
+  const existingUser = (await getFromMongo(client, "users", { email: continueData.email }))[0] as User;
+  if (!existingUser) return NextResponse.json({ err: true, msg: "This user does not exist!" }, { status: 401 });
+
   if (data.password) {
     // ============== Check if Old Password is Correct ==============================
     if (continueData.passwordOld) {
-      const existingUser = (await getFromMongo(client, "users", { email: continueData.email }))[0] as User;
       let passwordMatch = await verifyPassword(continueData.passwordOld, existingUser.password);
       if (!passwordMatch) return NextResponse.json({ err: true, msg: "Incorrect old password for this email account." }, { status: 401 });
     }
