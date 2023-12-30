@@ -13,7 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import SubmitButton from "../ui/custom-ui/submit-btn";
 import PasswordStrengthChecker from "../ui/custom-ui/password-strength-bar";
-import ForgotPassword from "./forgotPassword";
+import ForgotPassword from "./forgot-password-link";
 
 export default function AuthForm({ auth, btnText }: { auth: "register" | "login"; btnText: string }) {
   const login = auth === "login";
