@@ -14,7 +14,7 @@ import SubmitButton from "../../ui/custom-ui/submit-btn";
 import ForgotPassword from "../../auth/forgot-password-link";
 import renderFormField from "@/components/ui/custom-ui/render-form-field";
 
-function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
+function NewPasswordForm({ needPassword = false, btnDisabled = false }: { needPassword?: boolean; btnDisabled?: boolean }) {
   const notifCtx = useContext(NotificationContext);
   const { data: session, update } = useSession();
   const [pass, setPass] = useState<string>("");
@@ -62,7 +62,7 @@ function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
         <PasswordStrengthChecker password={pass} className="pt-2" />
 
         <div className="flex items-center gap-4">
-          <SubmitButton variant="secondary" isLoading={isLoading} text="Update password" />
+          <SubmitButton variant="secondary" isLoading={btnDisabled ? btnDisabled : isLoading} text="Update password" />
           {!needPassword && <ForgotPassword />}
         </div>
       </form>
