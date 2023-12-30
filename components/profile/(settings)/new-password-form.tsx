@@ -5,14 +5,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
-import { Form } from "../../ui/form";
-import { changePassFormSchema } from "@/lib/formSchema";
-import defaultNotification from "@/lib/locale/default-notification";
-import NotificationContext from "@/lib/context/notification-context";
-import PasswordStrengthChecker from "../../ui/custom-ui/password-strength-bar";
-import SubmitButton from "../../ui/custom-ui/submit-btn";
+import { Form } from "UI/form";
+import { changePassFormSchema } from "Lib/formSchema";
+import defaultNotification from "Lib/locale/default-notification";
+import NotificationContext from "Lib/context/notification-context";
+import PasswordStrengthChecker from "UI/custom-ui/password-strength-bar";
+import SubmitButton from "UI/custom-ui/submit-btn";
 import ForgotPassword from "../../auth/forgot-password-link";
-import renderFormField from "@/components/ui/custom-ui/render-form-field";
+import renderFormField from "Components/ui/custom-ui/render-form-field";
 
 interface NewPasswordProps {
   needPassword?: boolean;
