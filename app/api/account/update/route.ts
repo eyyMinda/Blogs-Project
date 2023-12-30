@@ -36,8 +36,9 @@ async function handler(req: NextRequest) {
   }
   if (data.username) {
     // ============== Check if Username is Taken ==============================
-    const existingUser = (await getFromMongo(client, "users", { name: continueData.username }))[0] as User[];
-    if (existingUser) return NextResponse.json({ err: true, msg: "This username is already taken. Please choose a different username." }, { status: 409 });
+    const existingUserWithName = (await getFromMongo(client, "users", { name: continueData.username }))[0] as User[];
+    if (existingUserWithName)
+      return NextResponse.json({ err: true, msg: "This username is already taken. Please choose a different username." }, { status: 409 });
   }
 
   // ================== Update User ===================================
