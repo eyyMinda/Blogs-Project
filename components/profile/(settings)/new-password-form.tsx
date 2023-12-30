@@ -14,7 +14,13 @@ import SubmitButton from "../../ui/custom-ui/submit-btn";
 import ForgotPassword from "../../auth/forgot-password-link";
 import renderFormField from "@/components/ui/custom-ui/render-form-field";
 
-function NewPasswordForm({ needPassword = false, btnDisabled = false }: { needPassword?: boolean; btnDisabled?: boolean }) {
+interface NewPasswordProps {
+  needPassword?: boolean;
+  accountEmail?: string | null;
+  onSuccessAction?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function NewPasswordForm({ needPassword = false, accountEmail, onSuccessAction }: NewPasswordProps) {
   const notifCtx = useContext(NotificationContext);
   const { data: session, update } = useSession();
   const [pass, setPass] = useState<string>("");
@@ -28,7 +34,7 @@ function NewPasswordForm({ needPassword = false, btnDisabled = false }: { needPa
 
   async function onSubmit(values: z.infer<typeof passFormSchema>) {
     notifCtx.setNotification(defaultNotification.changepass.pending);
-    let data = { password: values.passwordNew, email: session?.user?.email } as any;
+    let data = { password: values.passwordNew, email: accountEmail || session?.user?.email } as any;
     if (!needPassword) data.passwordOld = values.passwordOld;
 
     try {
@@ -39,7 +45,10 @@ function NewPasswordForm({ needPassword = false, btnDisabled = false }: { needPa
       const { err, msg } = await res.json();
       notifCtx.setNotification(defaultNotification.changepass[err ? "error" : "success"](msg));
 
-      if (!err) update({ needPassword: false });
+      if (!err) {
+        update({ needPassword: false });
+        if (onSuccessAction) onSuccessAction(true);
+      }
     } catch (error) {
       console.log(error);
       notifCtx.setNotification(defaultNotification.changepass.error(""));
@@ -62,7 +71,7 @@ function NewPasswordForm({ needPassword = false, btnDisabled = false }: { needPa
         <PasswordStrengthChecker password={pass} className="pt-2" />
 
         <div className="flex items-center gap-4">
-          <SubmitButton variant="secondary" isLoading={btnDisabled ? btnDisabled : isLoading} text="Update password" />
+          <SubmitButton variant="secondary" isLoading={isLoading} text="Update password" />
           {!needPassword && <ForgotPassword />}
         </div>
       </form>
