@@ -10,8 +10,10 @@ async function handler(req: NextRequest) {
   if (!data) return NextResponse.json({ err: true, msg: "No data has been provided." }, { status: 400 });
 
   // ============== Check if User is Authorized ==============================
-  const session = await getServerSession();
-  if (!session) return NextResponse.json({ err: true, msg: "You are not authorized! This action will be noted." }, { status: 401 });
+  // Disabled for now, due to reset password without being logged in
+  // Enable only after email confirmation is finished to validate selected email.
+  // const session = await getServerSession();
+  // if (!session) return NextResponse.json({ err: true, msg: "You are not authorized! This action will be noted." }, { status: 401 });
 
   // ============= Define/Redefine Client =============================
   const client = await getClient();
