@@ -98,3 +98,7 @@ export const changePassFormSchema = (needPassword: boolean) => {
 // ============================ CHANGE USERNAME =====================================
 
 export const changeUsernameSchema = z.object({ username: REUSED.username });
+
+// ============================ CONFIRM EMAIL =====================================
+
+export const confirmEmailSchema = z.object({ email: REUSED.email });
