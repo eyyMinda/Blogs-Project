@@ -11,7 +11,7 @@ import defaultNotification from "@/lib/locale/default-notification";
 import NotificationContext from "@/lib/context/notification-context";
 import PasswordStrengthChecker from "../../ui/custom-ui/password-strength-bar";
 import SubmitButton from "../../ui/custom-ui/submit-btn";
-import ForgotPassword from "../../auth/forgotPassword";
+import ForgotPassword from "../../auth/forgot-password-link";
 import renderFormField from "@/components/ui/custom-ui/render-form-field";
 
 function NewPasswordForm({ needPassword = false }: { needPassword?: boolean }) {
