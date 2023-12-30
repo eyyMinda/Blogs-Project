@@ -38,6 +38,7 @@ const defaultNotification: DefaultNotification = {
   changepass: generateNotification("Password changed!", "Changing...", "Changing your password..."),
   changeusername: generateNotification("Username changed!", "Changing...", "Changing your username..."),
   changeavatar: generateNotification("Avatar changed!", "Changing...", "Changing your avatar..."),
+  confirmemail: generateNotification("Email is Valid.", "Checking...", "Checking your email...", "Failed to check your email..."),
   deleteacc: generateNotification("Account deleted!", "Deleting...", "Deleting your account...", "Failed to Delete your account.")
 };
 
