@@ -5,12 +5,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext } from "react";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
-import { Form } from "../../ui/form";
-import { changeUsernameSchema } from "@/lib/formSchema";
-import defaultNotification from "@/lib/locale/default-notification";
-import NotificationContext from "@/lib/context/notification-context";
-import SubmitButton from "../../ui/custom-ui/submit-btn";
-import renderFormField from "@/components/ui/custom-ui/render-form-field";
+import { Form } from "UI/form";
+import { changeUsernameSchema } from "Lib/formSchema";
+import defaultNotification from "Lib/locale/default-notification";
+import NotificationContext from "Lib/context/notification-context";
+import SubmitButton from "UI/custom-ui/submit-btn";
+import renderFormField from "Components/ui/custom-ui/render-form-field";
 
 function ChangeUsernameForm() {
   const notifCtx = useContext(NotificationContext);

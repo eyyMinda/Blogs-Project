@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ShieldAlert } from "lucide-react";
-import { Button } from "../../ui/button";
+import { Button } from "UI/button";
 import NewPasswordForm from "./new-password-form";
 
 export default function NewPassword({ needPassword = false }: { needPassword?: boolean }) {

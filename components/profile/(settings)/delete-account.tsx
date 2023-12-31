@@ -1,9 +1,9 @@
 "use client";
 import { signOut } from "next-auth/react";
 import { useContext } from "react";
-import NotificationContext from "@/lib/context/notification-context";
-import defaultNotification from "@/lib/locale/default-notification";
-import { Button } from "../../ui/button";
+import NotificationContext from "Lib/context/notification-context";
+import defaultNotification from "Lib/locale/default-notification";
+import { Button } from "UI/button";
 
 export default function DeleteAccount({ email }: { email?: string | null }) {
   const notifCtx = useContext(NotificationContext);

@@ -3,11 +3,11 @@
 import Image from "next/image";
 import { Button } from "../../ui/button";
 import { useContext, useRef, useState } from "react";
+import { useSession } from "next-auth/react";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Loader2, X } from "lucide-react";
-import NotificationContext from "@/lib/context/notification-context";
-import defaultNotification from "@/lib/locale/default-notification";
-import { useSession } from "next-auth/react";
+import NotificationContext from "Lib/context/notification-context";
+import defaultNotification from "Lib/locale/default-notification";
 
 const prePath = "/images/account/remix-rumble-avatars/";
 

@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import NotificationContext from "@/lib/context/notification-context";
 import { createPortal } from "react-dom";
+import NotificationContext from "Lib/context/notification-context";
 
 import { X } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { alertVariants, alertIcons } from "@/lib/locale/default-notification";
+import { Alert, AlertDescription, AlertTitle } from "Components/ui/alert";
+import { alertVariants, alertIcons } from "Lib/locale/default-notification";
 
 function Notification({ title, message, status }: NotificationData) {
   const notifCtx = useContext(NotificationContext);
