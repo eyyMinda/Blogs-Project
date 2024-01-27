@@ -20,7 +20,8 @@ A dynamic and personalized blogging platform built with Next.js 14 using the App
 
 - **User Authentication:** Implemented NextAuth for account creation with credentials, supporting secure login with email and password. Additionally, enable third-party authentication using GitHub and Google. User data is securely stored in the database.
 
-- **Profile Management:** Change your profile details to suit your liking - avatar, username, password... See other profiles.
+- **Profile Management:** Change your profile details to suit your liking - avatar, username, password...
+- [ ] See other profiles
 
 ## Getting Started:
 
