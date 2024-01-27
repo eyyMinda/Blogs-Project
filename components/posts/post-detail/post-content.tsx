@@ -5,13 +5,13 @@ import { PostDataObject } from "@/app/_types/PostType";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 const PostContent: React.FC<PostDataObject> = ({ postData }) => {
-  const { image, slug, title, content } = postData;
+  const { image, slug, title, content, date } = postData;
   const imagePath = image ? `/images/posts/${slug}/${image}` : "/images/default-blog.webp";
 
   return (
     <Card className="border-2 my-12">
       <CardHeader>
-        <PostHeader title={title} image={imagePath} />
+        <PostHeader title={title} image={imagePath} date={date} />
       </CardHeader>
       <CardContent className="markdown-content text-xl md:px-8 max-w-5xl">
         <ReactMarkdown components={customMDComponents}>{content}</ReactMarkdown>

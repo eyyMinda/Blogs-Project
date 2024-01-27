@@ -18,6 +18,7 @@ export interface PostObject {
 export interface PostHeader {
   title: string;
   image: string;
+  date: Date;
 }
 
 // Header + Content

@@ -30,7 +30,7 @@ const PostItem: React.FC<PostObject> = ({ post }) => {
           <p>{excerpt}</p>
         </CardContent>
         <CardFooter className="p-4 pt-0 mt-auto justify-center">
-          <Link href={linkPath} className="text-purple-600 hover:text-purple-700">
+          <Link href={linkPath} className="text-primary/80 hover:text-primary transition-all">
             Read More
           </Link>
         </CardFooter>

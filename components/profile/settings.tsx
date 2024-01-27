@@ -28,7 +28,7 @@ export default function Settings({ user }: { user?: IUser }) {
 
   return (
     <div className="flex flex-col items-start text-start">
-      <h2 className="text-3xl text-start text-gray-200">Account Settings</h2>
+      <h2 className="text-3xl text-start">Account Settings</h2>
       <hr className="w-full mt-4" />
 
       {settingsFields.map((f, i) => (
