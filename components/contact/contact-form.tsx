@@ -28,7 +28,8 @@ export default function ContactForm() {
 
     const data = {
       ...values,
-      ...(session?.user && { username: session.user.name, email: session.user.email })
+      ...(session?.user && { username: session.user.name, email: session.user.email }),
+      date: new Date().toString()
     };
     const res = await fetch("/api/contact", {
       method: "POST",
@@ -36,7 +37,9 @@ export default function ContactForm() {
     });
     const { err, msg } = await res.json();
 
-    notifCtx.setNotification(defaultNotification.message[err ? "error" : "success"](msg));
+    let special;
+    if (session?.user && session.user.email === "gorgenyimartina05@gmail.com") special = "Hi there Mysterious Tina ⭐⭐⭐";
+    notifCtx.setNotification(defaultNotification.message[err ? "error" : "success"](special ? special : msg));
     !err && form.reset();
     return;
   }

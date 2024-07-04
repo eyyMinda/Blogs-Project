@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useEffect, useState } from "react";
 
-const statusTimers = { success: 4000, error: 7000 };
+const statusTimers = { success: 4000, error: 7000, special: 14000 };
 
 const NotificationContext = createContext<NotificationContextType>({
   notification: null,
