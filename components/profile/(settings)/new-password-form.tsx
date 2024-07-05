@@ -66,7 +66,7 @@ function NewPasswordForm({ needPassword = false, accountEmail, onSuccessAction }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 mt-4 text-start w-auto max-w-max">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 mt-4 text-start w-auto max-w-max change-pass-form">
         {passwordFields.map(item => item && renderFormField(form, item))}
         <PasswordStrengthChecker password={pass} className="pt-2" />
 

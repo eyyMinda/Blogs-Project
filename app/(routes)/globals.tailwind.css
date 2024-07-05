@@ -154,7 +154,7 @@
   }
   .btnMimick {
     display: block;
-    animation: bg-fade 0.8s ease-in-out forwards;
+    animation: bg-fade 0.6s ease-in-out forwards;
   }
   @keyframes bg-fade {
     0% {
@@ -172,7 +172,7 @@
     max-height: 0;
     width: 100%;
     overflow: hidden;
-    transition: all 0.8s ease-out;
+    transition: all 0.6s ease-out;
   }
 
   .accordion-by-state.open {

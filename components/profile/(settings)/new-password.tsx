@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ShieldAlert } from "lucide-react";
 import { Button } from "UI/button";
 import NewPasswordForm from "./new-password-form";
 
 export default function NewPassword({ needPassword = false }: { needPassword?: boolean }) {
   const [changePassForm, setChangePassForm] = useState<boolean>(false);
+  const [hiddenFormState, setHiddenFormState] = useState<boolean>(true);
+
+  useEffect(() => {
+    // Hide form from password manager
+    setTimeout(() => setHiddenFormState(!changePassForm), 550);
+  }, [changePassForm]);
 
   const ButtonText = needPassword ? "Create Password" : "Change Password";
   return (
@@ -27,7 +33,7 @@ export default function NewPassword({ needPassword = false }: { needPassword?: b
         {changePassForm && <h3 className="px-4 py-2 text-sm font-semibold bg-secondary rounded-md transition-all block btnMimick">{ButtonText}</h3>}
       </div>
 
-      <div className={`accordion-by-state ${changePassForm ? "open" : ""}`}>
+      <div className={`accordion-by-state ${changePassForm ? "open" : ""} ${hiddenFormState ? "hidden" : ""}`}>
         <hr className="w-full my-4" />
         <NewPasswordForm needPassword={needPassword} />
       </div>
