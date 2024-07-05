@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { PostHeader } from "@/app/_types/PostType";
+import { PostHeaderType } from "@/app/_types/PostType";
 
-const PostHeader = ({ title, image, date }: PostHeader) => {
+const PostHeader = ({ title, image, date }: PostHeaderType) => {
   const formattedDate = new Date(date).toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
@@ -16,7 +16,7 @@ const PostHeader = ({ title, image, date }: PostHeader) => {
         </time>
         <h1 className="text-start three-d-title text-4xl lg:text-5xl min-w-[15rem] mt-2">{title}</h1>
       </div>
-      <Image src={image} alt="title" width={200} height={150} className="min-w md:min-w-[20rem] max-h-40 object-cover" />
+      <Image src={image} alt="title" width={200} height={150} className="md:min-w-[20rem] max-h-40 object-cover" />
     </header>
   );
 };

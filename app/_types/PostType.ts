@@ -15,7 +15,7 @@ export interface PostObject {
 }
 
 // Header
-export interface PostHeader {
+export interface PostHeaderType {
   title: string;
   image: string;
   date: Date;
