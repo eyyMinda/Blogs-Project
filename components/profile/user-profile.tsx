@@ -9,7 +9,6 @@ import { Loader2 } from "lucide-react";
 import DisplayAvatar from "./display-avatar";
 import ChooseAvatar from "./(settings)/choose-avatar";
 import Settings from "./settings";
-// import onlineIcon from "/svg/misc/green-sphere.svg";
 
 function UserProfile({ avatars }: { avatars: string[] }) {
   const { data: session, status } = useSession();
@@ -21,9 +20,9 @@ function UserProfile({ avatars }: { avatars: string[] }) {
     router.refresh();
     return;
   }
-  const { image, name, email, createdAt, needPassword, lastSignInAt } = session?.user as IUser;
-  let formattedDate = createdAt && timeAgo(createdAt);
-  let formattedLastSignIn = lastSignInAt && timeAgo(lastSignInAt);
+  const { image, name, email, createdAt, lastSignInAt } = session?.user as IUser;
+  const formattedDate = createdAt && timeAgo(createdAt);
+  const formattedLastSignIn = lastSignInAt && timeAgo(lastSignInAt);
 
   return (
     <section className="mx-auto my-8 text-center w-full">
@@ -38,19 +37,13 @@ function UserProfile({ avatars }: { avatars: string[] }) {
           </PopoverContent>
         </Popover>
 
-        <h1 className="text-3xl">{name}</h1>
+        <h1 className="text-3xl flex items-center gap-2">
+          {formattedLastSignIn && formattedLastSignIn[1] < 1200 && <Image src={"/svg/misc/green-sphere.svg"} alt="online-icon" width={12} height={12} />}
+          {name}
+        </h1>
 
-        {formattedLastSignIn && (
-          <p className="text-gray-500 flex justify-center items-center gap-2">
-            {formattedLastSignIn[1] < 1200 ? (
-              <>
-                <Image src={"/svg/misc/green-sphere.svg"} alt="online-icon" width={10} height={10} /> {"Online "}
-              </>
-            ) : (
-              "Last Online "
-            )}{" "}
-            {formattedLastSignIn[0]}
-          </p>
+        {formattedLastSignIn && formattedLastSignIn[1] > 1200 && (
+          <p className="text-gray-500 flex justify-center items-center gap-2">Last Online {formattedLastSignIn[0]}</p>
         )}
         {formattedDate && <p className="text-gray-500">Joined {formattedDate[0]}</p>}
       </header>

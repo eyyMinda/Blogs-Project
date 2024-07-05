@@ -5,7 +5,7 @@ import DeleteAccount from "./(settings)/delete-account";
 import ChangeUsernameForm from "./(settings)/change-username";
 
 export default function Settings({ user }: { user?: IUser }) {
-  const { image, name, email, createdAt, needPassword } = user as IUser;
+  const { image, name, email, createdAt, lastSignInAt, needPassword } = user as IUser;
 
   const settingsFields = [
     {
