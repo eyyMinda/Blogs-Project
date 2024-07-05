@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.0" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<linearGradient id="c" x1="6.9292" x2="6.9292" y1="121.07" y2="8.961" gradientUnits="userSpaceOnUse">
+<stop stop-color="#0f0" offset="0"/>
+<stop stop-color="#00a200" offset=".61161"/>
+<stop stop-color="#6f6" offset="1"/>
+</linearGradient>
+<radialGradient id="a" cx="62.984" cy="65.016" r="54.18" gradientUnits="userSpaceOnUse">
+<stop stop-color="#545454" offset="0"/>
+<stop stop-color="#545454" offset=".94643"/>
+<stop stop-color="#c5c5c5" stop-opacity="0" offset="1"/>
+</radialGradient>
+<linearGradient id="b" x1="31.5" x2="31.5" y1="63" y2="12" gradientUnits="userSpaceOnUse">
+<stop stop-color="#00b000" offset="0"/>
+<stop stop-color="#fff" offset="1"/>
+</linearGradient>
+</defs>
+<path transform="translate(5.7249 4.0317)" d="m117.16 65.016c0 29.923-24.257 54.18-54.18 54.18s-54.18-24.257-54.18-54.18 24.257-54.18 54.18-54.18 54.18 24.257 54.18 54.18z" fill="url(#a)"/>
+<path transform="translate(1.6931)" d="m117.16 65.016c0 29.923-24.257 54.18-54.18 54.18s-54.18-24.257-54.18-54.18 24.257-54.18 54.18-54.18 54.18 24.257 54.18 54.18z" fill="url(#c)" stroke="#007400" stroke-linejoin="round" stroke-width="3.75"/>
+<path transform="translate(1,2)" d="m95.5 37.5c0 14.083-14.327 25.5-32 25.5s-32-11.417-32-25.5 14.327-25.5 32-25.5 32 11.417 32 25.5z" fill="url(#b)"/>
+</svg>

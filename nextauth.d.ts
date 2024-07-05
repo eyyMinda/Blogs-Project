@@ -13,6 +13,10 @@ interface IUser extends DefaultUser {
    */
   createdAt?: string | Date;
   /**
+   * Field to check when the user was last signed-in
+   */
+  lastSignInAt?: string | Date;
+  /**
    * Field to check whether a user needs to set a password due to OAuth login
    */
   needPassword?: boolean;
