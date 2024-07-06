@@ -1,6 +1,6 @@
 import { trimObjectValues, validateMultipleInputs } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
-import { getClient, isMongoClient, postToMongo } from "@/lib/mongo-db/mongo";
+import { getClient, getFromMongo, isMongoClient, postToMongo } from "@/lib/mongo-db/mongo";
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
@@ -21,5 +21,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ err: true, msg: "Failed to send a message." }, { status: 500 });
   }
 
-  return NextResponse.json({ err: false, msg: "Successfully sent a message!" }, { status: 200 });
+  return NextResponse.json(
+    { err: false, msg: data.username === "pastaizgud" ? "Hi there Mysterious Tina ⭐⭐⭐" : "Successfully sent a message!" },
+    { status: 200 }
+  );
 }

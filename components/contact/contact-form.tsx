@@ -37,9 +37,7 @@ export default function ContactForm() {
     });
     const { err, msg } = await res.json();
 
-    let special;
-    if (session?.user && session.user.email === "gorgenyimartina05@gmail.com") special = "Hi there Mysterious Tina ⭐⭐⭐";
-    notifCtx.setNotification(defaultNotification.message[err ? "error" : "success"](special ? special : msg));
+    notifCtx.setNotification(defaultNotification.message[err ? "error" : "success"](msg));
     !err && form.reset();
     return;
   }
