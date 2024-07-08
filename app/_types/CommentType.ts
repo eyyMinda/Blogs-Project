@@ -1,10 +1,10 @@
 interface CommentType {
-  _id: string;
+  _id: string | number;
   username: string;
   email: string;
-  post_id: string;
+  post_id: string | number;
   comment: string;
-  date: Date | string;
+  date: string;
   replies?: Object[] | string[] | undefined;
 }
 
@@ -13,5 +13,5 @@ interface CommentReplyType extends CommentType {
 }
 
 interface CommentsType {
-  comments?: CommentType[] | undefined;
+  comment?: CommentType[] | undefined;
 }
