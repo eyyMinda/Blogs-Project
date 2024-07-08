@@ -63,11 +63,13 @@ export const findOneMongo = async (client: MongoClient, collection: string, matc
  * @param {string} collection - string
  * @param {Object} query - object | (Optional)
  * @param {Object} sort - object | (Optional)
+ * @param {Object} limit - number | (Optional)
+ * @param {Object} skip - number | (Optional)
  * @returns {Array<Object>} Documents | array of objects
  */
-export const getFromMongo = async (client: MongoClient, collection: string, query: object = {}, sort = {}): Promise<object[]> => {
+export const getFromMongo = async (client: MongoClient, collection: string, query: object = {}, sort = {}, limit = 10, skip = 0): Promise<object[]> => {
   const db = client.db("blogs_nextjs");
   const coll = await db.collection(collection);
-  const items = await coll.find(query).sort(sort).limit(10).toArray();
+  const items = await coll.find(query).sort(sort).skip(skip).limit(limit).toArray();
   return items;
 };

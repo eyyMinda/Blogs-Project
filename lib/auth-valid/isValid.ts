@@ -99,6 +99,13 @@ export class isValid {
 
     return [false, "OK"];
   }
+  static comment(str: string): [boolean, string] {
+    if (str === undefined || str.trim() === "") return [true, "Comment cannot be blank"];
+    const minSize: number = 2;
+    if (str.length < minSize) return [true, `Comment is too short, has to be at least ${minSize} symbols`];
+
+    return [false, "OK"];
+  }
   static path(str: string): [boolean, string] {
     if (str === undefined || str.trim() === "") return [true, "Path cannot be blank"];
     const minSize: number = 1;
