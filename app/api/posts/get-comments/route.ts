@@ -11,20 +11,30 @@ async function handler(req: NextRequest) {
   if (!isMongoClient(client)) return client;
 
   // ================= data example ==============================
-  const dat = {
-    post_id: "",
-    comment_id: "" || undefined, // If "View replies"
-    skip: 0 // Which comment page ex.: 10-20 | 50-60
-  };
+  // const dat = {
+  //   post_id: "",
+  //   comment_id: "" || undefined, // If "View replies"
+  //   skip: 0 // Which comment page ex.: 10-20 | 50-60
+  // };
 
   // ================= Fetch Comments For Post ==============================
-  let comments;
-  try {
-    comments = (await getFromMongo(client, "comments", { post_id: data.post_id }, {}, 10, Number(data.skip))) as CommentsType;
-    if (!comments) return NextResponse.json({ err: true, msg: "No comments..." }, { status: 401 });
-  } catch (error) {
-    return NextResponse.json({ err: true, msg: "Failed to Fetch Comments for this Post." }, { status: 500 });
-  }
+  let comments: CommentType[] = [
+    {
+      _id: 15151561561654654465,
+      post_id: 1,
+      username: "eyyMinda",
+      email: "sublimemindrite@gmail.com",
+      comment: "New Comment here",
+      date: new Date().toString(),
+      replies: undefined
+    }
+  ];
+  // try {
+  //   comments = (await getFromMongo(client, "comments", { post_id: data.post_id }, {}, 10, Number(data.skip))) as CommentsType;
+  //   if (!comments) return NextResponse.json({ err: true, msg: "No comments..." }, { status: 401 });
+  // } catch (error) {
+  //   return NextResponse.json({ err: true, msg: "Failed to Fetch Comments for this Post." }, { status: 500 });
+  // }
 
   return NextResponse.json({ err: false, data: comments }, { status: 200 });
 }

@@ -13,5 +13,5 @@ interface CommentReplyType extends CommentType {
 }
 
 interface CommentsType {
-  comment?: CommentType[] | undefined;
+  comments?: CommentType[] | undefined;
 }
