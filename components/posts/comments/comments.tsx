@@ -24,7 +24,7 @@ export default function Comments() {
 
   return (
     <div className="w-full flex flex-col justify-center">
-      <Button variant={showComments ? "outline" : "default"} onClick={() => setShowComments(prev => !prev)} className="self-center">
+      <Button variant={showComments ? "outline" : "default"} onClick={() => setShowComments(prev => !prev)} className="self-center mb-2">
         {showComments ? "Hide" : "Show"} Comments
       </Button>
 
