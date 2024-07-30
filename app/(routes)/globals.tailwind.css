@@ -184,14 +184,15 @@
 
   .skeleton {
     opacity: 0.9;
-    animation: skeleton-loading 1s linear infinite alternate;
   }
   .skeleton p,
   .skeleton span {
     width: 100%;
     height: 0.5rem;
+    padding: 0.6rem 0.8rem;
     margin-bottom: 0.25rem;
-    border-radius: 0.125rem;
+    border-radius: 1rem;
+    animation: skeleton-loading 0.8s linear infinite alternate;
   }
   .skeleton p:last-of-type {
     width: 70%;
@@ -201,10 +202,10 @@
   }
   @keyframes skeleton-loading {
     0% {
-      background-color: hsl(180, 32%, 75%);
+      background-color: hsla(0, 0%, 47%, 0.7);
     }
     100% {
-      background-color: hsl(180, 32%, 85%);
+      background-color: hsl(0, 0%, 56%);
     }
   }
 }
