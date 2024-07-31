@@ -1,8 +1,12 @@
 // Post Preview
 export interface Post {
+  post_id: number;
   title: string;
+  author: string;
+  author_id: number | string;
+  date: string | Date;
+  date_updated: string | Date;
   image: string;
-  date: Date;
   excerpt: string;
   slug: string;
   isFeatured: boolean;
@@ -27,4 +31,13 @@ export interface PostData extends Post {
 }
 export interface PostDataObject {
   postData: PostData;
+}
+
+export interface DatabasePost {
+  post_id: number;
+  title: string;
+  author: string;
+  author_id: number | string;
+  date: string | Date;
+  date_updated: string | Date;
 }
