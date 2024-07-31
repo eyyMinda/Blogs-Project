@@ -1,11 +1,11 @@
 // Post Preview
 export interface Post {
-  post_id: number;
+  post_id?: number;
   title: string;
-  author: string;
-  author_id: number | string;
+  author?: string;
+  author_id?: number | string;
   date: string | Date;
-  date_updated: string | Date;
+  date_updated?: string | Date;
   image: string;
   excerpt: string;
   slug: string;
