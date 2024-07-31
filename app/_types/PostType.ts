@@ -22,7 +22,7 @@ export interface PostObject {
 export interface PostHeaderType {
   title: string;
   image: string;
-  date: Date;
+  date: Date | string;
 }
 
 // Header + Content
