@@ -1,3 +1,27 @@
+import { DatabasePost } from "@/app/_types/PostType";
+
+// ============================= POSTS ====================================
+export async function updatePostData(data: DatabasePost[]) {
+  if (!data) return;
+
+  const res = await fetch("/api/posts/update-posts", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ data: data })
+  });
+
+  const { err, msg } = await res.json();
+  console.log(msg);
+  if (err) {
+    throw new Error(msg || "Failed to update posts");
+  }
+  return msg;
+}
+
+// ============================= COMMENTS ====================================
+
 export async function fetchComments() {
   const res = await fetch("/api/posts/get-comments", {
     method: "POST",
@@ -18,28 +42,19 @@ export async function fetchComments() {
 }
 
 export async function postComment(comment?: CommentType) {
-  const dummyComment = {
-    _id: 15151561561654654465,
-    post_id: 1,
-    username: "eyyMinda",
-    email: "sublimemindrite@gmail.com",
-    comment: "New Comment here",
-    date: new Date().toString(),
-    replies: undefined
-  };
   if (!comment) return;
 
-  const res = await fetch("/api/posts/get-comments", {
+  const res = await fetch("/api/posts/new-comment", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(dummyComment)
+    body: JSON.stringify(comment)
   });
 
-  const { err, data } = await res.json();
+  const { err, msg } = await res.json();
   if (err) {
-    throw new Error("Failed to fetch comments");
+    throw new Error(msg || "Failed to post comment");
   }
-  return data;
+  return msg;
 }

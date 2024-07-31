@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { isValid } from "./auth-valid/isValid";
+import { DatabasePost, Post } from "@/app/_types/PostType";
 
 export const cn = (...args: ClassValue[]) => twMerge(clsx(args));
 
@@ -125,3 +126,49 @@ export function timeAgo(input: string | Date): [string, number] {
   }
   return ["Just now", Math.round(Math.abs(secondsElapsed))];
 }
+
+/**
+ * Compares two arrays of posts and identifies new or updated posts.
+ *
+ * This function takes two arrays of posts, `newPosts` and `oldPosts`. It compares the posts based on their `post_id`
+ * and `date_updated` properties. If a post from `newPosts` is not found in `oldPosts` or has a more recent
+ * `date_updated` property, it is considered new or updated and is added to the result array.
+ *
+ * @param {DatabasePost[]} newPosts - The array of new posts to compare.
+ * @param {DatabasePost[]} oldPosts - The array of existing posts to compare against.
+ * @returns {DatabasePost[]} An array containing posts that are new or have been updated.
+ */
+export const findUpdatedPosts = (newPosts: DatabasePost[], oldPosts: DatabasePost[]): DatabasePost[] => {
+  const changes: DatabasePost[] = [];
+
+  newPosts.forEach(newPost => {
+    const oldPost = oldPosts.find(post => post.post_id === newPost.post_id);
+
+    if (!oldPost || new Date(newPost.date_updated) > new Date(oldPost.date_updated)) {
+      // New post, add to changes
+      changes.push(newPost);
+    }
+  });
+
+  return changes;
+};
+
+/**
+ * The function `postsToDatabasePosts` converts an array of `Post` objects to an array of
+ * database-friendly objects with selected properties.
+ * @param {Post[]} posts - The `posts` parameter is an array of objects of type `Post`. Each `Post`
+ * object contains the following properties:
+ * @returns The `postsToDatabasePosts` function takes an array of `Post` objects as input and returns a
+ * new array of objects with specific properties (`post_id`, `title`, `author`, `author_id`, `date`,
+ * `date_updated`) extracted from each `Post` object in the input array.
+ */
+export const postsToDatabasePosts = (posts: Post[]) => {
+  return posts.map(p => ({
+    post_id: p.post_id,
+    title: p.title,
+    author: p.author,
+    author_id: p.author_id,
+    date: p.date,
+    date_updated: p.date_updated
+  }));
+};
