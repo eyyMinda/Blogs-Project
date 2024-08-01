@@ -42,6 +42,11 @@ export const postToMongo = async (client: MongoClient, collection: string, body:
   await db.collection(collection).insertOne(body);
 };
 
+export const insertManyInMongo = async (client: MongoClient, collection: string, body: object[]): Promise<void> => {
+  const db = await client.db("blogs_nextjs");
+  await db.collection(collection).insertMany(body);
+};
+
 export const updateInMongo = async (client: MongoClient, collection: string, match: object, body: object): Promise<void> => {
   const db = await client.db("blogs_nextjs");
   await db.collection(collection).updateOne(match, body);
