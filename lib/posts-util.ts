@@ -3,6 +3,8 @@ import path from "path";
 
 import matter from "gray-matter";
 import { PostData } from "../app/_types/PostType";
+import { postsToDatabasePosts } from "./utils";
+import { updatePostData } from "./actions";
 
 //========================= Helpers =========================
 
@@ -35,10 +37,14 @@ export const getPostData = (postIdentifier: string, dir?: string) => {
   const filePath = getFilePath(dir || "posts", postSlug + ".md");
   const fileContent = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(fileContent);
-  const { title, date, image, excerpt, isFeatured } = data;
+  const { post_id, title, author, author_id, date, date_updated, image, excerpt, isFeatured } = data;
   const postData: PostData = {
+    post_id,
     title,
+    author,
+    author_id,
     date,
+    date_updated,
     image,
     excerpt,
     isFeatured,
@@ -55,6 +61,10 @@ export const getAllPosts = () => {
   const postsPath = getFolderPath();
   const postsFiles = fs.readdirSync(postsPath);
   const allPosts = postsFiles.map(file => getPostData(file)).sort((a, b) => (a.date > b.date ? 1 : -1));
+  // Update Database =========================
+  // const updateData = postsToDatabasePosts(allPosts);
+  // updatePostData(updateData);
+  // END Update Database =========================
   return allPosts;
 };
 export const getFeaturedPosts = () => {

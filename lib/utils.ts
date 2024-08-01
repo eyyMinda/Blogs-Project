@@ -170,5 +170,5 @@ export const postsToDatabasePosts = (posts: Post[]) => {
     author_id: p.author_id,
     date: p.date,
     date_updated: p.date_updated
-  }));
+  })) as DatabasePost[];
 };
