@@ -1,16 +1,13 @@
-import { trimObjectValues, validateMultipleInputs } from "@/lib/utils";
+import { trimObjectValues } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
-import { getClient, getFromMongo, isMongoClient, postToMongo } from "@/lib/mongo-db/mongo";
+import { getClient, isMongoClient, postToMongo } from "@/lib/mongo-db/mongo";
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
   if (!data) return NextResponse.json({ err: true, msg: "No data has been provided." }, { status: 400 });
 
   // ============= Validation =============================
-  const errors = validateMultipleInputs(Object.values(data), Object.keys(data));
-  if (errors.length > 0) return NextResponse.json({ err: true, msg: errors }, { status: 422 });
-
-  const newComment = trimObjectValues(data, ["comment"]);
+  const newComment = trimObjectValues(data, ["_id", "post_id", "comment", "date", "replies"]);
   newComment.date = new Date().toString();
 
   // ============= Define/Redefine Client =============================
@@ -21,6 +18,7 @@ export async function POST(req: NextRequest) {
   try {
     await postToMongo(client, "comments", newComment);
   } catch (error) {
+    console.log(error);
     return NextResponse.json({ err: true, msg: "Failed to comment." }, { status: 500 });
   }
 

@@ -1,9 +1,10 @@
+import { DatabasePost } from "@/app/_types/PostType";
 import { getClient, getFromMongo, isMongoClient } from "@/lib/mongo-db/mongo";
 import { NextRequest, NextResponse } from "next/server";
 
 // ------------------------------- POST -------------------------------------
 async function handler(req: NextRequest) {
-  const data: DataObject = await req.json();
+  const data = await req.json();
   if (!data) return NextResponse.json({ err: true, msg: "No data has been provided." }, { status: 400 });
 
   // ============= Define/Redefine Client =============================
@@ -18,23 +19,24 @@ async function handler(req: NextRequest) {
   // };
 
   // ================= Fetch Comments For Post ==============================
-  let comments: CommentType[] = [
-    {
-      _id: 15151561561654654465,
-      post_id: 1,
-      username: "eyyMinda",
-      email: "sublimemindrite@gmail.com",
-      comment: "New Comment here",
-      date: new Date().toString(),
-      replies: undefined
-    }
-  ];
-  // try {
-  //   comments = (await getFromMongo(client, "comments", { post_id: data.post_id }, {}, 10, Number(data.skip))) as CommentsType;
-  //   if (!comments) return NextResponse.json({ err: true, msg: "No comments..." }, { status: 401 });
-  // } catch (error) {
-  //   return NextResponse.json({ err: true, msg: "Failed to Fetch Comments for this Post." }, { status: 500 });
-  // }
+  let comments;
+  // : CommentType[] = [
+  //   {
+  //     _id: 15151561561654654465,
+  //     post_id: 1,
+  //     username: "eyyMinda",
+  //     email: "sublimemindrite@gmail.com",
+  //     comment: "New Comment here",
+  //     date: new Date().toString(),
+  //     replies: undefined
+  //   }
+  // ];
+  try {
+    comments = (await getFromMongo(client, "comments", { post_id: data.post_id }, {}, 10, Number(data.skip))) as CommentsType;
+    if (!comments) return NextResponse.json({ err: true, msg: "No comments..." }, { status: 401 });
+  } catch (error) {
+    return NextResponse.json({ err: true, msg: "Failed to Fetch Comments for this Post." }, { status: 500 });
+  }
 
   return NextResponse.json({ err: false, data: comments }, { status: 200 });
 }
