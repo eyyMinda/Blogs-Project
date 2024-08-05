@@ -2,10 +2,13 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { isValid } from "./auth-valid/isValid";
 import { DatabasePost, Post } from "@/app/_types/PostType";
+import { v4 } from "uuid";
 
 export const cn = (...args: ClassValue[]) => twMerge(clsx(args));
 
 export const sleep = (delay: number) => new Promise(resolve => setTimeout(resolve, delay * 1000));
+
+export const randomID = () => v4();
 
 /**
  * The function `validateMultipleInputs` takes an array of inputs and an array of validator names, and
