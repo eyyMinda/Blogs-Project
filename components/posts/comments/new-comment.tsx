@@ -51,7 +51,10 @@ export default function NewComment({ setNewCommentPosted, post_id }: NewCommentP
       const res = await PostComment(commentData);
       const { err, msg } = await res?.json();
       setNotification(defaultNotification.comment[err ? "error" : "success"](msg));
-      !err && setNewCommentPosted(true);
+      if (!err) {
+        setCommentText("");
+        setNewCommentPosted(true);
+      }
     } catch (error) {
       console.log(error);
       setNotification(defaultNotification.comment.error(""));
@@ -68,14 +71,7 @@ export default function NewComment({ setNewCommentPosted, post_id }: NewCommentP
                   after:[grid-area:1/1/2/2] after:whitespace-pre-wrap
                   after:invisible after:border
                   after:content-[attr(data-cloned-val)_'_']">
-        <Textarea
-          placeholder="Add a comment..."
-          value={commentText}
-          onChange={handleChange}
-          onFocus={() => setCommentOpen(true)}
-          rows={1}
-          className="min-h-10"
-        />
+        <Textarea placeholder="Add a comment..." value={commentText} onChange={handleChange} onFocus={handleFocus} rows={1} className="min-h-10" />
       </div>
 
       <hr className="my-4" />
