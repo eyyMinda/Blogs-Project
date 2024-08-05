@@ -1,48 +1,99 @@
 "use client";
-import { useRef, useState } from "react";
+import { Dispatch, SetStateAction, useContext, useRef, useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { postComment } from "@/lib/actions";
+import { PostComment } from "@/lib/actions";
+import { randomID } from "@/lib/utils";
 import EmojiPickerComp from "./emoji-picker";
+import NotificationContext from "@/lib/context/notification-context";
+import defaultNotification from "@/lib/locale/default-notification";
+import { useSession } from "next-auth/react";
 
-export default function NewComment() {
-  const [commentText, setCommentText] = useState("");
-  const [commentOpen, setCommentOpen] = useState(false);
-  const commentBtn = useRef(null);
-  const commentInput = useRef(null);
+interface NewCommentParams {
+  setNewCommentPosted: Dispatch<SetStateAction<boolean>>;
+  post_id: number;
+}
 
+export default function NewComment({ setNewCommentPosted, post_id }: NewCommentParams) {
+  const { data: session } = useSession();
+  const { setNotification } = useContext(NotificationContext);
+  const commentBtnRef = useRef<HTMLButtonElement>(null);
+  const textAreaDivRef = useRef<HTMLDivElement>(null);
+  const [commentText, setCommentText] = useState<string>("");
+  const [commentOpen, setCommentOpen] = useState<boolean>(false);
+
+  const handleFocus = () => setCommentOpen(true);
   const handleCloseComment = () => {
     setCommentOpen(false);
     setCommentText("");
   };
-  const handleSubmitComment = () => {
-    postComment();
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    setCommentText(value);
+    // Setting text value for textarea:after which is invisible to auto resize based on content
+    if (textAreaDivRef.current) textAreaDivRef.current.dataset["clonedVal"] = value;
+  };
+
+  const handleSubmitComment = async () => {
+    const commentData = {
+      _id: randomID(),
+      post_id,
+      username: session?.user?.name || "",
+      email: session?.user?.email || "",
+      comment: commentText,
+      date: new Date().toString(),
+      replies: undefined
+    };
+
+    setNotification(defaultNotification.comment.pending);
+    try {
+      const res = await PostComment(commentData);
+      const { err, msg } = await res?.json();
+      setNotification(defaultNotification.comment[err ? "error" : "success"](msg));
+      !err && setNewCommentPosted(true);
+    } catch (error) {
+      console.log(error);
+      setNotification(defaultNotification.comment.error(""));
+    }
   };
 
   return (
     <div>
-      <Input
-        placeholder="Add a comment..."
-        ref={commentInput}
-        value={commentText}
-        onChange={e => setCommentText(e.target.value)}
-        onFocus={() => setCommentOpen(true)}
-      />
+      <div
+        ref={textAreaDivRef}
+        className="grid text-sm after:px-3.5 after:py-2.5 [&>textarea]:text-inherit
+                  after:text-inherit [&>textarea]:resize-none
+                  [&>textarea]:overflow-hidden [&>textarea]:[grid-area:1/1/2/2]
+                  after:[grid-area:1/1/2/2] after:whitespace-pre-wrap
+                  after:invisible after:border
+                  after:content-[attr(data-cloned-val)_'_']">
+        <Textarea
+          placeholder="Add a comment..."
+          value={commentText}
+          onChange={handleChange}
+          onFocus={() => setCommentOpen(true)}
+          rows={1}
+          className="min-h-10"
+        />
+      </div>
 
       <hr className="my-4" />
 
-      <div className={`flex justify-between items-center mb-4 ${commentOpen ? "animate-accordion-down" : "hidden"}`}>
-        <EmojiPickerComp setCommentText={setCommentText} />
+      {commentOpen && (
+        <div className="flex justify-between items-center mb-4 animate-accordion-down">
+          <EmojiPickerComp setCommentText={setCommentText} />
 
-        <div className="flex gap-2 justify-end">
-          <Button variant="ghost" onClick={handleCloseComment}>
-            Cancel
-          </Button>
-          <Button variant="secondary" ref={commentBtn} disabled={!commentText} onClick={handleSubmitComment}>
-            Comment
-          </Button>
+          <div className="flex gap-2 justify-end">
+            <Button variant="ghost" onClick={handleCloseComment}>
+              Cancel
+            </Button>
+            <Button variant="secondary" ref={commentBtnRef} disabled={!commentText} onClick={handleSubmitComment}>
+              Comment
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
