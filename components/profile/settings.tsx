@@ -32,7 +32,7 @@ export default function Settings({ user }: { user?: IUser }) {
       <hr className="w-full mt-4" />
 
       {settingsFields.map((f, i) => (
-        <div key={i} className="border-y py-4">
+        <div key={i} className="w-full py-4">
           <p className={cn("italic text-sm lg:text-base", f.descriptionClass)}>{f.description}</p>
           {f.component}
         </div>

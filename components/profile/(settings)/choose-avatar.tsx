@@ -54,7 +54,11 @@ export default function ChooseAvatar({ avatars, email }: { avatars: string[]; em
           const fullPath = prePath + img;
           const isSelected = selected === img;
           return (
-            <div key={img} className={`relative ${isSelected ? "border-4 border-white" : "border-2 border-gray-500"} hover:border-gray-300 w-30 h-30`}>
+            <div
+              key={img}
+              className={`relative ${
+                isSelected ? "border-4 border-destructive dark:border-white" : "border-2 border-blue-100 dark:border-gray-500"
+              } hover:border-destructive dark:hover:border-gray-300 w-30 h-30`}>
               <input
                 type="checkbox"
                 name={img}
@@ -67,7 +71,7 @@ export default function ChooseAvatar({ avatars, email }: { avatars: string[]; em
         })}
       </div>
 
-      <Button type="button" variant="secondary" className="hover:bg-title" onClick={handleChooseAvatar} disabled={!selected || isLoading}>
+      <Button type="button" variant="secondary" className="" onClick={handleChooseAvatar} disabled={!selected || isLoading}>
         {isLoading ? <Loader2 className="animate-spin" /> : "Choose Avatar"}
       </Button>
     </section>

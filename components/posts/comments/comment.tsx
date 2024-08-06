@@ -14,7 +14,7 @@ export function Comment({ skeleton = false, comment }: { skeleton?: boolean; com
             </Link>
           )}
         </span>
-        <span className="text-sm mb-1 rounded-sm">{comment && timeAgo(comment.date)[0]}</span>
+        <span className="text-sm dark:text-gray-300 mb-1 rounded-sm">{comment && timeAgo(comment.date)[0]}</span>
       </div>
 
       <p className="h-2 mb-1 rounded-sm">{comment?.comment}</p>
