@@ -22,7 +22,7 @@ export default function Header() {
   const { data: session, status } = useSession();
 
   return (
-    <header className="flex gap-8 justify-between p-4">
+    <header className="flex gap-8 justify-between p-4 flex-wrap">
       <Logo />
 
       <NavigationMenu>
