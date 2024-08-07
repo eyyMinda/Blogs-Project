@@ -1,6 +1,6 @@
 import { trimObjectValues, validateMultipleInputs } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
-import { getClient, getFromMongo, isMongoClient, postToMongo } from "@/lib/mongo-db/mongo";
+import { getClient, isMongoClient, postToMongo } from "@/lib/mongo-db/mongo";
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
   const errors = validateMultipleInputs(Object.values(data), Object.keys(data));
   if (errors.length > 0) return NextResponse.json({ err: true, msg: errors }, { status: 422 });
 
-  const newMessage = trimObjectValues(data, ["subject", "message"]);
+  const newMessage = trimObjectValues(data, ["subject", "message", "date"]);
 
   const client = await getClient();
   if (!isMongoClient(client)) return client;
