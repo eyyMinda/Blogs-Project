@@ -15,3 +15,5 @@ interface CommentReplyType extends CommentType {
 interface CommentsType {
   comments?: CommentType[] | undefined;
 }
+
+type SortOption = "latest" | "oldest" | "popular";
