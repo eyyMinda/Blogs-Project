@@ -21,7 +21,7 @@ interface NewPasswordProps {
 }
 
 function NewPasswordForm({ needPassword = false, accountEmail, onSuccessAction }: NewPasswordProps) {
-  const notifCtx = useContext(NotificationContext);
+  const { setNotification } = useContext(NotificationContext);
   const { data: session, update } = useSession();
   const [pass, setPass] = useState<string>("");
 
@@ -33,7 +33,7 @@ function NewPasswordForm({ needPassword = false, accountEmail, onSuccessAction }
   const isLoading = form.formState.isSubmitting;
 
   async function onSubmit(values: z.infer<typeof passFormSchema>) {
-    notifCtx.setNotification(defaultNotification.changepass.pending);
+    setNotification(defaultNotification.changepass.pending);
     let data = { password: values.passwordNew, email: accountEmail || session?.user?.email } as any;
     if (!needPassword) data.passwordOld = values.passwordOld;
 
@@ -43,7 +43,7 @@ function NewPasswordForm({ needPassword = false, accountEmail, onSuccessAction }
         body: JSON.stringify(data)
       });
       const { err, msg } = await res.json();
-      notifCtx.setNotification(defaultNotification.changepass[err ? "error" : "success"](msg));
+      setNotification(defaultNotification.changepass[err ? "error" : "success"](msg));
 
       if (!err) {
         update({ needPassword: false });
@@ -51,7 +51,7 @@ function NewPasswordForm({ needPassword = false, accountEmail, onSuccessAction }
       }
     } catch (error) {
       console.log(error);
-      notifCtx.setNotification(defaultNotification.changepass.error(""));
+      setNotification(defaultNotification.changepass.error(""));
     } finally {
       form.reset();
       setPass(""); // For Password Strength Bar Reset

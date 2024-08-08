@@ -23,6 +23,7 @@ function UserProfile({ avatars }: { avatars: string[] }) {
   const { image, name, email, createdAt, lastSignInAt } = session?.user as IUser;
   const formattedDate = createdAt && timeAgo(createdAt);
   const formattedLastSignIn = lastSignInAt && timeAgo(lastSignInAt);
+  const ELAPSED_MS = 1200;
 
   return (
     <section className="mx-auto my-8 text-center w-full">
@@ -38,11 +39,11 @@ function UserProfile({ avatars }: { avatars: string[] }) {
         </Popover>
 
         <h1 className="text-3xl flex items-center gap-2">
-          {formattedLastSignIn && formattedLastSignIn[1] < 1200 && <Image src={"/svg/misc/green-sphere.svg"} alt="online-icon" width={12} height={12} />}
+          {formattedLastSignIn && formattedLastSignIn[1] < ELAPSED_MS && <Image src={"/svg/misc/green-sphere.svg"} alt="online-icon" width={12} height={12} />}
           {name}
         </h1>
 
-        {formattedLastSignIn && formattedLastSignIn[1] > 1200 && (
+        {formattedLastSignIn && formattedLastSignIn[1] > ELAPSED_MS && (
           <p className="text-gray-500 flex justify-center items-center gap-2">Last Online {formattedLastSignIn[0]}</p>
         )}
         {formattedDate && <p className="text-gray-500">Joined {formattedDate[0]}</p>}

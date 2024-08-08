@@ -12,7 +12,7 @@ import defaultNotification from "Lib/locale/default-notification";
 const prePath = "/images/account/remix-rumble-avatars/";
 
 export default function ChooseAvatar({ avatars, email }: { avatars: string[]; email?: string | null }) {
-  const notifCtx = useContext(NotificationContext);
+  const { setNotification } = useContext(NotificationContext);
   const { update } = useSession();
   const [selected, setSelected] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -22,7 +22,7 @@ export default function ChooseAvatar({ avatars, email }: { avatars: string[]; em
 
   const handleChooseAvatar = async () => {
     setIsLoading(true);
-    notifCtx.setNotification(defaultNotification.changeavatar.pending);
+    setNotification(defaultNotification.changeavatar.pending);
     try {
       const res = await fetch("/api/account/update", {
         method: "POST",
@@ -33,10 +33,10 @@ export default function ChooseAvatar({ avatars, email }: { avatars: string[]; em
         await update({ picture: selected });
         update();
       }
-      notifCtx.setNotification(defaultNotification.changeavatar[err ? "error" : "success"](msg));
+      setNotification(defaultNotification.changeavatar[err ? "error" : "success"](msg));
     } catch (error) {
       console.log(error);
-      notifCtx.setNotification(defaultNotification.changeavatar.error(""));
+      setNotification(defaultNotification.changeavatar.error(""));
     } finally {
       setIsLoading(false);
       closePopover();

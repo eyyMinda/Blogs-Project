@@ -12,7 +12,7 @@ import SubmitButton from "UI/custom-ui/submit-btn";
 import renderFormField from "Components/ui/custom-ui/render-form-field";
 
 function ConfirmEmailForm({ setEmailConfirmed }: { setEmailConfirmed: React.Dispatch<React.SetStateAction<string | null>> }) {
-  const notifCtx = useContext(NotificationContext);
+  const { setNotification } = useContext(NotificationContext);
 
   const form = useForm<z.infer<typeof confirmEmailSchema>>({
     resolver: zodResolver(confirmEmailSchema),
@@ -21,7 +21,7 @@ function ConfirmEmailForm({ setEmailConfirmed }: { setEmailConfirmed: React.Disp
   const isLoading = form.formState.isSubmitting;
 
   async function onSubmit(values: z.infer<typeof confirmEmailSchema>) {
-    notifCtx.setNotification(defaultNotification.confirmemail.pending);
+    setNotification(defaultNotification.confirmemail.pending);
 
     try {
       const res = await fetch("/api/account/check", {
@@ -29,11 +29,11 @@ function ConfirmEmailForm({ setEmailConfirmed }: { setEmailConfirmed: React.Disp
         body: JSON.stringify({ email: values.email })
       });
       const { err, msg } = await res.json();
-      notifCtx.setNotification(defaultNotification.confirmemail[err ? "error" : "success"](msg));
+      setNotification(defaultNotification.confirmemail[err ? "error" : "success"](msg));
       if (!err) setEmailConfirmed(values.email);
     } catch (error) {
       console.log(error);
-      notifCtx.setNotification(defaultNotification.confirmemail.error(""));
+      setNotification(defaultNotification.confirmemail.error(""));
     } finally {
       form.reset();
     }

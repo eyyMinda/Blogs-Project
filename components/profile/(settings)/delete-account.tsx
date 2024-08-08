@@ -6,12 +6,12 @@ import defaultNotification from "Lib/locale/default-notification";
 import { Button } from "UI/button";
 
 export default function DeleteAccount({ email }: { email?: string | null }) {
-  const notifCtx = useContext(NotificationContext);
+  const { setNotification } = useContext(NotificationContext);
   if (!email) return;
 
   const handleDelete = async () => {
     if (!window.confirm("Ae you sure you want to delete your account?")) return;
-    notifCtx.setNotification(defaultNotification["deleteacc"]["pending"]);
+    setNotification(defaultNotification["deleteacc"]["pending"]);
     try {
       const res = await fetch("/api/account/delete", {
         method: "DELETE",
@@ -20,10 +20,10 @@ export default function DeleteAccount({ email }: { email?: string | null }) {
       const { err, msg } = await res.json();
 
       if (!err) signOut();
-      notifCtx.setNotification(defaultNotification["deleteacc"][err ? "error" : "success"](msg));
+      setNotification(defaultNotification["deleteacc"][err ? "error" : "success"](msg));
     } catch (error) {
       console.log(error);
-      notifCtx.setNotification(defaultNotification.changeusername.error(""));
+      setNotification(defaultNotification.changeusername.error(""));
     }
   };
 

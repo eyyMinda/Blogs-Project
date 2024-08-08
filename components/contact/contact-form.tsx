@@ -14,7 +14,7 @@ import renderFormField from "../ui/custom-ui/render-form-field";
 
 export default function ContactForm() {
   const { data: session } = useSession();
-  const notifCtx = useContext(NotificationContext);
+  const { setNotification } = useContext(NotificationContext);
 
   const [ContactFormSchema, ContactFormDefaults] = contactFormSchema(!!session?.user) as any;
   const form = useForm<z.infer<typeof ContactFormSchema>>({
@@ -24,7 +24,7 @@ export default function ContactForm() {
   const isLoading = form.formState.isSubmitting;
 
   async function onSubmit(values: z.infer<typeof ContactFormSchema>) {
-    notifCtx.setNotification(defaultNotification.message.pending);
+    setNotification(defaultNotification.message.pending);
 
     const data = {
       ...values,
@@ -37,7 +37,7 @@ export default function ContactForm() {
     });
     const { err, msg } = await res.json();
 
-    notifCtx.setNotification(defaultNotification.message[err ? "error" : "success"](msg));
+    setNotification(defaultNotification.message[err ? "error" : "success"](msg));
     !err && form.reset();
     return;
   }
