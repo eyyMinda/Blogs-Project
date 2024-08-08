@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { Form } from "UI/form";
 import { changeUsernameSchema } from "Lib/formSchema";
+import { IUser } from "@/nextauth";
 import defaultNotification from "Lib/locale/default-notification";
 import NotificationContext from "Lib/context/notification-context";
 import SubmitButton from "UI/custom-ui/submit-btn";
@@ -15,7 +16,7 @@ import renderFormField from "Components/ui/custom-ui/render-form-field";
 function ChangeUsernameForm() {
   const notifCtx = useContext(NotificationContext);
   const { data: session, update } = useSession();
-  const { email, name } = session?.user as User;
+  const { email, name } = session?.user as IUser;
 
   const form = useForm<z.infer<typeof changeUsernameSchema>>({
     resolver: zodResolver(changeUsernameSchema),
@@ -50,7 +51,7 @@ function ChangeUsernameForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex items-center gap-4 mt-4 text-start">
-        {renderFormField(form, { name: "username", placeholder: name })}
+        {renderFormField(form, { name: "username", placeholder: name || "" })}
 
         <SubmitButton variant="secondary" isLoading={isLoading} text="Change" />
       </form>
