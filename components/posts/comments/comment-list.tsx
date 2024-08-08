@@ -1,4 +1,4 @@
-import { Comment } from "./comment"; // Assuming Comment is a default export
+import { Comment } from "./comment";
 
 export default function CommentList({ comments }: { comments?: CommentType[] | null }) {
   return (

@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
   if (!data) return NextResponse.json({ err: true, msg: "No data has been provided." }, { status: 400 });
 
   // ============= Validation =============================
-  const newComment = trimObjectValues(data, ["_id", "post_id", "comment", "date", "replies"]);
+  const newComment = trimObjectValues(data, ["_id", "post_id", "comment", "date", "replies", "likes", "dislikes"]);
   newComment.date = new Date().toString();
 
   // ============= Define/Redefine Client =============================

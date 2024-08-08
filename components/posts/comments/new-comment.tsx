@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction, useContext, useRef, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { PostComment } from "@/lib/actions";
-import { randomID } from "@/lib/utils";
+import { createNewComment } from "@/lib/utils";
 import EmojiPickerComp from "./emoji-picker";
 import NotificationContext from "@/lib/context/notification-context";
 import defaultNotification from "@/lib/locale/default-notification";
@@ -36,15 +36,8 @@ export default function NewComment({ setNewCommentPosted, post_id }: NewCommentP
   };
 
   const handleSubmitComment = async () => {
-    const commentData = {
-      _id: randomID(),
-      post_id,
-      username: session?.user?.name || "",
-      email: session?.user?.email || "",
-      comment: commentText,
-      date: new Date().toString(),
-      replies: undefined
-    };
+    if (!session?.user) return;
+    const commentData = createNewComment(post_id, session?.user?.name as string, session?.user?.email as string, commentText);
 
     setNotification(defaultNotification.comment.pending);
     try {
