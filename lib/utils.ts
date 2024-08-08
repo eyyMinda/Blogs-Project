@@ -131,6 +131,18 @@ export function timeAgo(input: string | Date): [string, number] {
 }
 
 /**
+ * Adds or removes a string value from an array based on the specified action.
+ *
+ * @param array - The array to be updated.
+ * @param value - The string value to add or remove.
+ * @param add - A boolean flag indicating whether to add (true) or remove (false) the value.
+ * @returns The updated array with the value added or removed.
+ */
+export const toggleStringInArray = (array: string[], value: string, add: boolean): string[] => {
+  return add ? [...array, value] : array.filter(curr => curr !== value);
+};
+
+/**
  * Compares two arrays of posts and identifies new or updated posts.
  *
  * This function takes two arrays of posts, `newPosts` and `oldPosts`. It compares the posts based on their `post_id`
@@ -205,4 +217,35 @@ export const sortComments = (comments: CommentType[], option: SortOption): Comme
     default:
       return comments; // Default to original order if no valid sort option
   }
+};
+
+/**
+ * The function `createNewComment` creates a new comment object with specified properties and returns it.
+ * @param {number} post_id - The `post_id` is the unique identifier of the post to which the comment belongs.
+ * @param {string} username - The `username` refers to the name of the user who is posting the comment.
+ * @param {string} email - The `email` refers the email of the user who is posting the comment.
+ * @param {string} comment - Self explanatory
+ * @returns An object is being returned with the following properties:
+ * - _id: a randomly generated ID
+ * - post_id: the provided post ID
+ * - username: the provided username
+ * - email: the provided email
+ * - comment: the provided comment
+ * - date: the current date and time converted to a string
+ * - replies: an empty array
+ * - likes: an empty array
+ * - dislikes: an empty array
+ */
+export const createNewComment = (post_id: number, username: string, email: string, comment: string) => {
+  return {
+    _id: randomID(),
+    post_id,
+    username: username,
+    email: email,
+    comment,
+    date: new Date().toString(),
+    replies: [],
+    likes: [],
+    dislikes: []
+  };
 };
