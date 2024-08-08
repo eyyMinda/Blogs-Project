@@ -5,12 +5,12 @@ interface CommentType {
   post_id: string | number;
   comment: string;
   date: string;
-  replies?: Object[] | string[] | undefined;
+  replies?: CommentReplyType[];
+  likes: string[];
+  dislikes: string[];
 }
 
-interface CommentReplyType extends CommentType {
-  comment_id: string;
-}
+interface CommentReplyType extends CommentType {}
 
 interface CommentsType {
   comments?: CommentType[] | undefined;

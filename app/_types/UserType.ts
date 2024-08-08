@@ -1,5 +1,5 @@
 type User = {
-  id: string;
+  _id: string;
   email: string;
   password: string;
   misc?: string;
