@@ -59,20 +59,22 @@ export function Comment({ skeleton = false, comment }: { skeleton?: boolean; com
         </>
       )}
 
-      <div className="flex items-center gap-2">
-        <ReactionButton
-          viewCount
-          count={counts.likes}
-          onClick={() => handleCommentReaction(true)}
-          icon={<ThumbsUp strokeWidth={reactionState === "liked" ? 2.5 : 0.5} className="w-5 h-auto" />}
-        />
+      {!skeleton && (
+        <div className="flex items-center gap-2">
+          <ReactionButton
+            viewCount
+            count={counts.likes}
+            onClick={() => handleCommentReaction(true)}
+            icon={<ThumbsUp strokeWidth={reactionState === "liked" ? 2.5 : 0.5} className="w-5 h-auto" />}
+          />
 
-        <ReactionButton
-          count={counts.dislikes}
-          onClick={() => handleCommentReaction(false)}
-          icon={<ThumbsDown strokeWidth={reactionState === "disliked" ? 2.5 : 0.5} className="w-5 h-auto" />}
-        />
-      </div>
+          <ReactionButton
+            count={counts.dislikes}
+            onClick={() => handleCommentReaction(false)}
+            icon={<ThumbsDown strokeWidth={reactionState === "disliked" ? 2.5 : 0.5} className="w-5 h-auto" />}
+          />
+        </div>
+      )}
     </li>
   );
 }
