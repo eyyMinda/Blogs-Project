@@ -52,3 +52,23 @@ export async function PostComment(comment?: CommentType) {
   });
   return res;
 }
+interface CommentReactionUpdateParams {
+  like: boolean; // boolean
+  comment_id: string | number;
+  user: string;
+  email: string;
+}
+export async function UpdateComment(commentData: CommentReactionUpdateParams) {
+  if (!commentData) return;
+
+  const res = await fetch("/api/posts/update-comment", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(commentData)
+  });
+  const { err, msg, returnData } = await res.json();
+  err && console.error(msg);
+  return returnData;
+}
