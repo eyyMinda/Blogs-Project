@@ -7,8 +7,10 @@ import { UpdateComment } from "@/lib/actions";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { useSession } from "next-auth/react";
 import ReactionButton from "./reaction-btn";
+import { useRouter } from "next/navigation";
 
 export function Comment({ skeleton = false, comment }: { skeleton?: boolean; comment?: CommentType }) {
+  const { replace } = useRouter();
   const { data: session } = useSession();
   const { id: userId } = session?.user || {};
 
@@ -24,8 +26,9 @@ export function Comment({ skeleton = false, comment }: { skeleton?: boolean; com
     }
   }, [userId, comment]);
 
-  const handleCommentLike = async (like: boolean) => {
-    if (!session?.user || !comment?._id) return;
+  const handleCommentReaction = async (like: boolean) => {
+    if (!session?.user) return replace("/login");
+    if (!comment?._id) return;
     const { status, likeCount, dislikeCount }: ReactionUpdateType = await UpdateComment({
       like,
       comment_id: comment._id,
@@ -56,22 +59,20 @@ export function Comment({ skeleton = false, comment }: { skeleton?: boolean; com
         </>
       )}
 
-      {userId && (
-        <div className="flex items-center gap-2">
-          <ReactionButton
-            viewCount
-            count={counts.likes}
-            onClick={() => handleCommentLike(true)}
-            icon={<ThumbsUp strokeWidth={reactionState === "liked" ? 2.5 : 0.5} className="w-5 h-auto" />}
-          />
+      <div className="flex items-center gap-2">
+        <ReactionButton
+          viewCount
+          count={counts.likes}
+          onClick={() => handleCommentReaction(true)}
+          icon={<ThumbsUp strokeWidth={reactionState === "liked" ? 2.5 : 0.5} className="w-5 h-auto" />}
+        />
 
-          <ReactionButton
-            count={counts.dislikes}
-            onClick={() => handleCommentLike(false)}
-            icon={<ThumbsDown strokeWidth={reactionState === "disliked" ? 2.5 : 0.5} className="w-5 h-auto" />}
-          />
-        </div>
-      )}
+        <ReactionButton
+          count={counts.dislikes}
+          onClick={() => handleCommentReaction(false)}
+          icon={<ThumbsDown strokeWidth={reactionState === "disliked" ? 2.5 : 0.5} className="w-5 h-auto" />}
+        />
+      </div>
     </li>
   );
 }
