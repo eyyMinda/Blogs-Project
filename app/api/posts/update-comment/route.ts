@@ -29,13 +29,13 @@ export async function POST(req: NextRequest) {
 
   // Log the action taken and set the status in one step
   let status: "liked" | "disliked" | "none" = "none";
-
+  let message: string;
   if (isLike) {
     status = currentComment.likes.includes(userID) ? "liked" : "none";
-    console.log(status === "liked" ? "User is liking the comment..." : "User has liked this comment already. Removing like...");
+    message = status === "liked" ? "User is liking the comment..." : "User has liked this comment already. Removing like...";
   } else {
     status = currentComment.dislikes.includes(userID) ? "disliked" : "none";
-    console.log(status === "disliked" ? "User is disliking the comment..." : "User has disliked this comment already. Removing dislike...");
+    message = status === "disliked" ? "User is disliking the comment..." : "User has disliked this comment already. Removing dislike...";
   }
 
   // ============= Update Comment =============================
@@ -51,5 +51,5 @@ export async function POST(req: NextRequest) {
     likeCount: currentComment.likes.length,
     dislikeCount: currentComment.dislikes.length
   };
-  return NextResponse.json({ err: false, returnData, msg: "Successfully updated comment!" }, { status: 200 });
+  return NextResponse.json({ err: false, returnData, msg: message }, { status: 200 });
 }

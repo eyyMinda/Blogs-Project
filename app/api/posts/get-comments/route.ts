@@ -28,7 +28,9 @@ async function handler(req: NextRequest) {
   //     email: "sublimemindrite@gmail.com",
   //     comment: "New Comment here",
   //     date: new Date().toString(),
-  //     replies: undefined
+  //     replies: [],
+  //     likes: [],
+  //     dislikes: [],
   //   }
   // ];
   try {

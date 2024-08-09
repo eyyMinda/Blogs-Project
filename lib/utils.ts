@@ -189,18 +189,12 @@ export const postsToDatabasePosts = (posts: Post[]) => {
 };
 
 /**
- * The function `sortComments` sorts an array of comments based on different criteria such as latest,
- * oldest, or popularity.
- * @param {CommentType[]} comments - The `comments` parameter is an array of objects of type
- * `CommentType`. Each object represents a comment and likely has properties such as `date`, `likes`,
- * `votes`, etc. The function `sortComments` takes this array of comments and sorts them based on the
- * specified `option`. The
- * @param {SortOption} option - The `option` parameter in the `sortComments` function is used to
- * determine how the comments should be sorted. The possible options are:
- * @returns The `sortComments` function returns a sorted array of comments based on the specified
- * sorting option. If the option is "latest", it sorts the comments in descending order based on the
- * date. If the option is "oldest", it sorts the comments in ascending order based on the date. If the
- * option is "popular", it currently returns the comments sorted in the same way as "latest", but
+ * The function `sortComments` sorts an array of comments based on the specified sorting option such as
+ * "latest", "oldest", or "popular".
+ * @param {CommentType[]} comments - An array of comments
+ * @param {SortOption} option - Used to determine how the comments should be sorted.
+ * @returns A new array of comments sorted based on the specified option. The function first checks if
+ * the input `comments` array is falsy, in which case it returns an empty array.
  */
 export const sortComments = (comments: CommentType[], option: SortOption): CommentType[] => {
   if (!comments) return [];
@@ -210,12 +204,9 @@ export const sortComments = (comments: CommentType[], option: SortOption): Comme
     case "oldest":
       return [...comments].sort((a, b) => (new Date(a.date) as any) - (new Date(b.date) as any));
     case "popular":
-      return [...comments].sort((a, b) => (new Date(b.date) as any) - (new Date(a.date) as any));
-    // Implement your popularity sorting logic here
-    // Example: Sort by number of likes or votes
-    // return [...comments].sort((a, b) => b.likes - a.likes); // Replace with actual popularity logic
+      return [...comments].sort((a, b) => b.likes.length - a.likes.length);
     default:
-      return comments; // Default to original order if no valid sort option
+      return comments;
   }
 };
 
