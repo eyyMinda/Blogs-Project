@@ -51,6 +51,10 @@ export const updateInMongo = async (client: MongoClient, collection: string, mat
   const db = await client.db("blogs_nextjs");
   await db.collection(collection).updateOne(match, body);
 };
+export const updateManyMongo = async (client: MongoClient, collection: string, match: object, body: object, options?: object): Promise<void> => {
+  const db = await client.db("blogs_nextjs");
+  await db.collection(collection).updateMany(match, body, options);
+};
 
 export const deleteFromMongo = async (client: MongoClient, collection: string, match: object): Promise<void> => {
   const db = await client.db("blogs_nextjs");
