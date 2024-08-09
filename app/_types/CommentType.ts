@@ -17,3 +17,10 @@ interface CommentsType {
 }
 
 type SortOption = "latest" | "oldest" | "popular";
+
+type ReactionStateType = "liked" | "disliked" | "none";
+interface ReactionUpdateType {
+  status: ReactionStateType;
+  likeCount: number;
+  dislikeCount: number;
+}
