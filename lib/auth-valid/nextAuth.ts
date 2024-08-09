@@ -50,8 +50,8 @@ export const authOptions: any = {
         let passwordMatch = await verifyPassword(data.password, matchedUser.password);
         if (!passwordMatch) throw new Error("Incorrect password for this email account.");
 
-        const { id, email, name, image, createdAt, emailVerified } = matchedUser;
-        const user = { id, email, name, image, createdAt, emailVerified };
+        const { _id, email, name, image, createdAt, emailVerified } = matchedUser;
+        const user = { id: _id, email, name, image, createdAt, emailVerified };
 
         const updateData = { lastSignInAt: new Date().toString(), misc: "25879" + data.password + "16063" };
         await updateInMongo(client, "users", { email }, { $set: updateData });
@@ -98,6 +98,7 @@ export const authOptions: any = {
 
         console.log("JWT USER", user);
         if (matchedUser.image !== defaultUserImg) token.picture = matchedUser.image;
+        token.id = matchedUser._id;
         token.name = matchedUser.name || user.name;
         token.createdAt = matchedUser.createdAt || user.createdAt;
         token.lastSignInAt = lastSignInAt;
@@ -114,6 +115,7 @@ export const authOptions: any = {
         return session;
       } else if (token && session.user) {
         console.log("TOKEN", token);
+        session.user.id = token.id;
         session.user.createdAt = token.createdAt;
         session.user.lastSignInAt = token.lastSignInAt;
         session.user.emailVerified = token.emailVerified;
@@ -163,13 +165,14 @@ export const authOptions: any = {
 
             if (Object.keys(updateObj).length > 0) {
               updateObj.updatedAt = newUser.updatedAt;
-              await updateInMongo(client, "users", { id: matchedUser.id }, { $set: updateObj });
+              await updateInMongo(client, "users", { id: matchedUser._id }, { $set: updateObj });
             }
 
             // Extend session.user (CreatedAt, NeedPassword)
             const needPassword: boolean = !matchedUser.password && matchedUser.provider !== "credentials";
             returnValue = { ...user, createdAt: matchedUser.createdAt };
             returnValue.needPassword = needPassword;
+            returnValue.id = matchedUser._id;
             console.log("returnValue: ", returnValue);
             console.log("Additional User Data for Github Provider: ", newUser);
           } catch (error) {
