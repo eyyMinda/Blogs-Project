@@ -24,3 +24,10 @@ interface ReactionUpdateType {
   likeCount: number;
   dislikeCount: number;
 }
+
+interface CommentReactionUpdateParams {
+  like: boolean; // boolean
+  comment_id: string | number;
+  user: string;
+  email: string;
+}
