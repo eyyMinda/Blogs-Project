@@ -52,12 +52,7 @@ export async function PostComment(comment?: CommentType) {
   });
   return res;
 }
-interface CommentReactionUpdateParams {
-  like: boolean; // boolean
-  comment_id: string | number;
-  user: string;
-  email: string;
-}
+
 export async function UpdateComment(commentData: CommentReactionUpdateParams) {
   if (!commentData) return;
 
