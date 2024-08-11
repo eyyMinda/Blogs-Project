@@ -19,6 +19,7 @@
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-slot": "^1.0.2",
     "@vercel/analytics": "^1.1.1",
+    "@vercel/speed-insights": "^1.0.12",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
