@@ -2,13 +2,11 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { isValid } from "./auth-valid/isValid";
 import { DatabasePost, Post } from "@/app/_types/PostType";
-import { v4 } from "uuid";
+import { randomID } from "./auth-valid/auth";
 
 export const cn = (...args: ClassValue[]) => twMerge(clsx(args));
 
 export const sleep = (delay: number) => new Promise(resolve => setTimeout(resolve, delay * 1000));
-
-export const randomID = () => v4();
 
 /**
  * The function `validateMultipleInputs` takes an array of inputs and an array of validator names, and
@@ -186,28 +184,6 @@ export const postsToDatabasePosts = (posts: Post[]) => {
     date: p.date,
     date_updated: p.date_updated
   })) as DatabasePost[];
-};
-
-/**
- * The function `sortComments` sorts an array of comments based on the specified sorting option such as
- * "latest", "oldest", or "popular".
- * @param {CommentType[]} comments - An array of comments
- * @param {SortOption} option - Used to determine how the comments should be sorted.
- * @returns A new array of comments sorted based on the specified option. The function first checks if
- * the input `comments` array is falsy, in which case it returns an empty array.
- */
-export const sortComments = (comments: CommentType[], option: SortOption): CommentType[] => {
-  if (!comments) return [];
-  switch (option) {
-    case "latest":
-      return [...comments].sort((a, b) => (new Date(b.date) as any) - (new Date(a.date) as any));
-    case "oldest":
-      return [...comments].sort((a, b) => (new Date(a.date) as any) - (new Date(b.date) as any));
-    case "popular":
-      return [...comments].sort((a, b) => b.likes.length - a.likes.length);
-    default:
-      return comments;
-  }
 };
 
 /**
