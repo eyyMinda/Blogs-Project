@@ -4,10 +4,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { PostComment } from "@/lib/actions";
 import { createNewComment } from "@/lib/utils";
-import EmojiPickerComp from "./emoji-picker";
 import NotificationContext from "@/lib/context/notification-context";
 import defaultNotification from "@/lib/locale/default-notification";
 import { useSession } from "next-auth/react";
+import EmojiPickerComp from "@/components/ui/custom-ui/emoji-picker";
 
 interface NewCommentParams {
   setNewCommentPosted: Dispatch<SetStateAction<boolean>>;
