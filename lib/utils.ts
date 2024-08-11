@@ -216,3 +216,20 @@ export const createNewComment = (post_id: number, username: string, email: strin
     dislikes: []
   };
 };
+
+export const sortComments = (commentsParam: CommentType[], option: SortOption): CommentType[] => {
+  if (!commentsParam) return [];
+  let sortedComments = [...commentsParam];
+  switch (option) {
+    case "latest":
+      sortedComments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      break;
+    case "oldest":
+      sortedComments.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      break;
+    case "popular":
+      sortedComments.sort((a, b) => b.likes.length - a.likes.length);
+      break;
+  }
+  return sortedComments;
+};
