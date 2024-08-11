@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { timeAgo } from "@/lib/utils";
 import { UpdateComment } from "@/lib/actions";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
-import { useSession } from "next-auth/react";
-import ReactionButton from "./reaction-btn";
-import { useRouter } from "next/navigation";
+import ReactionButton from "@/components/ui/custom-ui/reaction-btn";
 
 export function Comment({ skeleton = false, comment }: { skeleton?: boolean; comment?: CommentType }) {
   const { replace } = useRouter();
