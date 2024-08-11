@@ -7,11 +7,12 @@ import { verifyPassword } from "@/lib/auth-valid/auth";
 import { isValid } from "@/lib/auth-valid/isValid";
 import { createUser, defaultUserImg } from "@/lib/locale/default-user";
 import { kebabToCapitalized } from "../utils";
+import { NEXTAUTH_SESSION_EXPIRATION } from "../constants";
 
 export const authOptions: any = {
   session: {
     strategy: "jwt",
-    maxAge: 60 * 60 * 24 * 14
+    maxAge: NEXTAUTH_SESSION_EXPIRATION
   },
   adapter: MongoDBAdapter(connectToMongo()),
   pages: {

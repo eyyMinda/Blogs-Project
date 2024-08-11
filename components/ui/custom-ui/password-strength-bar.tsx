@@ -1,4 +1,5 @@
 "use client";
+import { PASSWORD_LVL2_LENGTH, PASSWORD_LVL3_LENGTH, PASSWORD_MIN_LENGTH } from "@/lib/constants";
 import { useEffect, useState } from "react";
 
 export default function PasswordStrengthChecker({ password, className = "" }: { password: string; className?: string }) {
@@ -23,20 +24,21 @@ export default function PasswordStrengthChecker({ password, className = "" }: { 
       setPassStrength("empty");
     } else if (/\s/.test(trimmedPassword)) {
       setPassStrength("invalid");
-    } else if (trimmedPassword.length < 8) {
+    } else if (trimmedPassword.length < PASSWORD_MIN_LENGTH) {
       setPassStrength("too_short");
       setPassStrengthIndex(1);
     } else {
       const types = [/[a-z]/, /[A-Z]/, /\d/, /[!@#$%^&*()=_+[\]{}|;:'",.<>/?`~-]/];
       const trueCount = types.filter(type => type.test(trimmedPassword)).length;
+      // trueCount is a strength evaluation based on characters used in the password - MIN REQUIRED OUT OF TYPES 2
 
-      if (trimmedPassword.length >= 14 && trueCount === 4) {
+      if (trimmedPassword.length >= PASSWORD_LVL3_LENGTH && trueCount === 4) {
         setPassStrength("very_strong");
         setPassStrengthIndex(5);
-      } else if (trimmedPassword.length >= 12 && trueCount === 3) {
+      } else if (trimmedPassword.length >= PASSWORD_LVL2_LENGTH && trueCount === 3) {
         setPassStrength("strong");
         setPassStrengthIndex(4);
-      } else if (trimmedPassword.length >= 8) {
+      } else if (trimmedPassword.length >= PASSWORD_MIN_LENGTH) {
         if (trueCount >= 2) {
           setPassStrength("good");
           setPassStrengthIndex(3);
