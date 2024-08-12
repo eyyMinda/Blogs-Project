@@ -4,7 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { PostComment } from "@/lib/actions";
 import { createNewComment } from "@/lib/utils";
-import NotificationContext from "@/lib/context/notification-context";
+import NotificationContext from "@/contexts/notification-context";
 import defaultNotification from "@/lib/locale/default-notification";
 import { useSession } from "next-auth/react";
 import EmojiPickerComp from "@/components/ui/custom-ui/emoji-picker";

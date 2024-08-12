@@ -1,7 +1,7 @@
 "use client";
 import { signOut } from "next-auth/react";
 import { useContext } from "react";
-import NotificationContext from "Lib/context/notification-context";
+import NotificationContext from "@/contexts/notification-context";
 import defaultNotification from "Lib/locale/default-notification";
 import { Button } from "UI/button";
 

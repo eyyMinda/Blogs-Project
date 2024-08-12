@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { Form } from "UI/form";
 import { changePassFormSchema } from "Lib/formSchema";
 import defaultNotification from "Lib/locale/default-notification";
-import NotificationContext from "Lib/context/notification-context";
+import NotificationContext from "@/contexts/notification-context";
 import PasswordStrengthChecker from "UI/custom-ui/password-strength-bar";
 import SubmitButton from "UI/custom-ui/submit-btn";
 import ForgotPassword from "../../auth/forgot-password-link";

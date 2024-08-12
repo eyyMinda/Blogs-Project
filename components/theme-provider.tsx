@@ -3,7 +3,7 @@
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { type ThemeProviderProps } from "next-themes/dist/types";
 import { useContext } from "react";
-import NotificationContext from "@/lib/context/notification-context";
+import NotificationContext from "@/contexts/notification-context";
 import Notification from "./ui/custom-ui/notification";
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {

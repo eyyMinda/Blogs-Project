@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { createPortal } from "react-dom";
-import NotificationContext from "Lib/context/notification-context";
+import NotificationContext from "@/contexts/notification-context";
 
 import { X } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "Components/ui/alert";

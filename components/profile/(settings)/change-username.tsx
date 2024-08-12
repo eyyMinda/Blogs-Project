@@ -9,7 +9,7 @@ import { Form } from "UI/form";
 import { changeUsernameSchema } from "Lib/formSchema";
 import { IUser } from "@/nextauth";
 import defaultNotification from "Lib/locale/default-notification";
-import NotificationContext from "Lib/context/notification-context";
+import NotificationContext from "@/contexts/notification-context";
 import SubmitButton from "UI/custom-ui/submit-btn";
 import renderFormField from "Components/ui/custom-ui/render-form-field";
 

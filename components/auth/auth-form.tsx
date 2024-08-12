@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import NotificationContext from "@/lib/context/notification-context";
+import NotificationContext from "@/contexts/notification-context";
 import defaultNotification from "@/lib/locale/default-notification";
 import { authFormSchema } from "@/lib/formSchema";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";

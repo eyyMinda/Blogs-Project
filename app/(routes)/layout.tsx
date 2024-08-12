@@ -4,7 +4,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import { GeistSans } from "geist/font";
 import { ThemeProvider } from "@/components/theme-provider";
-import { NotificationProvider } from "@/lib/context/notification-context";
+import { NotificationProvider } from "@/contexts/notification-context";
 import { SessionContent } from "./SessionContent";
 export const metadata: Metadata = {
   title: "NextJS Blogs",

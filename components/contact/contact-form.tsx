@@ -5,7 +5,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { Fragment, useContext } from "react";
 import { useSession } from "next-auth/react";
-import NotificationContext from "@/lib/context/notification-context";
+import NotificationContext from "@/contexts/notification-context";
 import defaultNotification from "@/lib/locale/default-notification";
 import { contactFormSchema } from "@/lib/formSchema";
 import { Form } from "@/components/ui/form";
