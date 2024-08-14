@@ -66,7 +66,6 @@ export default function ContactForm() {
           <SubmitButton
             className="w-full text-black bg-gray-200 hover:text-white dark:bg-white dark:hover:bg-primary dark:text-black dark:hover:text-white mt-4"
             isLoading={isLoading}
-            text="Send message"
           />
         </div>
       </form>

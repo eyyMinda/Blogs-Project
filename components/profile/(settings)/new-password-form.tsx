@@ -71,7 +71,9 @@ function NewPasswordForm({ needPassword = false, accountEmail, onSuccessAction }
         <PasswordStrengthChecker password={pass} className="pt-2" />
 
         <div className="flex items-center gap-4">
-          <SubmitButton variant="secondary" isLoading={isLoading} text="Update password" />
+          <SubmitButton variant="secondary" isLoading={isLoading}>
+            Update password
+          </SubmitButton>
           {!needPassword && <ForgotPassword />}
         </div>
       </form>

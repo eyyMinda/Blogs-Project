@@ -44,7 +44,9 @@ function ConfirmEmailForm({ setEmailConfirmed }: { setEmailConfirmed: React.Disp
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex items-center gap-4 mt-4 text-start">
         {renderFormField(form, { name: "email", placeholder: "Email" })}
 
-        <SubmitButton variant="secondary" isLoading={isLoading} text="Next" />
+        <SubmitButton variant="secondary" isLoading={isLoading}>
+          Next
+        </SubmitButton>
       </form>
     </Form>
   );

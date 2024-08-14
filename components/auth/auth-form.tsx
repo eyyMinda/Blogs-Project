@@ -102,7 +102,9 @@ export default function AuthForm({ auth, btnText }: { auth: "register" | "login"
             )
         )}
         {!login && <PasswordStrengthChecker password={pass} className="pt-2" />}
-        <SubmitButton className="w-full dark:bg-white dark:hover:bg-primary dark:text-black dark:hover:text-white" isLoading={isLoading} text={btnText} />
+        <SubmitButton className="w-full dark:bg-white dark:hover:bg-primary dark:text-black dark:hover:text-white" isLoading={isLoading}>
+          {btnText}
+        </SubmitButton>
       </form>
     </Form>
   );
