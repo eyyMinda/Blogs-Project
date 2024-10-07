@@ -216,10 +216,11 @@ export const createNewComment = (post_id: number, username: string, email: strin
     dislikes: []
   };
 };
-export const createNewCommentReply = (post_id: number, username: string, email: string, comment: string, replied_to: string) => {
+export const createNewCommentReply = (post_id: number, comment_id: string, username: string, email: string, comment: string, replied_to: string) => {
   return {
     _id: randomID(),
     post_id,
+    comment_id,
     username: username,
     email: email,
     comment,
