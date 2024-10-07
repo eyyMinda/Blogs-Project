@@ -67,3 +67,18 @@ export async function UpdateComment(commentData: CommentReactionUpdateParams) {
   err && console.error(msg);
   return returnData;
 }
+
+export async function UpdateCommentReply(commentData: CommentReplyUpdateParams) {
+  if (!commentData) return;
+
+  const res = await fetch("/api/posts/update-comment-reply", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(commentData)
+  });
+  const { err, msg, returnData } = await res.json();
+  err && console.error(msg);
+  return returnData;
+}
