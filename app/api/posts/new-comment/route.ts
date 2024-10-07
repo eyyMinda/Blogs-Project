@@ -8,7 +8,6 @@ export async function POST(req: NextRequest) {
 
   // ============= Validation =============================
   const newComment = trimObjectValues(data, ["_id", "post_id", "comment", "date", "replies", "likes", "dislikes"]);
-  newComment.date = new Date().toString();
 
   // ============= Define/Redefine Client =============================
   const client = await getClient();
