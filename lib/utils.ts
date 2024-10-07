@@ -216,10 +216,31 @@ export const createNewComment = (post_id: number, username: string, email: strin
     dislikes: []
   };
 };
+export const createNewCommentReply = (post_id: number, username: string, email: string, comment: string, replied_to: string) => {
+  return {
+    _id: randomID(),
+    post_id,
+    username: username,
+    email: email,
+    comment,
+    date: new Date().toString(),
+    likes: [],
+    dislikes: [],
+    replied_to
+  };
+};
 
+/**
+ * The function sorts an array of comments based on different criteria.
+ * @param {CommentType[]} commentsParam - An array of objects of type `CommentType`, which likely contains information about comments
+ * such as the comment text, date, likes, and replies.
+ * @param {SortOption} option - determines how the comments should be sorted. ("latest" | "oldest" | "popular")
+ * @returns An array of `CommentType` objects sorted based on the specified `SortOption`.
+ */
 export const sortComments = (commentsParam: CommentType[], option: SortOption): CommentType[] => {
   if (!commentsParam) return [];
   let sortedComments = [...commentsParam];
+
   switch (option) {
     case "latest":
       sortedComments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -228,7 +249,13 @@ export const sortComments = (commentsParam: CommentType[], option: SortOption): 
       sortedComments.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
       break;
     case "popular":
-      sortedComments.sort((a, b) => b.likes.length - a.likes.length);
+      sortedComments.sort((a, b) => {
+        const likeDifference = b.likes.length - a.likes.length; // Primary sort by likes
+
+        if (likeDifference !== 0) return likeDifference;
+        // Secondary sort by replies count if likes are the same
+        return (b.replies?.length || 0) - (a.replies?.length || 0);
+      });
       break;
   }
   return sortedComments;
