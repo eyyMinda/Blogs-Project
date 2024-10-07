@@ -1,8 +1,8 @@
 interface CommentType {
   _id: string | number;
+  post_id: string | number;
   username: string;
   email: string;
-  post_id: string | number;
   comment: string;
   date: string;
   replies?: CommentReplyType[];
@@ -30,4 +30,8 @@ interface CommentReactionUpdateParams {
   comment_id: string | number;
   user: string;
   email: string;
+}
+
+interface CommentReplyUpdateParams extends CommentType {
+  replied_to: string;
 }
