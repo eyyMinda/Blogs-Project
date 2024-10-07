@@ -34,6 +34,7 @@ const generateNotification = (
 const defaultNotification: DefaultNotification = {
   message: generateNotification("Successfully sent a Message!", "Sending...", "Sending your message..."),
   comment: generateNotification("Your comment has been posted!", "Posting...", "Posting your comment..."),
+  commentReply: generateNotification("You replied to the comment.", "Replying...", "Replying to comment..."),
   register: generateNotification("Successfully Registered!", "Registering...", "Singing you up..."),
   login: generateNotification("Successfully Logged in!", "Logging in...", "Signing you in..."),
   changepass: generateNotification("Password changed!", "Changing...", "Changing your password..."),
