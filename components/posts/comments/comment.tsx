@@ -5,13 +5,15 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { timeAgo } from "@/lib/utils";
-import { UpdateComment } from "@/lib/actions";
+import { DeleteComment, UpdateComment } from "@/lib/actions";
 import { ThumbsDown, ThumbsUp, Trash2 } from "lucide-react";
 import { EllipsisVertical } from "@/components/ui/lucide-icons/EllipsisVertical";
 import ReactionButton from "@/components/ui/custom-ui/reaction-btn";
 import ReplyComment from "./reply-comment";
 import { Button } from "@/components/ui/button";
 import Replies from "./replies";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { AlertDialogComp } from "@/components/ui/custom-ui/alert-dialog-comp";
 
 export function Comment({
   skeleton = false,
@@ -60,6 +62,26 @@ export function Comment({
     setCounts({ likes: likeCount, dislikes: dislikeCount });
   };
 
+  const handleCommentDelete = async () => {
+    if (!comment?._id) return;
+
+    try {
+      const res = await DeleteComment({
+        comment: {
+          comment_id: comment._id,
+          user: session?.user?.name as string,
+          email: session?.user?.email as string
+        },
+        replyDepth
+      });
+      const { err, msg } = await res?.json();
+      err && console.log(msg);
+      !err && setNewCommentPosted(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <li className={`text-left relative ${skeleton ? "skeleton rounded-lg" : ""}`}>
       {!skeleton && comment && (
@@ -106,9 +128,18 @@ export function Comment({
       )}
       {comment?.replies && comment?.replies?.length > 0 && <Replies replies={comment.replies} setNewCommentPosted={setNewCommentPosted} />}
       {!skeleton && IsAuthorOfComment && (
-        <div className="absolute right-5 top-5 cursor-pointer text-white/50 transition-all hover:text-white">
-          <EllipsisVertical size={20} />
-        </div>
+        <Popover>
+          <PopoverTrigger className="absolute right-5 top-5 cursor-pointer text-white/50 transition-all hover:text-white">
+            <EllipsisVertical size={20} />
+          </PopoverTrigger>
+          <PopoverContent className="w-full text-sm rounded-lg">
+            <AlertDialogComp onClickFunc={handleCommentDelete}>
+              <Button variant="ghost" className="flex items-center gap-2 cursor-pointer py-1">
+                <Trash2 size={18} strokeWidth={1.4} /> Delete
+              </Button>
+            </AlertDialogComp>
+          </PopoverContent>
+        </Popover>
       )}
     </li>
   );
