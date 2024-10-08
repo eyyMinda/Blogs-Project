@@ -57,8 +57,6 @@ export default function ReplyComment({
       replyDepth
     };
 
-    //TODO: Added @AuthorUsername based on if reply is to another reply or not (replyDepth true or false)
-
     setNotification(defaultNotification.commentReply.pending);
     try {
       const res = await UpdateCommentReply(commentData);
