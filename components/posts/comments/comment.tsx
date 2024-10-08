@@ -6,7 +6,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { timeAgo } from "@/lib/utils";
 import { UpdateComment } from "@/lib/actions";
-import { ThumbsDown, ThumbsUp, Trash2, TrashIcon } from "lucide-react";
+import { ThumbsDown, ThumbsUp, Trash2 } from "lucide-react";
+import { EllipsisVertical } from "@/components/ui/lucide-icons/EllipsisVertical";
 import ReactionButton from "@/components/ui/custom-ui/reaction-btn";
 import ReplyComment from "./reply-comment";
 import { Button } from "@/components/ui/button";
@@ -35,6 +36,7 @@ export function Comment({
     dislikes: comment?.dislikes?.length || 0
   });
   const [replyOpen, setReplyOpen] = useState<boolean>(false);
+  const IsAuthorOfComment: boolean = session?.user?.name === comment?.username && session?.user?.email === comment?.email;
 
   useEffect(() => {
     if (userId && comment) {
@@ -103,9 +105,9 @@ export function Comment({
         />
       )}
       {comment?.replies && comment?.replies?.length > 0 && <Replies replies={comment.replies} setNewCommentPosted={setNewCommentPosted} />}
-      {!skeleton && (
+      {!skeleton && IsAuthorOfComment && (
         <div className="absolute right-5 top-5 cursor-pointer text-white/50 transition-all hover:text-white">
-          <Trash2 size={18} strokeWidth={1.4} />
+          <EllipsisVertical size={20} />
         </div>
       )}
     </li>
