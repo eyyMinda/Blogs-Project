@@ -28,7 +28,7 @@ export default function NewComment({ setNewCommentPosted, post_id }: NewCommentP
     setCommentText("");
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     setCommentText(value);
     // Setting text value for textarea:after which is invisible to auto resize based on content
@@ -64,7 +64,7 @@ export default function NewComment({ setNewCommentPosted, post_id }: NewCommentP
                   after:[grid-area:1/1/2/2] after:whitespace-pre-wrap
                   after:invisible after:border
                   after:content-[attr(data-cloned-val)_'_']">
-        <Textarea placeholder="Add a comment..." value={commentText} onChange={handleChange} onFocus={handleFocus} rows={1} className="min-h-10" />
+        <Textarea placeholder="Add a comment..." value={commentText} onChange={handleTextAreaChange} onFocus={handleFocus} rows={1} className="min-h-10" />
       </div>
 
       <hr className="my-4" />
@@ -74,10 +74,10 @@ export default function NewComment({ setNewCommentPosted, post_id }: NewCommentP
           <EmojiPickerComp setCommentText={setCommentText} />
 
           <div className="flex gap-2 justify-end">
-            <Button variant="ghost" onClick={handleCloseComment}>
+            <Button variant="ghost" onClick={handleCloseComment} className="rounded-3xl">
               Cancel
             </Button>
-            <Button variant="secondary" ref={commentBtnRef} disabled={!commentText} onClick={handleSubmitComment}>
+            <Button variant="secondary" ref={commentBtnRef} disabled={!commentText} onClick={handleSubmitComment} className="rounded-3xl">
               Comment
             </Button>
           </div>
