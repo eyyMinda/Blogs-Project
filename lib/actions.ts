@@ -82,3 +82,15 @@ export async function UpdateCommentReply(commentData: { comment: CommentReplyUpd
   });
   return res;
 }
+export async function DeleteComment(commentData: { comment: CommentDeleteParams; replyDepth: boolean }) {
+  if (!commentData) return;
+
+  const res = await fetch("/api/posts/delete-comment", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(commentData)
+  });
+  return res;
+}
