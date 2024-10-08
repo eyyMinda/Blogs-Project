@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import CommentList from "./comment-list";
@@ -51,7 +51,7 @@ export default function Comments({ post_id }: { post_id: number }) {
 
           {session && <NewComment setNewCommentPosted={setNewCommentPosted} post_id={post_id} />}
 
-          <CommentList comments={comments} />
+          <CommentList comments={comments} post_id={post_id} setNewCommentPosted={setNewCommentPosted} />
         </>
       )}
     </div>
