@@ -7,10 +7,10 @@ export function EllipsisVertical({ size = 16, strokeWidth = 2 }) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width={`${strokeWidth}`}
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="lucide lucide-ellipsis-vertical">
+      strokeWidth={`${strokeWidth}`}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-ellipsis-vertical">
       <circle cx="12" cy="12" r="1" />
       <circle cx="12" cy="5" r="1" />
       <circle cx="12" cy="19" r="1" />
