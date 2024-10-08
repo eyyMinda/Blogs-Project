@@ -53,7 +53,7 @@ export async function PostComment(comment?: CommentType) {
   return res;
 }
 
-export async function UpdateComment(commentData: CommentReactionUpdateParams) {
+export async function UpdateComment(commentData: { comment: CommentReactionUpdateParams; replyDepth: boolean }) {
   if (!commentData) return;
 
   const res = await fetch("/api/posts/update-comment", {
@@ -63,12 +63,14 @@ export async function UpdateComment(commentData: CommentReactionUpdateParams) {
     },
     body: JSON.stringify(commentData)
   });
-  const { err, msg, returnData } = await res.json();
+  console.log("after fetch");
+  const { err, returnData, msg } = await res.json();
   err && console.error(msg);
+  console.log("This is returnData in actions", returnData);
   return returnData;
 }
 
-export async function UpdateCommentReply(commentData: CommentReplyUpdateParams) {
+export async function UpdateCommentReply(commentData: { comment: CommentReplyUpdateParams; replyDepth: boolean }) {
   if (!commentData) return;
 
   const res = await fetch("/api/posts/new-reply", {
