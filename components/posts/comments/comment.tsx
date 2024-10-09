@@ -63,6 +63,7 @@ export function Comment({
   };
 
   const handleCommentDelete = async () => {
+    if (!session?.user) return replace("/login");
     if (!comment?._id) return;
 
     try {
