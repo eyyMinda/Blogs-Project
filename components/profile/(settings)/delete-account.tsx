@@ -1,17 +1,21 @@
 "use client";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useContext } from "react";
 import NotificationContext from "@/contexts/notification-context";
 import defaultNotification from "Lib/locale/default-notification";
 import { Button } from "UI/button";
+import { AlertDialogComp } from "@/components/ui/custom-ui/alert-dialog-comp";
+import { deleteAccountLocale } from "@/lib/locale/default-alerts";
 
 export default function DeleteAccount({ email }: { email?: string | null }) {
   const { setNotification } = useContext(NotificationContext);
+  const { data: session } = useSession();
   if (!email) return;
 
   const handleDelete = async () => {
-    if (!window.confirm("Ae you sure you want to delete your account?")) return;
-    setNotification(defaultNotification["deleteacc"]["pending"]);
+    if (!session?.user) return;
+
+    setNotification(defaultNotification.deleteacc.pending);
     try {
       const res = await fetch("/api/account/delete", {
         method: "DELETE",
@@ -20,7 +24,7 @@ export default function DeleteAccount({ email }: { email?: string | null }) {
       const { err, msg } = await res.json();
 
       if (!err) signOut();
-      setNotification(defaultNotification["deleteacc"][err ? "error" : "success"](msg));
+      setNotification(defaultNotification.deleteacc[err ? "error" : "success"](msg));
     } catch (error) {
       console.log(error);
       setNotification(defaultNotification.changeusername.error(""));
@@ -28,10 +32,10 @@ export default function DeleteAccount({ email }: { email?: string | null }) {
   };
 
   return (
-    <>
-      <Button variant="destructive" className="mt-4" onClick={() => handleDelete()}>
+    <AlertDialogComp onClickFunc={handleDelete} locale={deleteAccountLocale}>
+      <Button variant="destructive" className="mt-4">
         Delete Account
       </Button>
-    </>
+    </AlertDialogComp>
   );
 }
