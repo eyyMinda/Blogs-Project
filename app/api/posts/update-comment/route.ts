@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
   }
 
   // ============= Update Comment =============================
-  const updateQuery = data.replyDepth ? { "replies._id": commentData.comment_id } : { _id: commentData._id };
+  const updateQuery = data.replyDepth ? { "replies._id": commentData.comment_id } : { _id: commentData.comment_id };
   const updateOptions = data.replyDepth
     ? {
         $set: {
