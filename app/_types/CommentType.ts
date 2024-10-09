@@ -40,3 +40,10 @@ interface CommentDeleteParams {
   user: string;
   email: string;
 }
+
+interface CommentEditParams {
+  comment_id: string | number;
+  comment: string;
+  user: string;
+  email: string;
+}
