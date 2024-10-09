@@ -12,6 +12,7 @@ import defaultNotification from "Lib/locale/default-notification";
 import NotificationContext from "@/contexts/notification-context";
 import SubmitButton from "UI/custom-ui/submit-btn";
 import renderFormField from "Components/ui/custom-ui/render-form-field";
+import { ChangeUsernameApi } from "@/lib/actions";
 
 function ChangeUsernameForm() {
   const notifCtx = useContext(NotificationContext);
@@ -29,11 +30,8 @@ function ChangeUsernameForm() {
     const username = values.username;
 
     try {
-      const res = await fetch("/api/account/update", {
-        method: "PATCH",
-        body: JSON.stringify({ email, username })
-      });
-      const { err, msg } = await res.json();
+      const res = await ChangeUsernameApi(email as string, username);
+      const { err, msg } = await res?.json();
       notifCtx.setNotification(defaultNotification.changeusername[err ? "error" : "success"](msg));
 
       if (!err) {

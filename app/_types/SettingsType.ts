@@ -3,3 +3,8 @@ type ChangePassType = {
   passwordNew: string;
   passwordConfirm: string;
 };
+
+interface ChangePasswordActionParams {
+  password: string;
+  email: string;
+}

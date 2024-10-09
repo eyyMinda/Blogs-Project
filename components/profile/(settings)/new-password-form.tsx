@@ -13,6 +13,7 @@ import PasswordStrengthChecker from "UI/custom-ui/password-strength-bar";
 import SubmitButton from "UI/custom-ui/submit-btn";
 import ForgotPassword from "../../auth/forgot-password-link";
 import renderFormField from "Components/ui/custom-ui/render-form-field";
+import { ChangePasswordApi } from "@/lib/actions";
 
 interface NewPasswordProps {
   needPassword?: boolean;
@@ -33,16 +34,14 @@ function NewPasswordForm({ needPassword = false, accountEmail, onSuccessAction }
   const isLoading = form.formState.isSubmitting;
 
   async function onSubmit(values: z.infer<typeof passFormSchema>) {
+    if (!session?.user) return;
     setNotification(defaultNotification.changepass.pending);
     let data = { password: values.passwordNew, email: accountEmail || session?.user?.email } as any;
     if (!needPassword) data.passwordOld = values.passwordOld;
 
     try {
-      const res = await fetch("/api/account/update", {
-        method: "PATCH",
-        body: JSON.stringify(data)
-      });
-      const { err, msg } = await res.json();
+      const res = await ChangePasswordApi(data);
+      const { err, msg } = await res?.json();
       setNotification(defaultNotification.changepass[err ? "error" : "success"](msg));
 
       if (!err) {

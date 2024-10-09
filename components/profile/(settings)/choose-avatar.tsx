@@ -8,12 +8,13 @@ import { PopoverClose } from "@radix-ui/react-popover";
 import { Loader2, X } from "lucide-react";
 import NotificationContext from "@/contexts/notification-context";
 import defaultNotification from "Lib/locale/default-notification";
+import { ChangeAvatarApi } from "@/lib/actions";
 
 const prePath = "/images/account/remix-rumble-avatars/";
 
 export default function ChooseAvatar({ avatars, email }: { avatars: string[]; email?: string | null }) {
   const { setNotification } = useContext(NotificationContext);
-  const { update } = useSession();
+  const { update, data: session } = useSession();
   const [selected, setSelected] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -21,14 +22,12 @@ export default function ChooseAvatar({ avatars, email }: { avatars: string[]; em
   const closePopover = () => popoverCloseRef.current?.click();
 
   const handleChooseAvatar = async () => {
+    if (!session?.user) return;
     setIsLoading(true);
     setNotification(defaultNotification.changeavatar.pending);
     try {
-      const res = await fetch("/api/account/update", {
-        method: "POST",
-        body: JSON.stringify({ email, image: selected })
-      });
-      const { err, msg } = await res.json();
+      const res = await ChangeAvatarApi(email as string, selected as string);
+      const { err, msg } = await res?.json();
       if (!err) {
         await update({ picture: selected });
         update();

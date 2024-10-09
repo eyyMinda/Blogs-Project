@@ -6,6 +6,7 @@ import defaultNotification from "Lib/locale/default-notification";
 import { Button } from "UI/button";
 import { AlertDialogComp } from "@/components/ui/custom-ui/alert-dialog-comp";
 import { deleteAccountLocale } from "@/lib/locale/default-alerts";
+import { DeleteAccountApi } from "@/lib/actions";
 
 export default function DeleteAccount({ email }: { email?: string | null }) {
   const { setNotification } = useContext(NotificationContext);
@@ -17,11 +18,8 @@ export default function DeleteAccount({ email }: { email?: string | null }) {
 
     setNotification(defaultNotification.deleteacc.pending);
     try {
-      const res = await fetch("/api/account/delete", {
-        method: "DELETE",
-        body: JSON.stringify(email)
-      });
-      const { err, msg } = await res.json();
+      const res = await DeleteAccountApi(email);
+      const { err, msg } = await res?.json();
 
       if (!err) signOut();
       setNotification(defaultNotification.deleteacc[err ? "error" : "success"](msg));

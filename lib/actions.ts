@@ -87,3 +87,41 @@ export async function DeleteComment(commentData: { comment: CommentDeleteParams;
   });
   return res;
 }
+
+// ============================= PROFILE ====================================
+
+export async function ChangeUsernameApi(email: string, username: string) {
+  if (!email || !username) return;
+  const res = await fetch("/api/account/update", {
+    method: "PATCH",
+    body: JSON.stringify({ email, username })
+  });
+  return res;
+}
+
+export async function ChangePasswordApi(data: ChangePasswordActionParams) {
+  if (!data.password || !data.email) return;
+  const res = await fetch("/api/account/update", {
+    method: "PATCH",
+    body: JSON.stringify(data)
+  });
+  return res;
+}
+
+export async function ChangeAvatarApi(email: string, image: string) {
+  if (!email || !image) return;
+  const res = await fetch("/api/account/update", {
+    method: "POST",
+    body: JSON.stringify({ email, image })
+  });
+  return res;
+}
+
+export async function DeleteAccountApi(email: string) {
+  if (!email) return;
+  const res = await fetch("/api/account/delete", {
+    method: "DELETE",
+    body: JSON.stringify(email)
+  });
+  return res;
+}
