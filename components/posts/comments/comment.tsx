@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import Replies from "./replies";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { AlertDialogComp } from "@/components/ui/custom-ui/alert-dialog-comp";
+import { deleteCommentLocale } from "@/lib/locale/default-alerts";
 
 export function Comment({
   skeleton = false,
@@ -39,7 +40,6 @@ export function Comment({
   });
   const [replyOpen, setReplyOpen] = useState<boolean>(false);
   const IsAuthorOfComment: boolean = session?.user?.name === comment?.username && session?.user?.email === comment?.email;
-
   useEffect(() => {
     if (userId && comment) {
       setReactionState(comment.likes.includes(userId) ? "liked" : comment.dislikes.includes(userId) ? "disliked" : "none");
@@ -129,11 +129,11 @@ export function Comment({
       {comment?.replies && comment?.replies?.length > 0 && <Replies replies={comment.replies} setNewCommentPosted={setNewCommentPosted} />}
       {!skeleton && IsAuthorOfComment && (
         <Popover>
-          <PopoverTrigger className="absolute right-5 top-5 cursor-pointer text-white/50 transition-all hover:text-white">
+          <PopoverTrigger className="absolute right-0 top-1 cursor-pointer text-white/50 transition-all hover:text-white">
             <EllipsisVertical size={20} />
           </PopoverTrigger>
           <PopoverContent className="w-full text-sm rounded-lg">
-            <AlertDialogComp onClickFunc={handleCommentDelete}>
+            <AlertDialogComp onClickFunc={handleCommentDelete} locale={deleteCommentLocale}>
               <Button variant="ghost" className="flex items-center gap-2 cursor-pointer py-1">
                 <Trash2 size={18} strokeWidth={1.4} /> Delete
               </Button>
