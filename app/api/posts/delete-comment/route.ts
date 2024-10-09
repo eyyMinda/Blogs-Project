@@ -13,6 +13,10 @@ export async function POST(req: NextRequest) {
   const client = await getClient();
   if (!isMongoClient(client)) return client;
 
+  // ============= Check whether the user is authorised =============================
+  const existingUser = (await getFromMongo(client, "users", { email: data.comment.email }))[0] as User;
+  if (!existingUser) return NextResponse.json({ err: true, msg: "This user does not exist! You are not authorised for this action!" }, { status: 401 });
+
   // ============= Delete Comment =============================
   try {
     if (data.replyDepth) {
