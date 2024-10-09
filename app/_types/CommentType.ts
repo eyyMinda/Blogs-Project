@@ -35,15 +35,16 @@ interface CommentReactionUpdateParams {
 interface CommentReplyUpdateParams extends CommentType {
   replied_to: string;
 }
-interface CommentDeleteParams {
-  comment_id: string | number;
-  user: string;
-  email: string;
-}
 
 interface CommentEditParams {
   comment_id: string | number;
   comment: string;
+  user: string;
+  email: string;
+}
+
+interface CommentDeleteParams {
+  comment_id: string | number;
   user: string;
   email: string;
 }
