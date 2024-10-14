@@ -1,4 +1,4 @@
-import { toggleStringInArray, trimObjectValues } from "@/lib/utils";
+import { trimObjectValues } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 import { getClient, getFromMongo, isMongoClient, updateInMongo, updateManyMongo } from "@/lib/mongo-db/mongo";
 
@@ -27,6 +27,9 @@ export async function POST(req: NextRequest) {
   const replyComment = data.replyDepth ? (currentComment.replies?.find(obj => obj._id === commentData.comment_id) as CommentType) : currentComment;
 
   //TODO: Should add 2 new params? Edited status, last updated? Maybe history of edits?
+
+  //TODO: Should rewrite the logic for comments where it doesn't contain the actual comment author data,
+  // just a reference to the author user object in db.
 
   // ============= Update Comment =============================
   let updateQuery, updateOptions;

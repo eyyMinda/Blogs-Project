@@ -43,17 +43,19 @@ export default function ReplyComment({
     if (textAreaDivRef.current) textAreaDivRef.current.dataset["clonedVal"] = value;
   };
 
+  const validateReplyWithTag = (commentText: string, commentAuthorTag: string): boolean => {
+    const trimmedComment = commentText.trim();
+    return !!trimmedComment && (!trimmedComment.startsWith(commentAuthorTag) || trimmedComment.slice(commentAuthorTag.length).trim().length > 0);
+  };
+  const formatReplyWithTag = (commentText: string, commentAuthorTag: string, replyDepth: boolean): string =>
+    replyDepth && !commentText.startsWith(commentAuthorTag) ? `${commentAuthorTag} ${commentText.trim()}` : commentText.trim();
+
   const handleSubmitComment = async () => {
     if (!session?.user) return;
+
+    const cleanedComment = formatReplyWithTag(commentText, commentAuthorTag, replyDepth);
     const commentData = {
-      comment: createNewCommentReply(
-        post_id,
-        comment_id,
-        session?.user?.name as string,
-        session?.user?.email as string,
-        replyDepth ? commentAuthorTag + " " + commentText : commentText,
-        authorUsername!
-      ),
+      comment: createNewCommentReply(post_id, comment_id, session?.user?.name as string, session?.user?.email as string, cleanedComment, authorUsername!),
       replyDepth
     };
 
@@ -97,7 +99,7 @@ export default function ReplyComment({
           <Button
             variant="secondary"
             ref={commentBtnRef}
-            disabled={!commentText || commentText === commentAuthorTag}
+            disabled={!validateReplyWithTag(commentText, commentAuthorTag)}
             onClick={handleSubmitComment}
             className="rounded-3xl">
             Reply
