@@ -1,12 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import EmojiPickerComp from "@/components/ui/custom-ui/emoji-picker";
 import { Textarea } from "@/components/ui/textarea";
+import EmojiPickerComp from "@/components/ui/custom-ui/emoji-picker";
 import NotificationContext from "@/contexts/notification-context";
-import { UpdateCommentReply } from "@/lib/actions";
 import defaultNotification from "@/lib/locale/default-notification";
-import { createNewCommentReply } from "@/lib/utils";
+import { UpdateCommentReply } from "@/lib/actions";
+import { createNewCommentReply, formatReplyWithTag, validateReplyWithTag } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import { Dispatch, SetStateAction, useContext, useRef, useState } from "react";
 
@@ -43,19 +43,12 @@ export default function ReplyComment({
     if (textAreaDivRef.current) textAreaDivRef.current.dataset["clonedVal"] = value;
   };
 
-  const validateReplyWithTag = (commentText: string, commentAuthorTag: string): boolean => {
-    const trimmedComment = commentText.trim();
-    return !!trimmedComment && (!trimmedComment.startsWith(commentAuthorTag) || trimmedComment.slice(commentAuthorTag.length).trim().length > 0);
-  };
-  const formatReplyWithTag = (commentText: string, commentAuthorTag: string, replyDepth: boolean): string =>
-    replyDepth && !commentText.startsWith(commentAuthorTag) ? `${commentAuthorTag} ${commentText.trim()}` : commentText.trim();
-
   const handleSubmitComment = async () => {
     if (!session?.user) return;
 
     const cleanedComment = formatReplyWithTag(commentText, commentAuthorTag, replyDepth);
     const commentData = {
-      comment: createNewCommentReply(post_id, comment_id, session?.user?.name as string, session?.user?.email as string, cleanedComment, authorUsername!),
+      comment: createNewCommentReply(post_id, comment_id, session?.user?.id, cleanedComment, authorUsername!),
       replyDepth
     };
 
