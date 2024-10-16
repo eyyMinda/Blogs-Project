@@ -1,4 +1,3 @@
-import { trimObjectValues } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 import { getClient, isMongoClient, postToMongo } from "@/lib/mongo-db/mongo";
 
@@ -6,16 +5,13 @@ export async function POST(req: NextRequest) {
   const data = await req.json();
   if (!data) return NextResponse.json({ err: true, msg: "No data has been provided." }, { status: 400 });
 
-  // ============= Validation =============================
-  const newComment = trimObjectValues(data, ["_id", "post_id", "comment", "date", "replies", "likes", "dislikes"]);
-
   // ============= Define/Redefine Client =============================
   const client = await getClient();
   if (!isMongoClient(client)) return client;
 
   // ============= Submit Comment =============================
   try {
-    await postToMongo(client, "comments", newComment);
+    await postToMongo(client, "comments", data);
   } catch (error) {
     console.log(error);
     return NextResponse.json({ err: true, msg: "Failed to comment." }, { status: 500 });
