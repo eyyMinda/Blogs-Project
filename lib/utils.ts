@@ -203,12 +203,11 @@ export const postsToDatabasePosts = (posts: Post[]) => {
  * - likes: an empty array
  * - dislikes: an empty array
  */
-export const createNewComment = (post_id: number, username: string, email: string, comment: string) => {
+export const createNewComment = (post_id: number, author_id: string, comment: string) => {
   return {
     _id: randomID(),
     post_id,
-    username: username,
-    email: email,
+    author_id,
     comment,
     date: new Date().toString(),
     replies: [],
@@ -216,13 +215,12 @@ export const createNewComment = (post_id: number, username: string, email: strin
     dislikes: []
   };
 };
-export const createNewCommentReply = (post_id: number, comment_id: string, username: string, email: string, comment: string, replied_to: string) => {
+export const createNewCommentReply = (post_id: number, comment_id: string, author_id: string, comment: string, replied_to: string) => {
   return {
     _id: randomID(),
     post_id,
     comment_id,
-    username: username,
-    email: email,
+    author_id,
     comment,
     date: new Date().toString(),
     likes: [],
@@ -231,6 +229,13 @@ export const createNewCommentReply = (post_id: number, comment_id: string, usern
   };
 };
 
+export const validateReplyWithTag = (commentText: string, commentAuthorTag: string): boolean => {
+  const trimmedComment = commentText.trim();
+  return !!trimmedComment && (!trimmedComment.startsWith(commentAuthorTag) || trimmedComment.slice(commentAuthorTag.length).trim().length > 0);
+};
+export const formatReplyWithTag = (commentText: string, commentAuthorTag: string, replyDepth: boolean): string =>
+  replyDepth && !commentText.startsWith(commentAuthorTag) ? `${commentAuthorTag} ${commentText.trim()}` : commentText.trim();
+
 /**
  * The function sorts an array of comments based on different criteria.
  * @param {CommentType[]} commentsParam - An array of objects of type `CommentType`, which likely contains information about comments
@@ -238,7 +243,7 @@ export const createNewCommentReply = (post_id: number, comment_id: string, usern
  * @param {SortOption} option - determines how the comments should be sorted. ("latest" | "oldest" | "popular")
  * @returns An array of `CommentType` objects sorted based on the specified `SortOption`.
  */
-export const sortComments = (commentsParam: CommentType[], option: SortOption): CommentType[] => {
+export const sortComments = (commentsParam: CommentWithUserType[], option: SortOption): CommentWithUserType[] => {
   if (!commentsParam) return [];
   let sortedComments = [...commentsParam];
 
