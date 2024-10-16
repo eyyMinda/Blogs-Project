@@ -82,3 +82,256 @@ export const getFromMongo = async (client: MongoClient, collection: string, quer
   const items = await coll.find(query).sort(sort).skip(skip).limit(limit).toArray();
   return items;
 };
+
+export async function getCommentsWithUserDetails(client: MongoClient, collection: string, post_id: number, limit = 10, skip = 0) {
+  const comments = await client
+    .db("blogs_nextjs")
+    .collection(collection)
+    .aggregate([
+      {
+        // Match comments by post_id
+        $match: { post_id }
+      },
+      {
+        // Convert the author_id from string to ObjectId for the lookup
+        $addFields: {
+          author_id: { $convert: { input: "$author_id", to: "objectId", onError: "$author_id" } },
+          replies: {
+            $map: {
+              input: "$replies",
+              as: "reply",
+              in: {
+                _id: "$$reply._id",
+                author_id: { $convert: { input: "$$reply.author_id", to: "objectId", onError: "$$reply.author_id" } },
+                replied_to: "$$reply.replied_to",
+                comment: "$$reply.comment",
+                date: "$$reply.date",
+                likes: "$$reply.likes",
+                dislikes: "$$reply.dislikes"
+              }
+            }
+          }
+        }
+      },
+      {
+        // Lookup the author details for each comment
+        $lookup: {
+          from: "users",
+          localField: "author_id",
+          foreignField: "_id",
+          as: "author"
+        }
+      },
+      {
+        // Unwind the 'author' array (since the lookup returns an array)
+        $unwind: {
+          path: "$author",
+          preserveNullAndEmptyArrays: true // To keep comments with missing authors
+        }
+      },
+      {
+        // Lookup author details for each reply inside the 'replies' array
+        $lookup: {
+          from: "users",
+          localField: "replies.author_id", // Reference to author in replies
+          foreignField: "_id",
+          as: "reply_authors"
+        }
+      },
+      {
+        // Add the reply authors to each corresponding reply using $addFields
+        $addFields: {
+          replies: {
+            $map: {
+              input: "$replies",
+              as: "reply",
+              in: {
+                _id: "$$reply._id",
+                post_id: "$$reply.post_id",
+                author_id: "$$reply.author_id",
+                comment: "$$reply.comment",
+                date: "$$reply.date",
+                likes: "$$reply.likes",
+                dislikes: "$$reply.dislikes",
+                replied_to: "$$reply.replied_to",
+                author: {
+                  $arrayElemAt: [
+                    {
+                      $filter: {
+                        input: "$reply_authors",
+                        as: "reply_author",
+                        cond: { $eq: ["$$reply_author._id", "$$reply.author_id"] }
+                      }
+                    },
+                    0
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        // Optional: Limit and skip for pagination
+        $skip: skip
+      },
+      {
+        $limit: limit // Limit to 10 comments at a time
+      },
+      {
+        // Project the final structure with 'name', 'image', and 'email' fields for both authors and reply authors
+        $project: {
+          _id: 1,
+          post_id: 1,
+          comment: 1,
+          date: 1,
+          likes: 1,
+          dislikes: 1,
+          author: {
+            name: "$author.name",
+            image: "$author.image",
+            email: "$author.email"
+          },
+          replies: {
+            _id: 1,
+            post_id: 1,
+            author_id: 1,
+            comment: 1,
+            date: 1,
+            likes: 1,
+            dislikes: 1,
+            replied_to: 1,
+            author: {
+              name: { $arrayElemAt: ["$replies.author.name", 0] },
+              email: { $arrayElemAt: ["$replies.author.email", 0] },
+              image: { $arrayElemAt: ["$replies.author.image", 0] }
+            }
+          }
+        }
+      }
+    ])
+    .toArray();
+
+  return comments;
+}
+
+export async function getCommentOrReplyWithUserDetails(client: MongoClient, collection: string, comment_id: string, replyDepth: number) {
+  const matchCondition = replyDepth
+    ? { "replies._id": comment_id } // If it's a reply, find the parent comment
+    : { _id: comment_id }; // Otherwise, match the comment directly
+
+  const pipeline = [
+    { $match: matchCondition },
+    {
+      // Convert author_id and replied_to for comment and replies
+      $addFields: {
+        author_id: { $toObjectId: "$author_id" },
+        replies: {
+          $map: {
+            input: "$replies",
+            as: "reply",
+            in: {
+              _id: "$$reply._id",
+              author_id: { $toObjectId: "$$reply.author_id" },
+              replied_to: { $toObjectId: "$$reply.replied_to" },
+              comment: "$$reply.comment",
+              date: "$$reply.date",
+              likes: "$$reply.likes",
+              dislikes: "$$reply.dislikes"
+            }
+          }
+        }
+      }
+    },
+    {
+      // Lookup the main comment author and the reply authors
+      $lookup: {
+        from: "users",
+        localField: "author_id",
+        foreignField: "_id",
+        as: "author"
+      }
+    },
+    { $unwind: { path: "$author", preserveNullAndEmptyArrays: true } },
+    {
+      // Lookup reply authors
+      $lookup: {
+        from: "users",
+        localField: "replies.author_id",
+        foreignField: "_id",
+        as: "reply_authors"
+      }
+    },
+    {
+      // Map reply authors to the replies array
+      $addFields: {
+        replies: {
+          $map: {
+            input: "$replies",
+            as: "reply",
+            in: {
+              _id: "$$reply._id",
+              author_id: "$$reply.author_id",
+              comment: "$$reply.comment",
+              date: "$$reply.date",
+              likes: "$$reply.likes",
+              dislikes: "$$reply.dislikes",
+              replied_to: "$$reply.replied_to",
+              author: {
+                $arrayElemAt: [
+                  {
+                    $filter: {
+                      input: "$reply_authors",
+                      as: "reply_author",
+                      cond: { $eq: ["$$reply_author._id", "$$reply.author_id"] }
+                    }
+                  },
+                  0
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      // If querying a reply, only return that reply in the replies array
+      $addFields: {
+        replies: replyDepth ? { $filter: { input: "$replies", as: "reply", cond: { $eq: ["$$reply._id", comment_id] } } } : "$replies"
+      }
+    },
+    {
+      // Project the required fields (including author details)
+      $project: {
+        _id: 1,
+        post_id: 1,
+        comment: 1,
+        date: 1,
+        likes: 1,
+        dislikes: 1,
+        author: {
+          name: "$author.name",
+          image: "$author.image",
+          email: "$author.email"
+        },
+        replies: {
+          _id: 1,
+          author_id: 1,
+          comment: 1,
+          date: 1,
+          likes: 1,
+          dislikes: 1,
+          replied_to: 1,
+          author: {
+            name: "$replies.author.name",
+            image: "$replies.author.image",
+            email: "$replies.author.email"
+          }
+        }
+      }
+    }
+  ];
+
+  const comments = (await client.db("blogs_nextjs").collection(collection).aggregate(pipeline).toArray()) as CommentReplyType[];
+  return comments[0] || null; // Return the first matching document or null
+}
