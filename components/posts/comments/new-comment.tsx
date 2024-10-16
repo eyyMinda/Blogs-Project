@@ -37,7 +37,8 @@ export default function NewComment({ setNewCommentPosted, post_id }: NewCommentP
 
   const handleSubmitComment = async () => {
     if (!session?.user) return;
-    const commentData = createNewComment(post_id, session?.user?.name as string, session?.user?.email as string, commentText);
+    console.log(session.user);
+    const commentData = createNewComment(post_id, session?.user?.id, commentText);
 
     setNotification(defaultNotification.comment.pending);
     try {

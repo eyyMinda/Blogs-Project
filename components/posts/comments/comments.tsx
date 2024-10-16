@@ -12,8 +12,8 @@ import SortCommentsButton from "./sort-comments-btn";
 export default function Comments({ post_id }: { post_id: number }) {
   const { data: session } = useSession();
   const [showComments, setShowComments] = useState(false);
-  const [fetchedComments, setFetchedComments] = useState<CommentType[] | null>(null);
-  const [comments, setComments] = useState<CommentType[] | null>(null);
+  const [fetchedComments, setFetchedComments] = useState<CommentWithUserType[] | null>(null);
+  const [comments, setComments] = useState<CommentWithUserType[] | null>(null);
   const [newCommentPosted, setNewCommentPosted] = useState(false);
   const [sortOption, setSortOption] = useState<SortOption>("latest");
 

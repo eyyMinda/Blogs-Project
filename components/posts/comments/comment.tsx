@@ -24,7 +24,7 @@ export function Comment({
   setNewCommentPosted
 }: {
   skeleton?: boolean;
-  comment?: CommentType;
+  comment?: CommentWithUserType;
   replyDepth?: boolean;
   post_id?: number;
   setNewCommentPosted: Dispatch<SetStateAction<boolean>>;
@@ -39,7 +39,7 @@ export function Comment({
     dislikes: comment?.dislikes?.length || 0
   });
   const [replyOpen, setReplyOpen] = useState<boolean>(false);
-  const IsAuthorOfComment: boolean = session?.user?.name === comment?.username && session?.user?.email === comment?.email;
+  const IsAuthorOfComment: boolean = session?.user?.name === comment?.author.name && session?.user?.email === comment?.author.email;
   useEffect(() => {
     if (userId && comment) {
       setReactionState(comment.likes.includes(userId) ? "liked" : comment.dislikes.includes(userId) ? "disliked" : "none");
@@ -50,12 +50,7 @@ export function Comment({
     if (!session?.user) return replace("/login");
     if (!comment?._id) return;
     const { status, likeCount, dislikeCount }: ReactionUpdateType = await UpdateComment({
-      comment: {
-        like,
-        comment_id: comment._id,
-        user: session.user.name as string,
-        email: session.user.email as string
-      },
+      comment: { like, author_id: session?.user?.id, comment_id: comment._id },
       replyDepth
     });
     setReactionState(status);
@@ -68,11 +63,7 @@ export function Comment({
 
     try {
       const res = await DeleteComment({
-        comment: {
-          comment_id: comment._id,
-          user: session?.user?.name as string,
-          email: session?.user?.email as string
-        },
+        comment: { comment_id: comment._id, author_id: session?.user.id },
         replyDepth
       });
       const { err, msg } = await res?.json();
@@ -89,7 +80,7 @@ export function Comment({
         <>
           <div className="flex gap-2 mb-1">
             <Link href="#">
-              <p className="font-bold">{comment.username}</p>
+              <p className="font-bold">{comment.author.name}</p>
             </Link>
             <span className="text-sm dark:text-gray-300">{timeAgo(comment.date)[0]}</span>
           </div>
@@ -121,7 +112,7 @@ export function Comment({
         <ReplyComment
           setReplyOpen={setReplyOpen}
           replyDepth={replyDepth}
-          authorUsername={comment?.username}
+          authorUsername={comment?.author.name}
           post_id={post_id!}
           comment_id={comment?._id as string}
           setNewCommentPosted={setNewCommentPosted}

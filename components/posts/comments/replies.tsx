@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import CommentList from "./comment-list";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
-export default function Replies({ replies, setNewCommentPosted }: { replies: CommentType[]; setNewCommentPosted: Dispatch<SetStateAction<boolean>> }) {
+export default function Replies({ replies, setNewCommentPosted }: { replies: CommentReplyType[]; setNewCommentPosted: Dispatch<SetStateAction<boolean>> }) {
   const [repliesOpen, setRepliesOpen] = useState<boolean>(false);
   const repliesLength = replies.length;
   return (
