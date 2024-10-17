@@ -9,22 +9,18 @@ import { UpdateCommentReply } from "@/lib/actions";
 import { createNewCommentReply, formatReplyWithTag, validateReplyWithTag } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import { Dispatch, SetStateAction, useContext, useRef, useState } from "react";
+import { CommentTextarea } from "@/components/ui/custom-ui/comment-textarea";
 
-export default function ReplyComment({
-  setReplyOpen,
-  replyDepth,
-  authorUsername,
-  post_id,
-  comment_id,
-  setNewCommentPosted
-}: {
+interface newReplyProps {
   setReplyOpen: Dispatch<SetStateAction<boolean>>;
   replyDepth: boolean;
   authorUsername?: string;
   post_id: number;
   comment_id: string;
   setNewCommentPosted: Dispatch<SetStateAction<boolean>>;
-}) {
+}
+
+export default function ReplyComment({ setReplyOpen, replyDepth, authorUsername, post_id, comment_id, setNewCommentPosted }: newReplyProps) {
   const { data: session } = useSession();
   const { setNotification } = useContext(NotificationContext);
   const commentBtnRef = useRef<HTMLButtonElement>(null);
@@ -69,16 +65,7 @@ export default function ReplyComment({
 
   return (
     <div>
-      <div
-        ref={textAreaDivRef}
-        className="grid text-sm after:px-3.5 after:py-2.5 [&>textarea]:text-inherit
-                  after:text-inherit [&>textarea]:resize-none
-                  [&>textarea]:overflow-hidden [&>textarea]:[grid-area:1/1/2/2]
-                  after:[grid-area:1/1/2/2] after:whitespace-pre-wrap
-                  after:invisible after:border
-                  after:content-[attr(data-cloned-val)_'_']">
-        <Textarea autoFocus placeholder="Add a reply..." value={commentText} onChange={handleTextAreaChange} rows={1} className="min-h-10" />
-      </div>
+      <CommentTextarea placeholder="Add a reply..." textAreaDivRef={textAreaDivRef} commentText={commentText} handleTextAreaChange={handleTextAreaChange} />
 
       <hr className="my-2" />
 

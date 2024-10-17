@@ -1,13 +1,13 @@
 "use client";
 import { Dispatch, SetStateAction, useContext, useRef, useState } from "react";
-import { Textarea } from "@/components/ui/textarea";
+import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
+import { CommentTextarea } from "@/components/ui/custom-ui/comment-textarea";
+import EmojiPickerComp from "@/components/ui/custom-ui/emoji-picker";
 import { PostComment } from "@/lib/actions";
 import { createNewComment } from "@/lib/utils";
 import NotificationContext from "@/contexts/notification-context";
 import defaultNotification from "@/lib/locale/default-notification";
-import { useSession } from "next-auth/react";
-import EmojiPickerComp from "@/components/ui/custom-ui/emoji-picker";
 
 interface NewCommentParams {
   setNewCommentPosted: Dispatch<SetStateAction<boolean>>;
@@ -57,16 +57,13 @@ export default function NewComment({ setNewCommentPosted, post_id }: NewCommentP
 
   return (
     <div>
-      <div
-        ref={textAreaDivRef}
-        className="grid text-sm after:px-3.5 after:py-2.5 [&>textarea]:text-inherit
-                  after:text-inherit [&>textarea]:resize-none
-                  [&>textarea]:overflow-hidden [&>textarea]:[grid-area:1/1/2/2]
-                  after:[grid-area:1/1/2/2] after:whitespace-pre-wrap
-                  after:invisible after:border
-                  after:content-[attr(data-cloned-val)_'_']">
-        <Textarea placeholder="Add a comment..." value={commentText} onChange={handleTextAreaChange} onFocus={handleFocus} rows={1} className="min-h-10" />
-      </div>
+      <CommentTextarea
+        placeholder="Add a comment..."
+        textAreaDivRef={textAreaDivRef}
+        commentText={commentText}
+        handleTextAreaChange={handleTextAreaChange}
+        handleFocus={handleFocus}
+      />
 
       <hr className="my-4" />
 
