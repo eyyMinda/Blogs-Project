@@ -193,18 +193,24 @@ export async function getCommentsWithUserDetails(client: MongoClient, collection
             email: "$author.email"
           },
           replies: {
-            _id: 1,
-            post_id: 1,
-            author_id: 1,
-            comment: 1,
-            date: 1,
-            likes: 1,
-            dislikes: 1,
-            replied_to: 1,
-            author: {
-              name: { $arrayElemAt: ["$replies.author.name", 0] },
-              email: { $arrayElemAt: ["$replies.author.email", 0] },
-              image: { $arrayElemAt: ["$replies.author.image", 0] }
+            $map: {
+              input: "$replies", // Iterate over the replies array
+              as: "reply",
+              in: {
+                _id: "$$reply._id",
+                post_id: "$$reply.post_id",
+                author_id: "$$reply.author_id",
+                comment: "$$reply.comment",
+                date: "$$reply.date",
+                likes: "$$reply.likes",
+                dislikes: "$$reply.dislikes",
+                replied_to: "$$reply.replied_to",
+                author: {
+                  name: "$$reply.author.name",
+                  email: "$$reply.author.email",
+                  image: "$$reply.author.image"
+                }
+              }
             }
           }
         }
