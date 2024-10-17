@@ -43,6 +43,7 @@ export function Comment({
   const [replyOpen, setReplyOpen] = useState<boolean>(false);
   const IsAuthorOfComment: boolean = session?.user?.name === comment?.author.name && session?.user?.email === comment?.author.email;
   const image = comment?.author.image?.startsWith("remix") ? prePath + comment?.author.image : comment?.author.image;
+  const imageFallback = comment?.author.name ? comment?.author?.name[0].toUpperCase() : undefined;
   useEffect(() => {
     if (userId && comment) {
       setReactionState(comment.likes.includes(userId) ? "liked" : comment.dislikes.includes(userId) ? "disliked" : "none");
@@ -79,7 +80,7 @@ export function Comment({
 
   return (
     <div className="flex items-start gap-3">
-      <AvatarIcon variant={replyDepth ? "mini" : "sm"} className="mt-2" path={image} fallback={comment?.author.name[0].toUpperCase()} />
+      <AvatarIcon variant={replyDepth ? "mini" : "sm"} className="mt-2" path={image} fallback={imageFallback} />
       <li className={`text-left relative ${skeleton ? "skeleton rounded-lg" : ""}`}>
         {!skeleton && comment && (
           <>
