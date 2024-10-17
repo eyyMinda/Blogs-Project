@@ -83,7 +83,10 @@ export function Comment({ skeleton = false, comment, replyDepth = false, post_id
 
   const authorCommentIds = { author_id: session?.user?.id, comment_id: comment?._id };
   const handleCommentReaction = (like: boolean) => handleCommentAction("reaction", { comment: { ...authorCommentIds, like }, replyDepth });
-  const handleCommentEdit = () => handleCommentAction("edit", { comment: { ...authorCommentIds, comment: commentText }, replyDepth });
+  const handleCommentEdit = () => {
+    if (commentText === comment?.comment) return;
+    handleCommentAction("edit", { comment: { ...authorCommentIds, comment: commentText }, replyDepth });
+  };
   const handleCommentDelete = () => handleCommentAction("delete", { comment: { ...authorCommentIds }, replyDepth });
 
   // ================= Comment Options =================
