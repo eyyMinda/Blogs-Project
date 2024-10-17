@@ -1,5 +1,4 @@
-import { DatabasePost } from "@/app/_types/PostType";
-import { getClient, getFromMongo, isMongoClient } from "@/lib/mongo-db/mongo";
+import { getClient, getCommentsWithUserDetails, isMongoClient } from "@/lib/mongo-db/mongo";
 import { NextRequest, NextResponse } from "next/server";
 
 // ------------------------------- POST -------------------------------------
@@ -24,8 +23,7 @@ async function handler(req: NextRequest) {
   //   {
   //     _id: 15151561561654654465,
   //     post_id: 1,
-  //     username: "eyyMinda",
-  //     email: "sublimemindrite@gmail.com",
+  //     author_id: "657a2c75203f21d5d5aed687",
   //     comment: "New Comment here",
   //     date: new Date().toString(),
   //     replies: [],
@@ -34,7 +32,7 @@ async function handler(req: NextRequest) {
   //   }
   // ];
   try {
-    comments = (await getFromMongo(client, "comments", { post_id: data.post_id }, {}, 10, Number(data.skip))) as CommentsType;
+    comments = (await getCommentsWithUserDetails(client, "comments", data.post_id, 10, Number(data.skip))) as CommentsType;
     if (!comments) return NextResponse.json({ err: true, msg: "No comments..." }, { status: 401 });
   } catch (error) {
     return NextResponse.json({ err: true, msg: "Failed to Fetch Comments for this Post." }, { status: 500 });

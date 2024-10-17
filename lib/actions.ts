@@ -17,7 +17,7 @@ export async function updatePostData(data: DatabasePost[]) {
 // ============================= COMMENTS ====================================
 
 export async function fetchComments(filter: { post_id: number; skip?: number }) {
-  const res = await fetch("/api/posts/get-comments-w-user-data", {
+  const res = await fetch("/api/posts/get-comments", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
