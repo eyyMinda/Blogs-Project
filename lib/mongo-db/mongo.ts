@@ -106,6 +106,7 @@ export async function getCommentsWithUserDetails(client: MongoClient, collection
                 replied_to: "$$reply.replied_to",
                 comment: "$$reply.comment",
                 date: "$$reply.date",
+                edited: "$$reply.edited",
                 likes: "$$reply.likes",
                 dislikes: "$$reply.dislikes"
               }
@@ -151,6 +152,7 @@ export async function getCommentsWithUserDetails(client: MongoClient, collection
                 author_id: "$$reply.author_id",
                 comment: "$$reply.comment",
                 date: "$$reply.date",
+                edited: "$$reply.edited",
                 likes: "$$reply.likes",
                 dislikes: "$$reply.dislikes",
                 replied_to: "$$reply.replied_to",
@@ -185,6 +187,7 @@ export async function getCommentsWithUserDetails(client: MongoClient, collection
           post_id: 1,
           comment: 1,
           date: 1,
+          edited: 1,
           likes: 1,
           dislikes: 1,
           author: {
@@ -202,6 +205,7 @@ export async function getCommentsWithUserDetails(client: MongoClient, collection
                 author_id: "$$reply.author_id",
                 comment: "$$reply.comment",
                 date: "$$reply.date",
+                edited: "$$reply.edited",
                 likes: "$$reply.likes",
                 dislikes: "$$reply.dislikes",
                 replied_to: "$$reply.replied_to",
@@ -242,6 +246,7 @@ export async function getCommentOrReplyWithUserDetails(client: MongoClient, coll
               replied_to: { $toObjectId: "$$reply.replied_to" },
               comment: "$$reply.comment",
               date: "$$reply.date",
+              edited: "$$reply.edited",
               likes: "$$reply.likes",
               dislikes: "$$reply.dislikes"
             }
@@ -280,6 +285,7 @@ export async function getCommentOrReplyWithUserDetails(client: MongoClient, coll
               author_id: "$$reply.author_id",
               comment: "$$reply.comment",
               date: "$$reply.date",
+              edited: "$$reply.edited",
               likes: "$$reply.likes",
               dislikes: "$$reply.dislikes",
               replied_to: "$$reply.replied_to",
@@ -313,6 +319,7 @@ export async function getCommentOrReplyWithUserDetails(client: MongoClient, coll
         post_id: 1,
         comment: 1,
         date: 1,
+        edited: 1,
         likes: 1,
         dislikes: 1,
         author: {
@@ -325,6 +332,7 @@ export async function getCommentOrReplyWithUserDetails(client: MongoClient, coll
           author_id: 1,
           comment: 1,
           date: 1,
+          edited: 1,
           likes: 1,
           dislikes: 1,
           replied_to: 1,

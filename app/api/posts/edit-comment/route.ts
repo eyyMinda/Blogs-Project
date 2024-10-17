@@ -1,44 +1,29 @@
-import { trimObjectValues } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
-import { getClient, getFromMongo, isMongoClient, updateInMongo, updateManyMongo } from "@/lib/mongo-db/mongo";
+import { getClient, getFromMongo, isMongoClient, updateInMongo } from "@/lib/mongo-db/mongo";
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
   if (!data) return NextResponse.json({ err: true, msg: "No data has been provided." }, { status: 400 });
 
-  // ============= Validation =============================
-  const commentData = trimObjectValues(data.comment, ["comment_id", "like"]);
-
   // ============= Define/Redefine Client =============================
   const client = await getClient();
   if (!isMongoClient(client)) return client;
 
+  const { comment: commentData } = data;
   // ============= Check whether the user exists =============================
-  const existingUser = (await getFromMongo(client, "users", { email: commentData.email }))[0] as User;
+  const existingUser = (await getFromMongo(client, "users", { $expr: { $eq: [{ $toString: "$_id" }, commentData.author_id] } }))[0] as User;
   if (!existingUser) return NextResponse.json({ err: true, msg: "This user does not exist!" }, { status: 401 });
 
-  // ============= Check if already liked/disliked =============================
-  const currentComment = data.replyDepth
-    ? ((await getFromMongo(client, "comments", { "replies._id": commentData.comment_id }))[0] as CommentType)
-    : ((await getFromMongo(client, "comments", { _id: commentData.comment_id }))[0] as CommentType);
-  if (!currentComment) return NextResponse.json({ err: true, msg: "This comment does not exist!" }, { status: 401 });
-
-  // ============= Extracting the reply for logic =============================
-  const replyComment = data.replyDepth ? (currentComment.replies?.find(obj => obj._id === commentData.comment_id) as CommentType) : currentComment;
-
   //TODO: Should add 2 new params? Edited status, last updated? Maybe history of edits?
-
-  //TODO: Should rewrite the logic for comments where it doesn't contain the actual comment author data,
-  // just a reference to the author user object in db.
 
   // ============= Update Comment =============================
   let updateQuery, updateOptions;
   if (data.replyDepth) {
     updateQuery = { "replies._id": commentData.comment_id };
-    updateOptions = { _id: commentData.comment_id };
+    updateOptions = { $set: { "replies.$.comment": commentData.comment, "replies.$.edited": true } };
   } else {
-    updateQuery = { "replies._id": commentData.comment_id };
-    updateOptions = { $set: { "replies.$.comment": replyComment.comment } };
+    updateQuery = { _id: commentData.comment_id };
+    updateOptions = { $set: { comment: commentData.comment, edited: true } };
   }
 
   try {
