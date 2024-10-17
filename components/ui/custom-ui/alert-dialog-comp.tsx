@@ -11,7 +11,14 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 
-export function AlertDialogComp({ children, onClickFunc, locale }: { children: any; onClickFunc: () => void; locale: AlertDialogLocaleType }) {
+interface AlertDialogProps {
+  children: any;
+  onClickFunc: () => void;
+  input?: any;
+  locale: AlertDialogLocaleType;
+}
+
+export function AlertDialogComp({ children, onClickFunc, input, locale }: AlertDialogProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{children ? children : <Button variant="ghost">{locale.trigger}</Button>}</AlertDialogTrigger>
@@ -19,6 +26,7 @@ export function AlertDialogComp({ children, onClickFunc, locale }: { children: a
         <AlertDialogHeader>
           <AlertDialogTitle>{locale.title}</AlertDialogTitle>
           <AlertDialogDescription>{locale.description}</AlertDialogDescription>
+          {input}
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>{locale.cancel}</AlertDialogCancel>
