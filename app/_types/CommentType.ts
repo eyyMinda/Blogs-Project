@@ -4,6 +4,7 @@ interface CommentType {
   author_id: string;
   comment: string;
   date: string;
+  edited?: boolean;
   replies?: CommentReplyType[];
   likes: string[];
   dislikes: string[];
