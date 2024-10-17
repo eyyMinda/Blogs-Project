@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
   if (!isMongoClient(client)) return client;
 
   // ============= Check whether the user exists =============================
-  const existingUser = (await getFromMongo(client, "users", { email: commentData.email }))[0] as User;
+  const existingUser = (await getFromMongo(client, "users", { $expr: { $eq: [{ $toString: "$_id" }, commentData.author_id] } }))[0] as User;
   if (!existingUser) return NextResponse.json({ err: true, msg: "This user does not exist!" }, { status: 401 });
   const userID = existingUser._id.toString();
 
