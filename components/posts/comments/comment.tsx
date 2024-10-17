@@ -69,7 +69,12 @@ export function Comment({ skeleton = false, comment, replyDepth = false, post_id
       } else {
         const res = await actionMap[actionType](payload);
         const { err, msg } = await res?.json();
-        err ? console.log(msg) : setNewCommentPosted(true);
+        if (err) {
+          console.log(msg);
+        } else {
+          setNewCommentPosted(true);
+          setCommentText(comment?.comment);
+        }
       }
     } catch (error) {
       console.error(error);
