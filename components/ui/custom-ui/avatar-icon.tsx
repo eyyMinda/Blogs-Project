@@ -1,12 +1,13 @@
 import { Avatar, AvatarFallback, AvatarImage } from "../avatar";
 
 const sizeVariants = {
-  mini: { size: 25, sizeCss: "w-10 h-10", text: "text-lg" },
-  sm: { size: 50, sizeCss: "w-52 h-52", text: "text-9xl" }
+  mini: { size: 15, sizeCss: "w-8 h-8", text: "text-md" },
+  sm: { size: 25, sizeCss: "w-10 h-10", text: "text-lg" },
+  md: { size: 50, sizeCss: "w-52 h-52", text: "text-9xl" }
 } as const;
 
 export function AvatarIcon(props: AvatarProps) {
-  const { variant = "mini", path = "/images/account/default-pic.webp", fallback = "P", className = "" } = props;
+  const { variant = "mini", path, fallback = "P", className = "" } = props;
   const currVariant = sizeVariants[variant];
 
   return (
