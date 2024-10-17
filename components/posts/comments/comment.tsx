@@ -51,48 +51,35 @@ export function Comment({ skeleton = false, comment, replyDepth = false, post_id
     }
   }, [userId, comment]);
 
-  const handleCommentReaction = async (like: boolean) => {
-    if (!session?.user) return replace("/login");
-    if (!comment?._id) return;
-    const { status, likeCount, dislikeCount }: ReactionUpdateType = await UpdateComment({
-      comment: { like, author_id: session?.user?.id, comment_id: comment._id },
-      replyDepth
-    });
-    setReactionState(status);
-    setCounts({ likes: likeCount, dislikes: dislikeCount });
-  };
-  const handleCommentEdit = async () => {
-    if (!session?.user) return replace("/login");
-    if (!comment?._id) return;
-    console.log(comment);
-    try {
-      const res = await EditComment({
-        comment: { comment_id: comment._id, author_id: session?.user.id, comment: commentText },
-        replyDepth
-      });
-      const { err, msg } = await res?.json();
-      err && console.log(msg);
-      !err && setNewCommentPosted(true);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const handleCommentDelete = async () => {
+  const handleCommentAction = async (actionType: "reaction" | "edit" | "delete", payload: any) => {
     if (!session?.user) return replace("/login");
     if (!comment?._id) return;
 
+    const actionMap = {
+      reaction: UpdateComment,
+      edit: EditComment,
+      delete: DeleteComment
+    };
+
     try {
-      const res = await DeleteComment({
-        comment: { comment_id: comment._id, author_id: session?.user.id },
-        replyDepth
-      });
-      const { err, msg } = await res?.json();
-      err && console.log(msg);
-      !err && setNewCommentPosted(true);
+      if (actionType === "reaction") {
+        const { status, likeCount, dislikeCount } = await actionMap[actionType](payload);
+        setReactionState(status);
+        setCounts({ likes: likeCount, dislikes: dislikeCount });
+      } else {
+        const res = await actionMap[actionType](payload);
+        const { err, msg } = await res?.json();
+        err ? console.log(msg) : setNewCommentPosted(true);
+      }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
+
+  const authorCommentIds = { author_id: session?.user?.id, comment_id: comment?._id };
+  const handleCommentReaction = (like: boolean) => handleCommentAction("reaction", { comment: { ...authorCommentIds, like }, replyDepth });
+  const handleCommentEdit = () => handleCommentAction("edit", { comment: { ...authorCommentIds, comment: commentText }, replyDepth });
+  const handleCommentDelete = () => handleCommentAction("delete", { comment: { ...authorCommentIds }, replyDepth });
 
   // ================= Comment Options =================
   const alertDialogConfigs = [
