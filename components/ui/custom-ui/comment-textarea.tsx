@@ -1,15 +1,22 @@
-import { ChangeEventHandler, RefObject } from "react";
+import { Dispatch, RefObject, SetStateAction, useRef } from "react";
 import { Textarea } from "../textarea";
 
 interface CommentTextareaProps {
-  textAreaDivRef: RefObject<HTMLDivElement>;
-  commentText: string;
-  handleTextAreaChange: ChangeEventHandler<HTMLTextAreaElement>;
+  commentText?: string;
+  setCommentText: Dispatch<SetStateAction<string>>;
   placeholder: string;
   [key: string]: any; // To allow any other props
 }
 
-export function CommentTextarea({ textAreaDivRef, commentText, handleTextAreaChange, placeholder = "Add a comment...", props }: CommentTextareaProps) {
+export function CommentTextarea({ commentText = "", setCommentText, placeholder = "Add a comment...", props }: CommentTextareaProps) {
+  const textAreaDivRef = useRef<HTMLDivElement>(null);
+  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    setCommentText(value);
+    // Setting text value for textarea:after which is invisible to auto resize based on content
+    if (textAreaDivRef.current) textAreaDivRef.current.dataset["clonedVal"] = value;
+  };
+
   return (
     <div
       ref={textAreaDivRef}

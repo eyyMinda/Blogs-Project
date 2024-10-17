@@ -24,7 +24,6 @@ export default function ReplyComment({ setReplyOpen, replyDepth, authorUsername,
   const { data: session } = useSession();
   const { setNotification } = useContext(NotificationContext);
   const commentBtnRef = useRef<HTMLButtonElement>(null);
-  const textAreaDivRef = useRef<HTMLDivElement>(null);
   const commentAuthorTag = "@" + authorUsername;
   const [commentText, setCommentText] = useState<string>("");
 
@@ -32,13 +31,6 @@ export default function ReplyComment({ setReplyOpen, replyDepth, authorUsername,
     setReplyOpen(false);
     setCommentText("");
   };
-  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value;
-    setCommentText(value);
-    // Setting text value for textarea:after which is invisible to auto resize based on content
-    if (textAreaDivRef.current) textAreaDivRef.current.dataset["clonedVal"] = value;
-  };
-
   const handleSubmitComment = async () => {
     if (!session?.user) return;
 
@@ -65,7 +57,7 @@ export default function ReplyComment({ setReplyOpen, replyDepth, authorUsername,
 
   return (
     <div>
-      <CommentTextarea placeholder="Add a reply..." textAreaDivRef={textAreaDivRef} commentText={commentText} handleTextAreaChange={handleTextAreaChange} />
+      <CommentTextarea placeholder="Add a reply..." commentText={commentText} setCommentText={setCommentText} />
 
       <hr className="my-2" />
 

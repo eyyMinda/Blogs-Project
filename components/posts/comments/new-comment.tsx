@@ -18,7 +18,6 @@ export default function NewComment({ setNewCommentPosted, post_id }: NewCommentP
   const { data: session } = useSession();
   const { setNotification } = useContext(NotificationContext);
   const commentBtnRef = useRef<HTMLButtonElement>(null);
-  const textAreaDivRef = useRef<HTMLDivElement>(null);
   const [commentText, setCommentText] = useState<string>("");
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
 
@@ -26,13 +25,6 @@ export default function NewComment({ setNewCommentPosted, post_id }: NewCommentP
   const handleCloseComment = () => {
     setCommentOpen(false);
     setCommentText("");
-  };
-
-  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value;
-    setCommentText(value);
-    // Setting text value for textarea:after which is invisible to auto resize based on content
-    if (textAreaDivRef.current) textAreaDivRef.current.dataset["clonedVal"] = value;
   };
 
   const handleSubmitComment = async () => {
@@ -57,13 +49,7 @@ export default function NewComment({ setNewCommentPosted, post_id }: NewCommentP
 
   return (
     <div>
-      <CommentTextarea
-        placeholder="Add a comment..."
-        textAreaDivRef={textAreaDivRef}
-        commentText={commentText}
-        handleTextAreaChange={handleTextAreaChange}
-        handleFocus={handleFocus}
-      />
+      <CommentTextarea placeholder="Add a comment..." commentText={commentText} setCommentText={setCommentText} handleFocus={handleFocus} />
 
       <hr className="my-4" />
 
