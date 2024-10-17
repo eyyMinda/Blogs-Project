@@ -1,3 +1,10 @@
+export const editCommentLocale = {
+  trigger: "Edit",
+  title: "Edit the comment",
+  description: "",
+  cancel: "Cancel",
+  action: "Edit"
+};
 export const deleteCommentLocale = {
   trigger: "Delete",
   title: "Are you sure?",
