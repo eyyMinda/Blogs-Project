@@ -280,7 +280,11 @@ export const getSortCriteria = (option: SortOption) => {
     case "oldest":
       return { date: 1 };
     case "popular":
-      return { likesCount: -1, repliesCount: -1 }; // Sort by likes first, then replies count
+      return {
+        popularityScore: -1, // Sort by popularity score descending
+        likesCount: -1, // Then sort by likes if scores are equal
+        repliesCount: -1 // Then sort by replies if likes are equal
+      };
     default:
       return { date: -1 };
   }

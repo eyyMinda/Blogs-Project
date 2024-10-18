@@ -115,7 +115,13 @@ export async function getCommentsWithUserDetails(client: MongoClient, collection
             }
           },
           likesCount: { $size: "$likes" }, // Add the count of likes
-          repliesCount: { $size: "$replies" } // Add the count of replies
+          repliesCount: { $size: "$replies" }, // Add the count of replies
+          popularityScore: {
+            $add: [
+              { $multiply: ["$likesCount", 1] }, // Weight for likes
+              { $multiply: ["$repliesCount", 2] } // Weight for replies
+            ]
+          }
         }
       },
       {

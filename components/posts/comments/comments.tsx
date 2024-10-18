@@ -23,7 +23,6 @@ export default function Comments({ post_id }: { post_id: number }) {
     if (showComments) {
       const getComments = async () => {
         const { comments: fetchedComments, metadata } = await fetchComments({ post_id, pageSize, sortOption });
-        console.log("Metadata: ", metadata);
         setTotalCommentsCount(metadata.count);
         setComments(fetchedComments);
         setNewCommentPosted(false);
