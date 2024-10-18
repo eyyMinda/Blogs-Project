@@ -27,15 +27,14 @@ function ChangeUsernameForm() {
 
   async function onSubmit(values: z.infer<typeof changeUsernameSchema>) {
     notifCtx.setNotification(defaultNotification.changeusername.pending);
-    const username = values.username;
 
     try {
-      const res = await ChangeUsernameApi(email as string, username);
+      const res = await ChangeUsernameApi(email as string, values.username);
       const { err, msg } = await res?.json();
       notifCtx.setNotification(defaultNotification.changeusername[err ? "error" : "success"](msg));
 
       if (!err) {
-        await update({ name: username });
+        await update({ name: values.username });
         update();
       }
     } catch (error) {
@@ -49,7 +48,7 @@ function ChangeUsernameForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex items-center gap-4 mt-4 text-start">
-        {renderFormField(form, { name: "username", placeholder: name || "" })}
+        {renderFormField(form, { name: "username", placeholder: name || "", autocomplete: "username" })}
 
         <SubmitButton variant="secondary" isLoading={isLoading}>
           Change
