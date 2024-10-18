@@ -85,19 +85,19 @@ export const getFromMongo = async (client: MongoClient, collection: string, matc
   return items;
 };
 
-export async function getCommentsWithUserDetails(client: MongoClient, collection: string, post_id: number, limit = 10, skip = 0) {
+export async function getCommentsWithUserDetails(client: MongoClient, collection: string, post_id: number, limit = 10, skip = 0, sortOption: SortOption) {
+  const sortCriteria = getSortCriteria(sortOption);
+
   const comments = await client
     .db("blogs_nextjs")
     .collection(collection)
     .aggregate([
+      { $match: { post_id } },
       {
-        // Match comments by post_id
-        $match: { post_id }
-      },
-      {
-        // Convert the author_id from string to ObjectId for the lookup
+        // Convert author_id and reply author_ids for lookup as well as date for sorting
         $addFields: {
           author_id: { $convert: { input: "$author_id", to: "objectId", onError: "$author_id" } },
+          date: { $convert: { input: "$date", to: "date", onError: "$date" } },
           replies: {
             $map: {
               input: "$replies",
@@ -107,13 +107,15 @@ export async function getCommentsWithUserDetails(client: MongoClient, collection
                 author_id: { $convert: { input: "$$reply.author_id", to: "objectId", onError: "$$reply.author_id" } },
                 replied_to: "$$reply.replied_to",
                 comment: "$$reply.comment",
-                date: "$$reply.date",
+                date: { $convert: { input: "$$reply.date", to: "date", onError: "$$reply.date" } },
                 edited: "$$reply.edited",
                 likes: "$$reply.likes",
                 dislikes: "$$reply.dislikes"
               }
             }
-          }
+          },
+          likesCount: { $size: "$likes" }, // Add the count of likes
+          repliesCount: { $size: "$replies" } // Add the count of replies
         }
       },
       {
@@ -126,17 +128,13 @@ export async function getCommentsWithUserDetails(client: MongoClient, collection
         }
       },
       {
-        // Unwind the 'author' array (since the lookup returns an array)
-        $unwind: {
-          path: "$author",
-          preserveNullAndEmptyArrays: true // To keep comments with missing authors
-        }
+        $unwind: { path: "$author", preserveNullAndEmptyArrays: true }
       },
       {
         // Lookup author details for each reply inside the 'replies' array
         $lookup: {
           from: "users",
-          localField: "replies.author_id", // Reference to author in replies
+          localField: "replies.author_id",
           foreignField: "_id",
           as: "reply_authors"
         }
@@ -176,30 +174,24 @@ export async function getCommentsWithUserDetails(client: MongoClient, collection
         }
       },
       {
-        // Optional: Limit and skip for pagination
-        $skip: skip
-      },
-      {
-        $limit: limit // Limit to 10 comments at a time
-      },
-      {
-        // Project the final structure with 'name', 'image', and 'email' fields for both authors and reply authors
+        // Project to include only specific fields from the author
         $project: {
           _id: 1,
           post_id: 1,
           comment: 1,
           date: 1,
-          edited: 1,
           likes: 1,
           dislikes: 1,
+          likesCount: 1,
+          repliesCount: 1,
           author: {
             name: "$author.name",
-            image: "$author.image",
-            email: "$author.email"
+            email: "$author.email",
+            image: "$author.image"
           },
           replies: {
             $map: {
-              input: "$replies", // Iterate over the replies array
+              input: "$replies",
               as: "reply",
               in: {
                 _id: "$$reply._id",
@@ -220,11 +212,26 @@ export async function getCommentsWithUserDetails(client: MongoClient, collection
             }
           }
         }
+      },
+      { $sort: sortCriteria }, // Sort based on the criteria provided (e.g., by date, likes, etc.)
+      {
+        $facet: {
+          // Use $facet to handle both the data and total count in one query
+          metadata: [{ $count: "totalCount" }],
+          data: [{ $skip: skip }, { $limit: limit }]
+        }
+      },
+      {
+        // Flatten the metadata result (for cleaner response)
+        $unwind: { path: "$metadata", preserveNullAndEmptyArrays: true }
       }
     ])
     .toArray();
 
-  return comments;
+  return {
+    totalCount: comments[0]?.metadata?.totalCount || 0,
+    data: comments[0]?.data || []
+  };
 }
 
 export async function getCommentOrReplyWithUserDetails(client: MongoClient, collection: string, comment_id: string, replyDepth: number) {
@@ -350,150 +357,4 @@ export async function getCommentOrReplyWithUserDetails(client: MongoClient, coll
 
   const comments = (await client.db("blogs_nextjs").collection(collection).aggregate(pipeline).toArray()) as CommentReplyType[];
   return comments[0] || null; // Return the first matching document or null
-}
-
-export async function getCommentsWithUserDetails2(client: MongoClient, collection: string, post_id: number, limit = 10, skip = 0, sortOption: string) {
-  const sortCriteria = getSortCriteria(sortOption);
-
-  const comments = await client
-    .db("blogs_nextjs")
-    .collection(collection)
-    .aggregate([
-      {
-        // Match comments by post_id
-        $match: { post_id }
-      },
-      {
-        // Add a field for the length of 'likes' and 'replies' arrays
-        $addFields: {
-          likesCount: { $size: "$likes" }, // Add the count of likes
-          repliesCount: { $size: "$replies" } // Add the count of replies
-        }
-      },
-      {
-        // Convert author_id and reply author_ids for lookup
-        $addFields: {
-          author_id: { $convert: { input: "$author_id", to: "objectId", onError: "$author_id" } },
-          date: { $convert: { input: "$date", to: "date", onError: "$date" } },
-          replies: {
-            $map: {
-              input: "$replies",
-              as: "reply",
-              in: {
-                _id: "$$reply._id",
-                author_id: { $convert: { input: "$$reply.author_id", to: "objectId", onError: "$$reply.author_id" } },
-                replied_to: "$$reply.replied_to",
-                comment: "$$reply.comment",
-                date: { $convert: { input: "$$reply.date", to: "date", onError: "$$reply.date" } },
-                edited: "$$reply.edited",
-                likes: "$$reply.likes",
-                dislikes: "$$reply.dislikes"
-              }
-            }
-          }
-        }
-      },
-      {
-        // Lookup the author details for each comment
-        $lookup: {
-          from: "users",
-          localField: "author_id",
-          foreignField: "_id",
-          as: "author"
-        }
-      },
-      {
-        $unwind: {
-          path: "$author",
-          preserveNullAndEmptyArrays: true
-        }
-      },
-      {
-        // Project to include only specific fields from the author
-        $project: {
-          _id: 1, // Include comment's own _id
-          post_id: 1,
-          comment: 1,
-          date: 1,
-          likes: 1,
-          dislikes: 1,
-          likesCount: 1,
-          repliesCount: 1,
-          author: {
-            name: "$author.name",
-            email: "$author.email",
-            image: "$author.image"
-          },
-          replies: 1 // Include the replies field as is
-        }
-      },
-      {
-        // Lookup author details for replies
-        $lookup: {
-          from: "users",
-          localField: "replies.author_id",
-          foreignField: "_id",
-          as: "reply_authors"
-        }
-      },
-      {
-        // Add reply authors and other details to replies
-        $addFields: {
-          replies: {
-            $map: {
-              input: "$replies",
-              as: "reply",
-              in: {
-                _id: "$$reply._id",
-                post_id: "$$reply.post_id",
-                author_id: "$$reply.author_id",
-                comment: "$$reply.comment",
-                date: "$$reply.date",
-                edited: "$$reply.edited",
-                likes: "$$reply.likes",
-                dislikes: "$$reply.dislikes",
-                replied_to: "$$reply.replied_to",
-                author: {
-                  $arrayElemAt: [
-                    {
-                      $filter: {
-                        input: "$reply_authors",
-                        as: "reply_author",
-                        cond: { $eq: ["$$reply_author._id", "$$reply.author_id"] }
-                      }
-                    },
-                    0
-                  ]
-                }
-              }
-            }
-          }
-        }
-      },
-      {
-        // Sort based on the criteria provided (e.g., by date, likes, etc.)
-        $sort: sortCriteria
-      },
-      {
-        // Use $facet to handle both the data and total count in one query
-        $facet: {
-          metadata: [{ $count: "totalCount" }],
-          data: [{ $skip: skip }, { $limit: limit }]
-        }
-      },
-      {
-        // Flatten the metadata result (for cleaner response)
-        $unwind: {
-          path: "$metadata",
-          preserveNullAndEmptyArrays: true
-        }
-      }
-    ])
-    .toArray();
-
-  // Return both the total count and the paginated data
-  return {
-    totalCount: comments[0]?.metadata?.totalCount || 0,
-    data: comments[0]?.data || []
-  };
 }
