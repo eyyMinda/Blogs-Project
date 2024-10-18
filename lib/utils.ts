@@ -209,7 +209,7 @@ export const createNewComment = (post_id: number, author_id: string, comment: st
     post_id,
     author_id,
     comment,
-    date: new Date().toString(),
+    date: new Date().toISOString(),
     replies: [],
     likes: [],
     dislikes: []
@@ -222,7 +222,7 @@ export const createNewCommentReply = (post_id: number, comment_id: string, autho
     comment_id,
     author_id,
     comment,
-    date: new Date().toString(),
+    date: new Date().toISOString(),
     likes: [],
     dislikes: [],
     replied_to

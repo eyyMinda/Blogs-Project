@@ -18,9 +18,9 @@ export const createUser = async ({ email, password, image, provider = "credentia
     name: tempUsername,
     image: image || defaultUserImg,
     emailVerified: null,
-    createdAt: date.toString(),
-    provider,
-    updatedAt: date.toString()
+    createdAt: date.toISOString(),
+    updatedAt: date.toISOString(),
+    provider
   };
   if (password) userObject.password = await hashPassword(password);
   return userObject;

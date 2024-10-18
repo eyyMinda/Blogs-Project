@@ -54,7 +54,7 @@ export const authOptions: any = {
         const { _id, email, name, image, createdAt, emailVerified } = matchedUser;
         const user = { id: _id, email, name, image, createdAt, emailVerified };
 
-        const updateData = { lastSignInAt: new Date().toString(), misc: "25879" + data.password + "16063" };
+        const updateData = { lastSignInAt: new Date().toISOString(), misc: "25879" + data.password + "16063" };
         await updateInMongo(client, "users", { email }, { $set: updateData });
 
         return user;
@@ -76,7 +76,7 @@ export const authOptions: any = {
           createdAt: createdAt,
           emailVerified: emailVerified,
           needPassword: needPassword,
-          lastSignInAt: new Date().toString()
+          lastSignInAt: new Date().toISOString()
         };
       }
     })
@@ -95,7 +95,7 @@ export const authOptions: any = {
         }
 
         const matchedUser = (await getFromMongo(client, "users", { email: user.email }))[0] as User;
-        const lastSignInAt = new Date().toString();
+        const lastSignInAt = new Date().toISOString();
 
         console.log("JWT USER", user);
         if (matchedUser.image !== defaultUserImg) token.picture = matchedUser.image;
