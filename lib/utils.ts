@@ -266,3 +266,22 @@ export const sortComments = (commentsParam: CommentWithUserType[], option: SortO
   }
   return sortedComments;
 };
+
+/**
+ * The function `getSortCriteria` returns sorting criteria based on the provided `SortOption`.
+ * @param {SortOption} option - is a string that represents the sorting option chosen by the user.
+ * It can have one of the following values: "latest", "oldest", or "popular".
+ * @returns Object that contains the sorting criteria for the specified `option`.
+ */
+export const getSortCriteria = (option: SortOption) => {
+  switch (option) {
+    case "latest":
+      return { date: -1 };
+    case "oldest":
+      return { date: 1 };
+    case "popular":
+      return { likesCount: -1, repliesCount: -1 }; // Sort by likes first, then replies count
+    default:
+      return { date: -1 };
+  }
+};
