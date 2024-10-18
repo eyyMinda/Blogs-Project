@@ -1,14 +1,15 @@
-import { Dispatch, RefObject, SetStateAction, useRef } from "react";
+import { Dispatch, FocusEventHandler, SetStateAction, useRef } from "react";
 import { Textarea } from "../textarea";
 
 interface CommentTextareaProps {
   commentText?: string;
   setCommentText: Dispatch<SetStateAction<string>>;
+  handleFocus?: FocusEventHandler<HTMLTextAreaElement>;
   placeholder: string;
   [key: string]: any; // To allow any other props
 }
 
-export function CommentTextarea({ commentText = "", setCommentText, placeholder = "Add a comment...", props }: CommentTextareaProps) {
+export function CommentTextarea({ commentText = "", setCommentText, placeholder = "Add a comment...", handleFocus, props }: CommentTextareaProps) {
   const textAreaDivRef = useRef<HTMLDivElement>(null);
   const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
@@ -26,7 +27,7 @@ export function CommentTextarea({ commentText = "", setCommentText, placeholder 
                   after:[grid-area:1/1/2/2] after:whitespace-pre-wrap
                   after:invisible after:border
                   after:content-[attr(data-cloned-val)_'_']">
-      <Textarea placeholder={placeholder} value={commentText} onChange={handleTextAreaChange} {...props} rows={1} className="min-h-10" />
+      <Textarea placeholder={placeholder} value={commentText} onChange={handleTextAreaChange} onFocus={handleFocus} {...props} rows={1} className="min-h-10" />
     </div>
   );
 }
