@@ -10,3 +10,6 @@ export const PASSWORD_LVL3_LENGTH = 14;
 export const NOTIFICATION_SUCCESS_TIMER = 4000;
 export const NOTIFICATION_ERROR_TIMER = 7000;
 export const NOTIFICATION_SPECIAL_TIMER = 12000;
+
+// Comments
+export const COMMENTS_PAGE_SIZE = 10;

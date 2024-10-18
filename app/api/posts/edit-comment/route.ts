@@ -14,7 +14,10 @@ export async function POST(req: NextRequest) {
   const existingUser = (await getFromMongo(client, "users", { $expr: { $eq: [{ $toString: "$_id" }, commentData.author_id] } }))[0] as User;
   if (!existingUser) return NextResponse.json({ err: true, msg: "This user does not exist!" }, { status: 401 });
 
-  //TODO: Should add 2 new params? Edited status, last updated? Maybe history of edits?
+  //TODO: Should add 2 new params?
+  // - [x] Edited status
+  // - [ ] last updated
+  // Maybe history of edits?
 
   // ============= Update Comment =============================
   let updateQuery, updateOptions;

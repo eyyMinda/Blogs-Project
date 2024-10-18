@@ -1,4 +1,5 @@
 import { DatabasePost } from "@/app/_types/PostType";
+import { COMMENTS_PAGE_SIZE } from "./constants";
 
 // ============================= POSTS ====================================
 export async function updatePostData(data: DatabasePost[]) {
@@ -15,14 +16,22 @@ export async function updatePostData(data: DatabasePost[]) {
 }
 
 // ============================= COMMENTS ====================================
+interface commentsFetchFilter {
+  post_id: number;
+  page?: number;
+  pageSize?: number;
+  sortOption?: SortOption;
+}
 
-export async function fetchComments(filter: { post_id: number; skip?: number }) {
+export async function fetchComments(filter: commentsFetchFilter) {
   const res = await fetch("/api/posts/get-comments", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       post_id: filter.post_id || 1,
-      skip: filter.skip || 0
+      page: filter.page || 1,
+      pageSize: filter.pageSize || COMMENTS_PAGE_SIZE,
+      sortOption: filter.sortOption || "latest"
     })
   });
 

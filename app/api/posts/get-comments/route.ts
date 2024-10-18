@@ -13,12 +13,11 @@ async function handler(req: NextRequest) {
   // ================= data example ==============================
   // const dat = {
   //   post_id: "",
-  //   comment_id: "" || undefined, // If "View replies"
-  //   skip: 0 // Which comment page ex.: 10-20 | 50-60
+  //   page: 1 // Which comment page ex.: 10-20 | 50-60
+  //   pageSize: 10 // Which comment page
   // };
 
   // ================= Fetch Comments For Post ==============================
-  let comments;
   // : CommentType[] = [
   //   {
   //     _id: 15151561561654654465,
@@ -31,14 +30,30 @@ async function handler(req: NextRequest) {
   //     dislikes: [],
   //   }
   // ];
+  const { post_id, page, pageSize, sortOption } = data;
+  const skip = (page - 1) * pageSize;
+  let result;
   try {
-    comments = (await getCommentsWithUserDetails(client, "comments", data.post_id, 10, Number(data.skip))) as CommentsType;
-    if (!comments) return NextResponse.json({ err: true, msg: "No comments..." }, { status: 401 });
+    result = await getCommentsWithUserDetails(client, "comments", post_id, pageSize, skip, sortOption);
+    if (!result) return NextResponse.json({ err: true, msg: "No comments..." }, { status: 401 });
   } catch (error) {
     return NextResponse.json({ err: true, msg: "Failed to Fetch Comments for this Post." }, { status: 500 });
   }
 
-  return NextResponse.json({ err: false, data: comments }, { status: 200 });
+  return NextResponse.json(
+    {
+      err: false,
+      data: {
+        comments: result.data,
+        metadata: {
+          count: result.totalCount,
+          page,
+          pageSize
+        }
+      }
+    },
+    { status: 200 }
+  );
 }
 
 export { handler as POST };
