@@ -38,48 +38,49 @@ export const getClient = async () => {
 // ----------------------------------------------------------------
 
 export const postToMongo = async (client: MongoClient, collection: string, body: object): Promise<void> => {
-  const db = await client.db("blogs_nextjs");
+  const db = client.db("blogs_nextjs");
   await db.collection(collection).insertOne(body);
 };
-
 export const insertManyInMongo = async (client: MongoClient, collection: string, body: object[]): Promise<void> => {
-  const db = await client.db("blogs_nextjs");
+  const db = client.db("blogs_nextjs");
   await db.collection(collection).insertMany(body);
 };
-
 export const updateInMongo = async (client: MongoClient, collection: string, match: object, body: object): Promise<void> => {
-  const db = await client.db("blogs_nextjs");
+  const db = client.db("blogs_nextjs");
   await db.collection(collection).updateOne(match, body);
 };
 export const updateManyMongo = async (client: MongoClient, collection: string, match: object, body: object, options?: object): Promise<void> => {
-  const db = await client.db("blogs_nextjs");
+  const db = client.db("blogs_nextjs");
   await db.collection(collection).updateMany(match, body, options);
 };
-
 export const deleteFromMongo = async (client: MongoClient, collection: string, match: object): Promise<void> => {
-  const db = await client.db("blogs_nextjs");
+  const db = client.db("blogs_nextjs");
   await db.collection(collection).deleteOne(match);
 };
-
 export const findOneMongo = async (client: MongoClient, collection: string, match: object, body: object): Promise<object | null> => {
-  const db = await client.db("blogs_nextjs");
+  const db = client.db("blogs_nextjs");
   const MongoItem = await db.collection(collection).findOne(match, body);
   return MongoItem;
+};
+export const getCountFromMongo = async (client: MongoClient, collection: string, match: object = {}, options = {}): Promise<number> => {
+  const db = client.db("blogs_nextjs");
+  const count = await db.collection(collection).count(match, options);
+  return count;
 };
 
 /**
  * @param {client} client - object
  * @param {string} collection - string
- * @param {Object} query - object | (Optional)
+ * @param {Object} match - object | (Optional)
  * @param {Object} sort - object | (Optional)
  * @param {Object} limit - number | (Optional)
  * @param {Object} skip - number | (Optional)
  * @returns {Array<Object>} Documents | array of objects
  */
-export const getFromMongo = async (client: MongoClient, collection: string, query: object = {}, sort = {}, limit = 10, skip = 0): Promise<object[]> => {
+export const getFromMongo = async (client: MongoClient, collection: string, match: object = {}, sort = {}, limit = 10, skip = 0): Promise<object[]> => {
   const db = client.db("blogs_nextjs");
-  const coll = await db.collection(collection);
-  const items = await coll.find(query).sort(sort).skip(skip).limit(limit).toArray();
+  const coll = db.collection(collection);
+  const items = await coll.find(match).sort(sort).skip(skip).limit(limit).toArray();
   return items;
 };
 
