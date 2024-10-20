@@ -5,7 +5,7 @@ interface FormFieldConfig {
   type?: string;
   description?: string;
   rows?: number;
-  autocomplete?: string;
+  autoComplete?: string;
   className?: string;
   fields?: FormFieldConfig[]; // For grouped fields
 }

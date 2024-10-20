@@ -48,7 +48,7 @@ function ChangeUsernameForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex items-center gap-4 mt-4 text-start">
-        {renderFormField(form, { name: "username", placeholder: name || "", autocomplete: "username" })}
+        {renderFormField(form, { name: "username", placeholder: name || "", autoComplete: "username" })}
 
         <SubmitButton variant="secondary" isLoading={isLoading}>
           Change
