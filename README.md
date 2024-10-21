@@ -12,7 +12,7 @@ A dynamic and personalized blogging platform built with Next.js 14 using the App
 
 - **Metadata Extraction:** Utilizing Gray-matter, extract metadata for each blog post, including title, author, date, and featured status.
 
-- **Dynamic Routing:** Next.js handles dynamic routing for individual blog posts via the `/posts/[slug]` route.
+- **Dynamic Routing:** Next.js handles dynamic routing for individual blog posts via the `/posts/[slug]` route. Able to like/dislike, comment and reply posts.
 
 - **Listing Posts:** Display featured posts on the home page, all posts on the all-posts page, and provide individual pages for each blog post.
 
