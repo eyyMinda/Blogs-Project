@@ -36,7 +36,7 @@ Welcome to NextJS Markdown Blogs! These terms of service ("Terms") govern my use
 
 ## Contact Information
 
-If you have any questions or concerns about these Terms, please contact me at [sublimemindrite@gmail.com](mailto:sublimemindrite@gmail.com).
+If you have any questions or concerns about these Terms, please contact me at [eyyMinda@proton.me](mailto:eyyMinda@proton.me).
 
 Thank you for using NextJS Markdown Blogs!
 

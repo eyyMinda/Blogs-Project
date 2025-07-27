@@ -30,4 +30,4 @@ I reserve the right to update or change my Privacy Policy at any time and you sh
 
 ## Contact Information
 
-For any questions or concerns regarding the privacy policy, please send me an email to [sublimemindrite@gmail.com](mailto:sublimemindrite@gmail.com).
+For any questions or concerns regarding the privacy policy, please send me an email to [eyyMinda@proton.me](mailto:eyyMinda@proton.me).
